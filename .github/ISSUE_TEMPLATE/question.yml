@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Questions should generally be asked on the Discord server instead, but it can also be relevant to ask here.
+        Questions should generally be asked on the Discord server instead, but they can also be relevant here.
   - type: textarea
     id: question
     attributes:

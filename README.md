@@ -9,6 +9,15 @@ A fully-featured tier list maker, to create your own tier lists (even without an
 **Current features :**
 - Create and manage a tier list
 
+**Planned features :**
+- A home page featuring new and popular templates
+- Export your tier list as a picture or json
+- Import your tier list as json
+- Add translations to static text
+- Ability to create & save templates
+- Authentification
+- Much more, after 1.0 is out
+
 ## How long until 1.0?
 See the [1.0 milestone](https://github.com/RankyList/ranky-list/milestone/1).
 
@@ -16,7 +25,7 @@ See the [1.0 milestone](https://github.com/RankyList/ranky-list/milestone/1).
 See [contributing](CONTRIBUTING.md).
 
 ## Have a question?
-Ask it on the Discord server, or open a [new issue](https://github.com/RankyList/ranky-list/issues/new?template=question.yml).
+Ask it on the Discord server, or open a [new issue](https://github.com/RankyList/ranky-list/issues/new?assignees=&labels=question&template=question.yml&title=%5BQUESTION%5D+%3Ctitle%3E).
 
 ## Is there anything else I need to know?
 Make sure to also check the [code of conduct](CODE_OF_CONDUCT.md) if not already done 😊.

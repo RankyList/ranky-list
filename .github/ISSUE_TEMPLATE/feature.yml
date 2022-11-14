@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Open a new feature to improve the project. Please make sure to check out for other existing issues first that could ressemble your demand.
+        Open a new feature to improve the project. Please check out for other existing issues first that could resemble your demand.
   - type: dropdown
     id: type
     attributes:
