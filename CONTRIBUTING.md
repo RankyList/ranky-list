@@ -3,7 +3,7 @@ How to contribute to the project?
 There are 2 ways of contributing: reporting a bug or proposing a feature, and making changes to the code.
 
 # How to contribute by reporting a bug/proposing a feature?
-You can [open an issue](https://github.com/RankyList/ranky-list/issues) with the appropriate template.
+You can [open an issue](https://github.com/RankyList/ranky-list/issues/new/choose) with the appropriate template, but make sure a similar issue doesn't already exist.
 
 If no template satisfies you, feel free to create one from scratch, but do include as many details as possible. Never make an empty issue.
 
