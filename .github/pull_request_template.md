@@ -20,7 +20,7 @@ Please describe the tests that you ran to verify your changes. It is way more li
 
 - [ ] Yes, I ran tests (describe below)
 - [ ] No, I did not include any test
-- [ ] No test needed for this change
+- [ ] No test is needed for this change
 
 My test includes...
 
@@ -28,7 +28,7 @@ My test includes...
 
 - [x] My code follows the style guidelines of this project
 - [x] I have performed a self-review of my code
-- [x] I have commented my code, particularly in hard-to-understand areas
+- [x] I have commented my code in hard-to-understand areas
 - [x] I have made corresponding changes to the documentation
 - [x] My changes generate no new warnings
 - [x] I have added tests that prove my fix is effective or that my feature works

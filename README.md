@@ -1,12 +1,12 @@
 # ![RankyList icon](docs/logo.ico?raw=true) Ranky List
 The fastest and easiest way to create and share tier lists, and more.
 
-This is a full open-source project, using [Svelte Kit](https://kit.svelte.dev/) and [NestJS](https://nestjs.com/).
+This is a fully open-source project, using [Svelte Kit](https://kit.svelte.dev/) and [NestJS](https://nestjs.com/).
 
 ## What is this project about, exactly?
 A fully-featured tier list maker, to create your own tier lists (even without an account). You can easily use/make templates, save them to your account, share them, and much more...
 
-Current features :
+**Current features :**
 - Create and manage a tier list
 
 ## How long until 1.0?
