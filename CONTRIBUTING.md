@@ -3,7 +3,7 @@ How to contribute to the project?
 There are 2 ways of contributing: reporting a bug or proposing a feature, and making changes to the code.
 
 # How to contribute by reporting a bug/proposing a feature?
-You can [open an issue](https://github.com/RankyList/ranky-list/issues) with the appropriate template.
+You can [open an issue](https://github.com/RankyList/ranky-list/issues/new/choose) with the appropriate template, but make sure a similar issue doesn't already exist.
 
 If no template satisfies you, feel free to create one from scratch, but do include as many details as possible. Never make an empty issue.
 
@@ -39,7 +39,30 @@ Make sure of the following :
 ## Make commands
 List of the available make commands.
 
-TODO
+| Command               | Description  |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `start`               | Builds the containers, start them and syncs `node_modules` folders. Use for first run.                                                                                    |
+| `up`                  | Starts the containers. You can provide a custom `.env` file if you want to override settings, eg: `make up .env.local`                                                    |
+| `stop`                | Stops all running containers.                                                                                                                                             |
+| `down`                | Removes all containers.                                                                                                                                                   |
+| `ssh-svelte-kit`      | Runs `bash` in the `svelte-kit` container.                                                                                                                                |
+| `ssh-nest`            | Runs `sh` in the `nest` container.                                                                                                                                        |
+| `ssh-mongo`           | Runs `sh` in the `mongo` container.                                                                                                                                       |
+| `lint`                | Runs `lint-svelte-kit` and `lint-nest`, in that order.                                                                                                                    |
+| `lint-svelte-kit`     | Runs `yarn lint` in the `svelte-kit` container. Will not run any fixes.                                                                                                   |
+| `lint-nest`           | Runs `yarn lint` in the `nest` container. Will run fixes.                                                                                                                 |
+| `format`              | Runs `format-svelte-kit` and `format-nest`, in that order.                                                                                                                |
+| `format-svelte-kit`   | Runs `yarn format` in the `svelte-kit` container. Will run fixes.                                                                                                         |
+| `format-nest`         | Runs `yarn format` in the `nest` container. Will run fixes (only for `.json` files).                                                                                      |
+| `test`                | Runs `test-svelte-kit` and `test-nest`, in that order.                                                                                                                    |
+| `test-svelte-kit`     | Runs `yarn test` in the `svelte-kit` container.                                                                                                                           |
+| `test-nest`           | Runs `yarn test` in the `nest` container.                                                                                                                                 |
+| `perm`                | Runs `perm-svelte-kit` and `perm-nest`, in that order. ⚠️ Only works on Linux at the moment.                                                                              |
+| `perm-svelte-kit`     | Gives you ownership of files in the `svelte-kit` folder. Can be useful when having problems with the `sync` command for example. ⚠️ Only works on Linux at the moment.    |
+| `perm-nest`           | Gives you ownership of files in the `nest` folder. Can be useful when having problems with the `sync` command for example. ⚠️ Only works on Linux at the moment.          |
+| `sync`                | Runs `sync-svelte-kit` and `sync-nest`, in that order.                                                                                                                    |
+| `sync-svelte-kit`     | Copies the `node_modules` folder from the `svelte-kit` container onto the host. Useful for intellisense in IDEs.                                                          |
+| `sync-nest`           | Copies the `node_modules` folder from the `nest` container onto the host. Useful for intellisense in IDEs.                                                                |
 
 ## Good to know
 Your PR will always be checked as soon as possible. You need to make sure you do everything you can to make it easier to review it.
