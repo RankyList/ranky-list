@@ -24,9 +24,9 @@ Everything you need to know to use this project and contribute to it is written 
 - This is obvious, but having experience with node/javascript is a must.
 
 ## Launch the project locally
-- Clone the project with `git@github.com:RankyList/ranky-list.git`.
-- Fork the project (if you are not part of the RankyList team)
-- Create your own branch from `develop` or any branch other than master (eg: `feature/my-feature`).
+- Fork the project (if you are not part of the RankyList team).
+- Clone the project with `git@github.com:RankyList/ranky-list.git` *OR* `git@github.com:your-username/ranky-list.git` if you forked the project.
+- Create your own branch from `develop` or any branch other than `master` (eg: `feature/my-feature`).
 - Launch the project using `make start` if you have Make installed, or `docker compose build && docker compose up -d` otherwise (you may need additional steps to have the project working, check what's inside the Makefile).
 - Go to `localhost:3000`.
 - From there, you can add your own code and tests in the appropriate folders.
