@@ -12,15 +12,21 @@ You should always create a new branch, with an explicit name, and create a pull 
 
 Everything you need to know to use this project and contribute to it is written below.
 
+## Branches
+- The [master](https://github.com/RankyList/ranky-list/tree/master) branch is **not** the default branch. It is used to represent what is currently in *production*.
+- The [develop](https://github.com/RankyList/ranky-list) branch is the default branch. This is the default target branch for pull requests and new branches.
+- Other branches are created freely but should respect a certain name coherence, for example, if you are adding a new feature, your branch name should look like `feature/my-feature`.
+- **Always** make sure that your branch is up to date with its parent branch before submitting a pull request.
+
 ## Prerequisites
 - [Docker](https://www.docker.com/) (with Docker Compose).
 - [Git](https://git-scm.com/).
 - This is obvious, but having experience with node/javascript is a must.
 
 ## Launch the project locally
-- Clone the project with `git@github.com:RankyList/ranky-list.git`.
-- Fork the project (if you are not part of the RankyList team)
-- Create your own branch from `develop` or any branch other than master (eg: `feature/my-feature`). You can point directly on the `master` branch only if your change is very minor (eg: documentation).
+- Fork the project (if you are not part of the RankyList team).
+- Clone the project with `git@github.com:RankyList/ranky-list.git` *OR* `git@github.com:your-username/ranky-list.git` if you forked the project.
+- Create your own branch from `develop` or any branch other than `master` (eg: `feature/my-feature`).
 - Launch the project using `make start` if you have Make installed, or `docker compose build && docker compose up -d` otherwise (you may need additional steps to have the project working, check what's inside the Makefile).
 - Go to `localhost:3000`.
 - From there, you can add your own code and tests in the appropriate folders.
