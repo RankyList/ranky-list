@@ -1,29 +1,24 @@
 <script lang="ts">
-    import type { PageData } from './$types';
-
-    import Button from '$components/Button.svelte';
-
-    export let data: PageData;
+    import { GradientHeading } from '@brainandbones/skeleton';
 </script>
 
-<div class="flex flex-col gap-4">
-    <h1>Welcome to SvelteKit</h1>
-
-    <div class="content">
-        <p class="content__text">{data.nestResponse}</p>
-    </div>
-
-    <Button text="SvelteKit & Skeleton!" />
+<div class="container mx-auto p-8 space-y-8">
+    <GradientHeading tag="h1" direction="bg-gradient-to-tl" from="from-primary-500" to="to-tertiary-500">
+        Homepage
+    </GradientHeading>
+	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+	<hr />
+	<section class="card card-body">
+		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+	</section>
+	<hr />
+	<section class="flex space-x-2">
+      <a class="btn btn-filled-primary" href="https://kit.svelte.dev/" target="_blank" rel="noreferrer">SvelteKit</a>
+      <a class="btn btn-filled-accent" href="https://tailwindcss.com/" target="_blank" rel="noreferrer">Tailwind</a>
+      <a class="btn btn-filled-tertiary" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+    </section>
 </div>
 
 <style lang="scss">
-    h1 {
-        color: green;
-    }
 
-    .content {
-        &__text {
-            font-size: 2rem;
-        }
-    }
 </style>
