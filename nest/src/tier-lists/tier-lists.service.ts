@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTierListDto } from './dto/create-tier-list.dto';
@@ -12,23 +12,47 @@ export class TierListsService {
     private tierListsRepository: Repository<TierList>,
   ) {}
 
-  create(createTierListDto: CreateTierListDto) {
-    return 'This action adds a new tierList';
+  async create(createTierListDto: CreateTierListDto) {
+    const tierList = this.tierListsRepository.create(createTierListDto);
+
+    await this.tierListsRepository.insert(tierList);
+
+    return tierList;
   }
 
-  findAll() {
+  async findAll() {
     return this.tierListsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tierList`;
+  async findOne(slug: string) {
+    const tierList = await this.tierListsRepository.findOneBy({ slug });
+
+    if (!tierList) {
+      throw new NotFoundException(`Tier list with slug "${slug}" not found.`);
+    }
+
+    return tierList;
   }
 
-  update(id: number, updateTierListDto: UpdateTierListDto) {
-    return `This action updates a #${id} tierList`;
+  async update(slug: string, updateTierListDto: UpdateTierListDto) {
+    const tierList = await this.tierListsRepository.findOneBy({ slug });
+
+    if (!tierList) {
+      throw new NotFoundException(`Tier list with slug "${slug}" not found.`);
+    }
+
+    await this.tierListsRepository.update({ slug }, Object.assign(tierList, updateTierListDto));
+
+    return tierList;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tierList`;
+  async remove(slug: string) {
+    const result = await this.tierListsRepository.delete({ slug });
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Tier list with slug "${slug}" not found.`);
+    }
+
+    return result;
   }
 }

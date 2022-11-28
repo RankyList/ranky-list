@@ -1,7 +1,7 @@
 COMPOSE=docker compose
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECNEST=$(COMPOSE) exec nest
-EXECMONGO=$(COMPOSE) exec mongo
+EXECMARIA=$(COMPOSE) exec mariadb
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
   UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
@@ -33,8 +33,8 @@ ssh-svelte-kit:
 ssh-nest:
 	$(EXECNEST) sh
 
-ssh-mongo:
-	$(EXECMONGO) bash
+ssh-maria:
+	$(EXECMARIA) bash
 
 lint: lint-svelte-kit lint-nest
 

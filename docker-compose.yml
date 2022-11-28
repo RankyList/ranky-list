@@ -29,26 +29,24 @@ services:
     restart: unless-stopped
     container_name: rl-nest
 
-  mongo:
-    image: mongo:latest
+  mariadb:
+    image: mariadb:10.10.2
     restart: unless-stopped
-    container_name: rl-mongo
+    container_name: rl-mariadb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME:?err}"
-      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD:?err}"
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: "${MARIADB_USER:?err}"
+      MARIADB_PASSWORD_HASH: "${MARIADB_PASSWORD_HASH:?err}"
+      MARIADB_DATABASE: "${MARIA_DATABASE:-ranky-list}"
 
-  mongo-express:
-    image: mongo-express
+  phpmyadmin:
+    image: phpmyadmin
     restart: unless-stopped
+    container_name: rl-phpmyadmin
     ports:
-      - 8081:8081
-    container_name: rl-mongo-express
-    depends_on:
-      - mongo
+      - 8080:80
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: "${MONGO_INITDB_ROOT_USERNAME:?err}"
-      ME_CONFIG_MONGODB_ADMINPASSWORD: "${MONGO_INITDB_ROOT_PASSWORD:?err}"
-      ME_CONFIG_MONGODB_URL: "mongodb://${MONGO_INITDB_ROOT_USERNAME:?err}:${MONGO_INITDB_ROOT_PASSWORD:?err}@mongo:27017/"
+      - PMA_ARBITRARY=1
 
   mailcatcher:
     image: sj26/mailcatcher:latest
