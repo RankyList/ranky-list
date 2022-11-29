@@ -2,7 +2,7 @@
     import '../theme.postcss';
     import '@brainandbones/skeleton/styles/all.css';
 
-    import { AppShell, AppBar, GradientHeading, LightSwitch } from '@brainandbones/skeleton';
+    import { AppShell, AppBar, GradientHeading, LightSwitch, Modal } from '@brainandbones/skeleton';
 </script>
 
 <AppShell>
@@ -32,3 +32,5 @@
 
     <slot />
 </AppShell>
+
+<Modal />

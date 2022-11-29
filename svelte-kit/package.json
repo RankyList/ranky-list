@@ -13,7 +13,8 @@
         "format": "prettier --plugin-search-dir . --write . && eslint . --fix"
     },
     "dependencies": {
-        "@brainandbones/skeleton": "^0.76.0"
+        "@brainandbones/skeleton": "^0.76.0",
+        "color-picker-svelte": "^1.0.1"
     },
     "devDependencies": {
         "@playwright/test": "1.25.0",

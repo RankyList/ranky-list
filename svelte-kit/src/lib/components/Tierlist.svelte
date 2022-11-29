@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { AccordionGroup, AccordionItem } from '@brainandbones/skeleton';
+    import { AccordionGroup, AccordionItem, modalStore, type ModalComponent, type ModalSettings } from '@brainandbones/skeleton';
     import TierlistRank from './TierlistRank.svelte';
     import TierlistItem from '$src/lib/components/TierlistItem.svelte';
+    import type { ComponentType } from 'svelte';
 
     let rows = [
         {
@@ -10,140 +11,44 @@
             items: [
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                }
             ],
             title: 'Eclaté au sol de fouuuu'
         },
@@ -153,16 +58,44 @@
             items: [
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
                 },
                 {
                     description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg'
-                }
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
             ],
             title: 'Eclaté au sol de fouuuuuuuuuu'
         }
@@ -180,16 +113,10 @@
         ]
     }
 
-    // 
-
-    import { GradientHeading, modalStore, type ModalComponent, type ModalSettings } from '@brainandbones/skeleton';
-    import Modal from '$src/lib/components/Modal.svelte';
-
-    function openModal(): void {
+    function openModal(component: ComponentType, props: any): void {
         const modalComponent: ModalComponent = {
-            ref: Modal,
-            props: { background: 'bg-red-500' },
-            slot: '<p>Skeleton</p>'
+            ref: component,
+            props: props,
         };
         const d: ModalSettings = {
             type: 'component',
@@ -202,7 +129,6 @@
 </script>
 
 <div class="card | !bg-surface-200 dark:!bg-surface-800 gap-2 grid py-4">
-    <button on:click={openModal}>TEST</button>
     <AccordionGroup collapse={false} padding="px-4 py-2" spacing="space-y-0">
         {#each rows as { color, description, items, title }}
             <AccordionItem open>
@@ -216,7 +142,7 @@
                             class="gap-1 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 2xl:grid-cols-11"
                         >
                             {#each items as item}
-                                <TierlistItem {...item} />
+                                <TierlistItem {...item} {openModal} />
                             {/each}
                         </div>
                     </div>
