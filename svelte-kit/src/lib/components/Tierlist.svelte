@@ -1,154 +1,370 @@
 <script lang="ts">
-    import { AccordionGroup, AccordionItem, modalStore, type ModalComponent, type ModalSettings } from '@brainandbones/skeleton';
-    import TierlistRank from './TierlistRank.svelte';
-    import TierlistItem from '$src/lib/components/TierlistItem.svelte';
-    import type { ComponentType } from 'svelte';
+    import { AccordionGroup, AccordionItem } from '@brainandbones/skeleton';
+    import { openModal } from '../mixins/openModal';
 
-    let rows = [
+    import EditItemModal from './EditItemModal.svelte';
+    import EditRankModal from './EditRankModal.svelte';
+    import TierlistItem from './TierlistItem.svelte';
+    import TierlistItems from './TierlistItems.svelte';
+    import TierlistRank from './TierlistRank.svelte';
+
+    let items = [
         {
-            color: '#f00',
             description: 'Description',
-            items: [
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-            ],
-            title: 'Eclaté au sol de fouuuu'
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
         },
         {
-            color: '#0f0',
             description: 'Description',
-            items: [
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-                {
-                    description: 'Description',
-                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
-                },
-            ],
-            title: 'Eclaté au sol de fouuuuuuuuuu'
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
+        },
+        {
+            description: 'Description',
+            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+            title: 'item de test'
         }
     ];
 
-    const addNewRow = () => {
-        rows = [
-            ...rows,
+    let ranks = [
+        {
+            color: '#ff0000',
+            description: 'Description',
+            id: '1',
+            items: [
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                }
+            ],
+            title: 'S'
+        },
+        {
+            color: '#00ff00',
+            description: 'Description',
+            id: '2',
+            items: [
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                },
+                {
+                    description: 'Description',
+                    image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                    title: 'item de test'
+                }
+            ],
+            title: 'A'
+        }
+    ];
+
+    let editing = false;
+
+    const addItem = () => {
+        items = [
+            ...items,
             {
-                color: '#888',
+                description: 'description',
+                image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
+                title: 'title'
+            }
+        ];
+    };
+
+    const addRank = () => {
+        ranks = [
+            ...ranks,
+            {
+                color: '#888888',
                 description: 'Description',
+                id: 'id',
                 items: [],
                 title: 'New Rank'
             }
-        ]
-    }
+        ];
+    };
 
-    function openModal(component: ComponentType, props: any): void {
-        const modalComponent: ModalComponent = {
-            ref: component,
-            props: props,
-        };
-        const d: ModalSettings = {
-            type: 'component',
-            component: modalComponent
-        };
+    const deleteRank = (id: string) => {
+        ranks = ranks.filter((rank) => rank.id !== id);
+    };
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        modalStore.trigger(d);
-    }
+    const openItemModal = (props: any) => {
+        openModal(EditItemModal, { ...props });
+    };
+
+    const openRankModal = (props: any) => {
+        openModal(EditRankModal, { ...props });
+    };
 </script>
 
-<div class="card | !bg-surface-200 dark:!bg-surface-800 gap-2 grid py-4">
+<div class="card | gap-2 grid py-4">
     <AccordionGroup collapse={false} padding="px-4 py-2" spacing="space-y-0">
-        {#each rows as { color, description, items, title }}
+        {#each ranks as rank}
             <AccordionItem open>
                 <svelte:fragment slot="summary">
-                    <span class="hidden">{title}</span>
+                    <span class="hidden">{rank.title}</span>
                 </svelte:fragment>
                 <svelte:fragment slot="content">
-                    <div class="gap-2 grid lg:grid-cols-[1.25fr,8fr] 2xl:grid-cols-[1.25fr,11fr]">
-                        <TierlistRank {color} {description} {title} {openModal} />
+                    <div
+                        class="
+                        gap-2
+                        grid
+                        lg:grid-cols-[1.25fr,8fr,min-content]
+                        2xl:grid-cols-[1.25fr,11fr,min-content]
+                    "
+                    >
+                        <TierlistRank {rank} {openRankModal} />
                         <div
-                            class="gap-1 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 2xl:grid-cols-11"
+                            class="
+                            gap-2
+                            grid
+                            grid-cols-3
+                            sm:grid-cols-4
+                            md:grid-cols-5
+                            lg:grid-cols-8
+                            2xl:grid-cols-11
+                        "
                         >
-                            {#each items as item}
-                                <TierlistItem {...item} {openModal} />
+                            {#each rank.items as item}
+                                <TierlistItem {item} {openItemModal}  />
                             {/each}
                         </div>
+                        <button
+                            class="btn | self-center aspect bg-warning-600 h-min mx-auto"
+                            on:click={() => deleteRank(rank.id)}
+                        >
+                            Delete rank
+                        </button>
                     </div>
                 </svelte:fragment>
             </AccordionItem>
         {/each}
     </AccordionGroup>
-    <button class="btn-icon | bg-primary-500 flex font-mono mx-auto text-2xl" on:click={addNewRow}>+</button>
+    <button class="btn | bg-tertiary-600 mx-4 xl:mx-auto xl:w-min" on:click={addRank}>
+        Add rank
+    </button>
 </div>
+
+<TierlistItems {items} {addItem} {openItemModal} />

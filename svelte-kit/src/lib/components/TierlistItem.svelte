@@ -1,14 +1,11 @@
 <script lang="ts">
-    import TierlistItemModal from "./TierlistItemModal.svelte";
-
-    export let description: string;
-    export let image: string;
-    export let title: string;
-    export let openModal: Function;
+    export let item: any;
+    export let openItemModal: any;
 </script>
 
 <div
     class="card | aspect-square bg-center bg-cover cursor-pointer"
-    style="background-image: url({image})"
-    on:click={openModal(TierlistItemModal, { description, image, title })}
+    role="button"
+    style="background-image: url({item.image})"
+    on:click={openItemModal({...item})}
 />

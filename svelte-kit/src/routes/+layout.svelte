@@ -9,7 +9,7 @@
     <AppBar shadow="shadow" slot="header">
         <svelte:fragment slot="lead">
             <div class="items-center flex gap-3">
-                <img alt="logo" class="h-8" src="logo.png" />
+                <img alt="logo" class="h-8" src="/logo.png" />
                 <GradientHeading
                     class="text-3xl"
                     tag="span"

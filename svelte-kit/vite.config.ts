@@ -8,7 +8,8 @@ const config = (mode: string): UserConfig => {
     plugins: [sveltekit()],
     server: {
       watch: {
-        usePolling: process.env.VITE_USE_POLLING === 'true'
+        usePolling: process.env.VITE_USE_POLLING === 'true',
+        interval: 100
       }
     }
   };

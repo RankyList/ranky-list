@@ -2,7 +2,7 @@
     import { GradientHeading } from '@brainandbones/skeleton';
 </script>
 
-<div class="container mx-auto p-8">
+<div class="container gap-5 grid mx-auto p-8">
     <GradientHeading
         tag="h1"
         direction="bg-gradient-to-tl"
