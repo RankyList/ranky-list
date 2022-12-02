@@ -2,7 +2,6 @@
     import ModalField from './ModalField.svelte';
 
     export let color: string;
-    export let id: string;
     export let description: string;
     export let title: string;
 

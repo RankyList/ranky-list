@@ -13,16 +13,15 @@
 
 <div class:active class="input-group | flex items-center gap-5 justify-between">
     {#if isTitle}
-        <h3 class="input-group__text">{text}</h3>
+        <h2 class="input-group__text">{text}</h2>
     {:else}
-        <label class="input-group__text" for={text}>{text}</label>
+        <span class="input-group__text">{text}</span>
     {/if}
     <input
         bind:this={input}
         bind:value={text}
         on:blur={() => (active = false)}
         class="input-group__input | flex-1 h-full"
-        name="title"
         type="text"
     />
 

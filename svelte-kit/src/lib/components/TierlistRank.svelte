@@ -1,6 +1,8 @@
 <script lang="ts">
-    export let rank: any;
-    export let openRankModal: any;
+    import type { tierlistRank } from '$src/lib/types/tierlist';
+
+    export let rank: tierlistRank;
+    export let openRankModal: Function;
 </script>
 
 <div

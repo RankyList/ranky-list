@@ -21,7 +21,7 @@
                 </GradientHeading>
             </div>
         </svelte:fragment>
-        <a class="hidden sm:inline" href="/tierlist/create">Create tierlist</a>
+        <a class="hidden sm:inline" href="/tierlist/create">Create a tierlist</a>
         <svelte:fragment slot="trail">
             <div class="flex gap-5 items-center">
                 <LightSwitch />

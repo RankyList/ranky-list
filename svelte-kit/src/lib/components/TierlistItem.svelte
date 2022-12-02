@@ -1,11 +1,13 @@
 <script lang="ts">
-    export let item: any;
-    export let openItemModal: any;
+    import type { tierlistItem } from '$src/lib/types/tierlist';
+
+    export let item: tierlistItem;
+    export let openItemModal: Function;
 </script>
 
 <div
     class="card | aspect-square bg-center bg-cover cursor-pointer"
     role="button"
     style="background-image: url({item.image})"
-    on:click={openItemModal({...item})}
+    on:click={openItemModal({ ...item })}
 />

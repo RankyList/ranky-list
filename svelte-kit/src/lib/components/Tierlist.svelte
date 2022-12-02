@@ -1,6 +1,7 @@
 <script lang="ts">
     import { AccordionGroup, AccordionItem } from '@brainandbones/skeleton';
-    import { openModal } from '../mixins/openModal';
+    import type { tierlistItem, tierlistRank } from '$src/lib/types/tierlist';
+    import { openModal } from '$lib/mixins/openModal';
 
     import EditItemModal from './EditItemModal.svelte';
     import EditRankModal from './EditRankModal.svelte';
@@ -8,178 +9,17 @@
     import TierlistItems from './TierlistItems.svelte';
     import TierlistRank from './TierlistRank.svelte';
 
-    let items = [
-        {
+    let items: tierlistItem[] = [];
+
+    // For testing
+    for (let i = 0; i < 40; i++) {
+        items.push({
             description: 'Description',
+            id: i.toString(),
             image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        },
-        {
-            description: 'Description',
-            image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-            title: 'item de test'
-        }
-    ];
+            title: 'Test item'
+        })
+    }
 
     let ranks = [
         {
@@ -189,43 +29,51 @@
             items: [
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 }
             ],
             title: 'S'
@@ -237,43 +85,51 @@
             items: [
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 },
                 {
                     description: 'Description',
+                    id: 'test',
                     image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
-                    title: 'item de test'
+                    title: 'Test item'
                 }
             ],
             title: 'A'
@@ -287,6 +143,7 @@
             ...items,
             {
                 description: 'description',
+                id: 'test',
                 image: 'https://i.ytimg.com/vi/cJWojzF3wq8/hqdefault.jpg',
                 title: 'title'
             }
@@ -310,12 +167,12 @@
         ranks = ranks.filter((rank) => rank.id !== id);
     };
 
-    const openItemModal = (props: any) => {
-        openModal(EditItemModal, { ...props });
+    const openItemModal = (props: tierlistItem) => {
+        openModal(EditItemModal, props);
     };
 
-    const openRankModal = (props: any) => {
-        openModal(EditRankModal, { ...props });
+    const openRankModal = (props: tierlistRank) => {
+        openModal(EditRankModal, props);
     };
 </script>
 
@@ -348,7 +205,7 @@
                         "
                         >
                             {#each rank.items as item}
-                                <TierlistItem {item} {openItemModal}  />
+                                <TierlistItem {item} {openItemModal} />
                             {/each}
                         </div>
                         <button
