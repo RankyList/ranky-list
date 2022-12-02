@@ -4,7 +4,8 @@ import { modalStore, type ModalComponent, type ModalSettings } from '@brainandbo
 export function openModal(component: ComponentType, props: Record<string, any>): void {
   const modalComponent: ModalComponent = {
     ref: component,
-    props: props
+    props: props,
+    slot: ''
   };
   const d: ModalSettings = {
     type: 'component',

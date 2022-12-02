@@ -1,11 +1,11 @@
 <script lang="ts">
     import { AccordionGroup, AccordionItem } from '@brainandbones/skeleton';
-    import type { tierlistItem } from '$src/lib/types/tierlist';
-    import TierlistItem from './TierlistItem.svelte';
+    import type { TierlistItemType } from '$src/lib/types/tierlist';
+    import TierlistItem from '$lib/components/TierlistItem.svelte';
 
-    export let addItem: Function;
-    export let items: tierlistItem[];
-    export let openItemModal: Function;
+    export let addItem: () => void;
+    export let items: TierlistItemType[];
+    export let openItemModal: (props: Record<string, any>) => void;
 </script>
 
 <AccordionGroup class="card bottom-0 fixed left-0 right-0 shadow-lg" spacing="space-y-0">

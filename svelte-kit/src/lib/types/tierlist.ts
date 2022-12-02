@@ -1,14 +1,16 @@
-export type tierlistItem = {
+export type TierlistItemType = {
     description: string;
     id: string;
     image: string;
+    position: number|null;
+    rankId: string|null;
     title: string;
 }
 
-export type tierlistRank = {
+export type TierlistRankType = {
     color: string;
     description: string;
     id: string;
-    items: tierlistItem[];
     title: string;
+    position: number;
 }

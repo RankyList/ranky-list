@@ -438,10 +438,10 @@ color-name@^1.1.4, color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-color-picker-svelte@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/color-picker-svelte/-/color-picker-svelte-1.0.1.tgz#d50a3abf537e48cd4696463d69873965d1c9a6c8"
-  integrity sha512-S6sTRsE3JQFU+A3NAHlqT5bT+wa2qrlWYOAttOtzXYM2fR0p0a/jSVHP4sSWoS1CWXfH0cZ5p3wPlQNCPzUJug==
+colord@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/colord/-/colord-2.9.3.tgz#4f8ce919de456f1d5c1c368c307fe20f3e59fb43"
+  integrity sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -1599,6 +1599,13 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+svelte-awesome-color-picker@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/svelte-awesome-color-picker/-/svelte-awesome-color-picker-2.2.1.tgz#e7c34daa91a42bf0fb78a55aa367d0de41cca957"
+  integrity sha512-61i3i+f2vleyk0VeTub5WHf2k8qChDhdaABLFKZO3qcF6dxT/0LTH4obzbOD1nsC70uKHqUiZ6CavMtCelJBmg==
+  dependencies:
+    colord "^2.9.3"
+
 svelte-check@^2.7.1:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/svelte-check/-/svelte-check-2.9.2.tgz#6581b750aa51cf476e82139a674a9bfa4de2ec2d"
@@ -1617,6 +1624,11 @@ svelte-hmr@^0.15.1:
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.1.tgz#d11d878a0bbb12ec1cba030f580cd2049f4ec86b"
   integrity sha512-BiKB4RZ8YSwRKCNVdNxK/GfY+r4Kjgp9jCLEy0DuqAKfmQtpL38cQK3afdpjw4sqSs4PLi3jIPJIFp259NkZtA==
+
+svelte-lazy@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/svelte-lazy/-/svelte-lazy-1.1.0.tgz#e984c77ed32c51eb3eadb091b1d198a8de82fbe7"
+  integrity sha512-Vol0Px4tKNK13xTs187T9wgenAgXZVHr+HCZx1Wgd5NFvgRxXR/5BE6gZAeF/BkLxLgYIprfZmJlE65slFYqOA==
 
 svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.7:
   version "4.10.7"

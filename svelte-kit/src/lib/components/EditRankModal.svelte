@@ -1,19 +1,25 @@
 <script lang="ts">
-    import ModalField from './ModalField.svelte';
-
-    export let color: string;
-    export let description: string;
-    export let title: string;
+    import ColorPicker from 'svelte-awesome-color-picker';
+    import type { TierlistRankType } from '$src/lib/types/tierlist';
+    import ModalField from '$lib/components/ModalField.svelte';
 
     export let parent: Record<string, any>;
+    export let rank: TierlistRankType;
+    export let updateRank: (rank: TierlistRankType) => void;
+
+    const submit = (e: Event) => {
+        e.preventDefault();
+
+        updateRank(rank);
+        parent.onClose();
+    };
 </script>
 
-<div class="grid gap-5 relative">
-    <ModalField isTitle text={title} />
-    <ModalField text={description} />
-    <div class="flex gap-2">
-        <label for="color">Color :</label>
-        <input id="color" name="color" type="color" value={color} />
-    </div>
-    <button class="btn | bg-primary-500" type="submit" on:click={parent.onClose}>Update</button>
-</div>
+<form class="grid gap-5 relative">
+    <ModalField isTitle bind:text={rank.title} />
+    <ModalField bind:text={rank.description} />
+    <ColorPicker bind:hex={rank.color} isAlpha={false} label="Color" />
+    <button class="btn | bg-primary-500" type="submit" on:click={submit}>Submit</button>
+</form>
+
+<slot />

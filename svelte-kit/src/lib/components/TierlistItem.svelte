@@ -1,13 +1,18 @@
 <script lang="ts">
-    import type { tierlistItem } from '$src/lib/types/tierlist';
+    import Lazy from 'svelte-lazy';
+    import type { TierlistItemType } from '$src/lib/types/tierlist';
 
-    export let item: tierlistItem;
-    export let openItemModal: Function;
+    export let item: TierlistItemType;
+    export let openItemModal: (props: Record<string, any>) => void;
 </script>
 
-<div
-    class="card | aspect-square bg-center bg-cover cursor-pointer"
-    role="button"
-    style="background-image: url({item.image})"
-    on:click={openItemModal({ ...item })}
-/>
+<span style="order: {item.position}">
+    <Lazy height={100}>
+        <img
+            alt="item"
+            class="card | cursor-pointer"
+            src={item.image}
+            on:click={openItemModal({ item })}
+        />
+    </Lazy>
+</span>
