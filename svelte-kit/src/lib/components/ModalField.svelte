@@ -1,4 +1,6 @@
 <script lang="ts">
+    import ButtonIcon from '$lib/components/ButtonIcon.svelte';
+
     export let isTitle = false;
     export let text: string;
 
@@ -11,7 +13,7 @@
         active = false;
     };
 
-    const toggleField = () => {
+    const edit = () => {
         active = true;
         input.focus();
     };
@@ -24,29 +26,35 @@
     };
 </script>
 
-<div class:active class="input-group | flex items-center gap-5 justify-between">
+<div class:active class="input-group | flex items-center gap-2 justify-between">
     {#if isTitle}
-        <h2 class="input-group__text">{text}</h2>
+        <h2 class="input-group__text | flex-shrink-0">{text}</h2>
     {:else}
-        <span class="input-group__text | text-lg">{text}</span>
+        <span class="input-group__text | flex-shrink-0 text-lg">{text}</span>
     {/if}
     <input
         bind:this={input}
         bind:value={inputValue}
-        class="input-group__input | flex-1 h-full"
+        class="input-group__input | h-full"
         type="text"
     />
 
     {#if active}
-        <button class="btn | font-mono bg-tertiary-600" type="submit" on:click={submit}>v</button>
-        <button class="btn | font-mono bg-warning-600" on:click={cancel}>x</button>
+        <ButtonIcon action={submit} classes="h-full" padding={3} variant="ok" />
+        <ButtonIcon action={cancel} classes="h-full" padding={3} variant="cancel" />
     {:else}
-        <button class="btn | bg-primary-600" on:click={toggleField}>Edit</button>
+        <ButtonIcon action={edit} padding={3} variant="edit" />
     {/if}
 </div>
 
 <style lang="scss">
     .input-group {
+        &__text {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
+        }
+
         &__input {
             transition: none;
         }
@@ -60,11 +68,17 @@
 
         &.active {
             .input-group__text {
-                display: none;
+                height: 0;
+                opacity: 0;
+                overflow: hidden;
+                width: 0;
             }
 
             .input-group__input {
                 opacity: 1;
+                transition-property: all;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 200ms;
             }
         }
     }

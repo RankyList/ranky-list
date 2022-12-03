@@ -14,7 +14,10 @@
     },
     "dependencies": {
         "@brainandbones/skeleton": "^0.76.0",
-        "svelte-lazy": "^1.1.0"
+        "@fortawesome/free-solid-svg-icons": "^6.2.1",
+        "svelte-fa": "^3.0.3",
+        "svelte-lazy": "^1.1.0",
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
         "@playwright/test": "1.25.0",

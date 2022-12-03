@@ -41,7 +41,9 @@
             <input bind:value={url} placeholder="https://..." type="text" />
         </div>
     </div>
-    <button class="btn | bg-primary-600" type="submit" on:click={submit}>Submit</button>
+    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit" on:click={submit}
+        >Submit</button
+    >
 </form>
 
 <slot />

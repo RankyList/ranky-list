@@ -10,7 +10,7 @@
     <Lazy height={100}>
         <img
             alt="item"
-            class="card | cursor-pointer"
+            class="cursor-pointer rounded"
             src={item.image}
             on:click={openItemModal({ item })}
         />

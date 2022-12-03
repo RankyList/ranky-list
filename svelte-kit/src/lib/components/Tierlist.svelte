@@ -1,50 +1,42 @@
 <script lang="ts">
     import { AccordionGroup, AccordionItem } from '@brainandbones/skeleton';
+    import { v4 as uuidv4 } from 'uuid';
+
     import type { TierlistItemType, TierlistRankType } from '$src/lib/types/tierlist';
     import { openModal } from '$lib/mixins/openModal';
-
+    import ButtonIcon from '$lib/components/ButtonIcon.svelte';
     import EditItemModal from '$lib/components/EditItemModal.svelte';
     import EditRankModal from '$lib/components/EditRankModal.svelte';
     import TierlistItem from '$lib/components/TierlistItem.svelte';
     import TierlistItems from '$lib/components/TierlistItems.svelte';
     import TierlistRank from '$lib/components/TierlistRank.svelte';
 
-    let items: TierlistItemType[] = [];
+    const rankColors = [
+        '#ef4444',
+        '#f59e0b',
+        '#84cc16',
+        '#10b981',
+        '#06b6d4',
+        '#3b82f6',
+        '#8b5cf6',
+        '#d946ef',
+        '#f43f5e'
+    ];
 
-    // For testing
-    for (let i = 0; i < 20; i++) {
-        items.push({
-            description: 'Description',
-            id: i.toString(),
-            image: 'https://steamuserimages-a.akamaihd.net/ugc/91599028260504242/274F8D314829AA1EE2594594AD5D7D45E2A3D93F/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
-            position: i + 1,
-            rankId: '1',
-            title: 'Test item'
-        });
-    }
-    for (let i = 0; i < 40; i++) {
-        items.push({
-            description: 'Description',
-            id: i.toString(),
-            image: 'https://steamuserimages-a.akamaihd.net/ugc/91599028260504242/274F8D314829AA1EE2594594AD5D7D45E2A3D93F/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
-            position: null,
-            rankId: null,
-            title: 'Test item'
-        });
-    }
+    let items: TierlistItemType[] = [];
 
     let ranks = [
         {
-            color: '#ff0000',
+            color: '#ef4444',
             description: 'Description',
-            id: '1',
+            id: uuidv4(),
             position: 1,
             title: 'S'
         },
         {
-            color: '#00ff00',
+            color: '#f59e0b',
             description: 'Description',
-            id: '2',
+            id: uuidv4(),
             position: 2,
             title: 'A'
         }
@@ -55,7 +47,7 @@
             ...items,
             {
                 description: 'description',
-                id: 'test',
+                id: uuidv4(),
                 image: 'https://steamuserimages-a.akamaihd.net/ugc/91599028260504242/274F8D314829AA1EE2594594AD5D7D45E2A3D93F/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
                 position: null,
                 rankId: null,
@@ -68,9 +60,9 @@
         ranks = [
             ...ranks,
             {
-                color: '#888888',
+                color: rankColors[ranks.length] ?? rankColors[rankColors.length - 1],
                 description: 'Description',
-                id: 'test',
+                id: uuidv4(),
                 position: ranks.length,
                 title: 'New Rank'
             }
@@ -96,6 +88,28 @@
     const updateRank = (newRank: TierlistRankType) => {
         ranks = [...ranks.filter(({ id }) => id !== newRank.id), newRank];
     };
+
+    // For testing
+    for (let i = 0; i < 20; i++) {
+        items.push({
+            description: 'Description',
+            id: uuidv4(),
+            image: 'https://steamuserimages-a.akamaihd.net/ugc/91599028260504242/274F8D314829AA1EE2594594AD5D7D45E2A3D93F/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
+            position: i + 1,
+            rankId: ranks[0].id,
+            title: 'Test item'
+        });
+    }
+    for (let i = 0; i < 40; i++) {
+        items.push({
+            description: 'Description',
+            id: uuidv4(),
+            image: 'https://steamuserimages-a.akamaihd.net/ugc/91599028260504242/274F8D314829AA1EE2594594AD5D7D45E2A3D93F/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
+            position: null,
+            rankId: null,
+            title: 'Test item'
+        });
+    }
 </script>
 
 <div class="card | gap-2 grid py-4">
@@ -110,7 +124,7 @@
                         <svelte:fragment slot="content">
                             <div
                                 class="
-                                gap-4
+                                gap-1
                                 grid
                                 lg:grid-cols-[1.25fr,8fr,min-content]
                                 2xl:grid-cols-[1.25fr,11fr,min-content]
@@ -119,7 +133,7 @@
                                 <TierlistRank {rank} {openRankModal} />
                                 <div
                                     class="
-                                    gap-2
+                                    gap-1
                                     grid
                                     grid-cols-3
                                     sm:grid-cols-4
@@ -132,12 +146,7 @@
                                         <TierlistItem {item} {openItemModal} />
                                     {/each}
                                 </div>
-                                <button
-                                    class="btn | self-center aspect bg-warning-600 h-min mx-auto"
-                                    on:click={() => deleteRank(rank.id)}
-                                >
-                                    Delete rank
-                                </button>
+                                <ButtonIcon action={() => deleteRank(rank.id)} variant="delete" />
                             </div>
                         </svelte:fragment>
                     </AccordionItem>
@@ -145,9 +154,7 @@
             {/each}
         </span>
     </AccordionGroup>
-    <button class="btn | bg-primary-600 mx-4 xl:mx-auto xl:w-min" on:click={addRank}>
-        Add rank
-    </button>
+    <ButtonIcon action={addRank} classes="mx-auto" />
 </div>
 
 <TierlistItems items={items.filter(({ rankId }) => rankId === null)} {addItem} {openItemModal} />
