@@ -5,33 +5,56 @@
         faPenToSquare,
         faPlus,
         faTrashCan,
-        faXmark
+        faXmark,
+        type IconDefinition
     } from '@fortawesome/free-solid-svg-icons';
 
-    export let action: () => void;
+    export let action: (e: Event) => void;
     export let classes = '';
     export let padding = 4;
-    export let variant = 'add';
+    export let variant: keyof Variants = 'add';
+
+    type Variant = {
+        color: string;
+        icon: IconDefinition;
+    };
+
+    type Variants = {
+        add: Variant;
+        edit: Variant;
+        delete: Variant;
+        ok: Variant;
+        cancel: Variant;
+    };
+
+    const variants: Variants = {
+        add: {
+            color: 'primary',
+            icon: faPlus
+        },
+        edit: {
+            color: 'primary',
+            icon: faPenToSquare
+        },
+        delete: {
+            color: 'warning',
+            icon: faTrashCan
+        },
+        ok: {
+            color: 'tertiary',
+            icon: faCheck
+        },
+        cancel: {
+            color: 'warning',
+            icon: faXmark
+        }
+    };
 
     let color: string;
-    let icon: any;
+    let icon: IconDefinition;
 
-    if (variant === 'add') {
-        color = 'primary';
-        icon = faPlus;
-    } else if (variant === 'edit') {
-        color = 'primary';
-        icon = faPenToSquare;
-    } else if (variant === 'delete') {
-        color = 'warning';
-        icon = faTrashCan;
-    } else if (variant === 'ok') {
-        color = 'tertiary';
-        icon = faCheck;
-    } else if (variant === 'cancel') {
-        color = 'warning';
-        icon = faXmark;
-    }
+    $: color = variants[variant].color ?? 'primary';
+    $: icon = variants[variant].icon ?? faPlus;
 </script>
 
 <button

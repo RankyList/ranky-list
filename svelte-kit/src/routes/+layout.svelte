@@ -8,7 +8,7 @@
 <AppShell>
     <AppBar shadow="shadow" slot="header">
         <svelte:fragment slot="lead">
-            <div class="items-center flex gap-3">
+            <a class="items-center flex gap-3" href="/">
                 <img alt="logo" class="h-8" src="/logo.png" />
                 <GradientHeading
                     class="text-3xl"
@@ -19,9 +19,11 @@
                 >
                     RankyList
                 </GradientHeading>
-            </div>
+            </a>
         </svelte:fragment>
-        <a class="hidden sm:inline" href="/tierlist/create">Create a tierlist</a>
+        <div class="container mx-auto">
+            <a class="hidden sm:inline" href="/tierlist/create">Create a tierlist</a>
+        </div>
         <svelte:fragment slot="trail">
             <div class="flex gap-5 items-center">
                 <LightSwitch />

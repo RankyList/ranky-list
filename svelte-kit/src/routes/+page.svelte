@@ -12,11 +12,9 @@
         Homepage
     </GradientHeading>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-    <hr />
     <section class="card card-body">
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
     </section>
-    <hr />
     <section class="flex space-x-2">
         <a
             class="btn btn-filled-primary"

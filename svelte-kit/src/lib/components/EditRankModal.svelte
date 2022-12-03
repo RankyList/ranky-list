@@ -7,21 +7,17 @@
     export let rank: TierlistRankType;
     export let updateRank: (rank: TierlistRankType) => void;
 
-    const submit = (e: Event) => {
-        e.preventDefault();
-
+    const submit = () => {
         updateRank(rank);
         parent.onClose();
     };
 </script>
 
-<form class="grid gap-5 relative">
+<form class="grid gap-5 relative" on:submit|preventDefault={submit}>
     <ModalField isTitle bind:text={rank.title} />
     <ModalField bind:text={rank.description} />
     <ColorPicker bind:hex={rank.color} isAlpha={false} label="Color" />
-    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit" on:click={submit}
-        >Submit</button
-    >
+    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit">Submit</button>
 </form>
 
 <slot />

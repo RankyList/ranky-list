@@ -1,6 +1,5 @@
 export type TierlistItemType = {
     description: string;
-    id: string;
     image: string;
     position: number|null;
     rankId: string|null;

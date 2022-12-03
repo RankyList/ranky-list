@@ -13,15 +13,16 @@
 <AccordionGroup class="card bottom-0 fixed left-0 right-0 shadow-lg" spacing="space-y-0">
     <AccordionItem class="w-full" open>
         <svelte:fragment slot="summary">
-            <ButtonIcon action={addItem} />
+            <ButtonIcon action={addItem} classes="ml-auto" />
         </svelte:fragment>
         <svelte:fragment slot="content">
             <div
                 class="
                     gap-1
                     grid
-                    grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11 2xl:grid-cols-[repeat(16,auto)]
+                    grid-cols-[repeat(auto-fill,minmax(90px,auto))]
                     h-40 sm:h-56 md:h-52 xl:h-60 2xl:h-52
+                    justify-center
                     overflow-y-auto
                 "
             >

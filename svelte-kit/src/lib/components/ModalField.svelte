@@ -6,7 +6,6 @@
 
     let active = false;
     let input: HTMLElement;
-    let inputValue = text;
 
     const cancel = () => {
         inputValue = text;
@@ -24,6 +23,8 @@
         text = inputValue;
         active = false;
     };
+
+    $: inputValue = text;
 </script>
 
 <div class:active class="input-group | flex items-center gap-2 justify-between">
@@ -40,7 +41,7 @@
     />
 
     {#if active}
-        <ButtonIcon action={submit} classes="h-full" padding={3} variant="ok" />
+        <ButtonIcon action={(e) => submit(e)} classes="h-full" padding={3} variant="ok" />
         <ButtonIcon action={cancel} classes="h-full" padding={3} variant="cancel" />
     {:else}
         <ButtonIcon action={edit} padding={3} variant="edit" />

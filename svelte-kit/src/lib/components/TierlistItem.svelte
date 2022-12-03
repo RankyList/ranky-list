@@ -7,11 +7,13 @@
 </script>
 
 <span style="order: {item.position}">
-    <Lazy height={100}>
+    <Lazy height={90}>
         <img
             alt="item"
             class="cursor-pointer rounded"
+            height="90"
             src={item.image}
+            width="90"
             on:click={openItemModal({ item })}
         />
     </Lazy>

@@ -1,6 +1,7 @@
 import type { ComponentType } from 'svelte';
 import { modalStore, type ModalComponent, type ModalSettings } from '@brainandbones/skeleton';
 
+// TODO: Update with the last version of Skeleton modalStore
 export function openModal(component: ComponentType, props: Record<string, any>): void {
   const modalComponent: ModalComponent = {
     ref: component,
