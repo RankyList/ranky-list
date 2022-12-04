@@ -1,5 +1,6 @@
 import * as dotenvFlow from 'dotenv-flow';
 import { DataSource } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 dotenvFlow.config();
 
@@ -14,7 +15,8 @@ const dataSource = new DataSource({
   entities: [__dirname + '/../dist/**/*.entity.js'],
   migrationsRun: process.env.NODE_ENV === 'dev',
   migrationsTableName: 'migrations',
-  migrations: [__dirname + '/generated/*.ts']
+  migrations: [__dirname + '/generated/*.ts'],
+  namingStrategy: new SnakeNamingStrategy()
 });
 
 export default dataSource;

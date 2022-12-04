@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" context="module">
     import { GradientHeading } from '@brainandbones/skeleton';
 </script>
 

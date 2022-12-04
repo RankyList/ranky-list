@@ -23,8 +23,16 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    'indent': ['error', 2, { "ignoredNodes": ["PropertyDefinition"] }],
-    'semi': ['error', 'always']
+    '@typescript-eslint/no-explicit-any': 'error',
+    'indent': [
+      'error',
+      2,
+      { 'ignoredNodes': ['PropertyDefinition'] }
+    ],
+    'semi': ['error', 'always'],
+    'brace-style': ['error', '1tbs'],
+    'object-curly-spacing': ['error', 'always'],
+    'template-curly-spacing': ['error', 'always'],
+    'quotes': ["error", "single"]
   },
 };

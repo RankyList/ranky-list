@@ -1,29 +1,47 @@
 # Contributing to the project
+
 How to contribute to the project?
 There are 2 ways of contributing: reporting a bug or proposing a feature, and making changes to the code.
 
-# How to contribute by reporting a bug/proposing a feature?
+## Content
+
+- [How to contribute by reporting a bug/proposing a feature?](#how-to-contribute-by-reporting-a-bugproposing-a-feature)
+- [How to contribute to the code?](#how-to-contribute-to-the-code)
+  - [Branches](#branches)
+  - [Prerequisites](#prerequisites)
+  - [Launch the project locally](#launch-the-project-locally)
+  - [What do I need to check before making a PR?](#what-do-i-need-to-check-before-making-a-pr)
+  - [Make commands](#make-commands)
+  - [Additional documentation](#additional-documentation)
+  - [Good to know](#good-to-know)
+
+## How to contribute by reporting a bug/proposing a feature?
+
 You can [open an issue](https://github.com/RankyList/ranky-list/issues/new/choose) with the appropriate template, but make sure a similar issue doesn't already exist.
 
 If no template satisfies you, feel free to create one from scratch, but do include as many details as possible. Never make an empty issue.
 
-# How to contribute to the code?
+## How to contribute to the code?
+
 You should always create a new branch, with an explicit name, and create a pull request once done.
 
 Everything you need to know to use this project and contribute to it is written below.
 
-## Branches
+### Branches
+
 - The [master](https://github.com/RankyList/ranky-list/tree/master) branch is **not** the default branch. It is used to represent what is currently in *production*.
 - The [develop](https://github.com/RankyList/ranky-list) branch is the default branch. This is the default target branch for pull requests and new branches.
 - Other branches are created freely but should respect a certain name coherence, for example, if you are adding a new feature, your branch name should look like `feature/my-feature`.
 - **Always** make sure that your branch is up to date with its parent branch before submitting a pull request.
 
-## Prerequisites
+### Prerequisites
+
 - [Docker](https://www.docker.com/) (with Docker Compose).
 - [Git](https://git-scm.com/).
 - This is obvious, but having experience with node/javascript is a must.
 
-## Launch the project locally
+### Launch the project locally
+
 - Fork the project (if you are not part of the RankyList team).
 - Clone the project with `git@github.com:RankyList/ranky-list.git` *OR* `git@github.com:your-username/ranky-list.git` if you forked the project.
 - Create your own branch from `develop` or any branch other than `master` (eg: `feature/my-feature`).
@@ -33,8 +51,10 @@ Everything you need to know to use this project and contribute to it is written 
 
 ⚠️ Docker is required ⚠️
 
-## What do I need to check before making a PR?
+### What do I need to check before making a PR?
+
 Make sure of the following :
+
 - Your PR is up to date with its parent branch
 - Your PR includes tests (not always needed but is very recommended)
 - Your PR describes everything the reviewers need to know.
@@ -42,12 +62,13 @@ Make sure of the following :
 - The linter does not fail (or at least not because of your PR).
 - You avoided the usage of an external dependency (only use one if you need to).
 
-## Make commands
+### Make commands
+
 List of the available make commands.
 
-| Command               | Description  |
+| Command               | Description                                                                                                                                                               |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `start`               | Builds the containers, start them and syncs `node_modules` folders. Use for first run.                                                                                    |
+| `start`               | Builds the containers and start them.                                                                                                                                     |
 | `up`                  | Starts the containers. You can provide a custom `.env` file if you want to override settings, eg: `make up .env.local`                                                    |
 | `stop`                | Stops all running containers.                                                                                                                                             |
 | `down`                | Removes all containers.                                                                                                                                                   |
@@ -63,14 +84,16 @@ List of the available make commands.
 | `test`                | Runs `test-svelte-kit` and `test-nest`, in that order.                                                                                                                    |
 | `test-svelte-kit`     | Runs `yarn test` in the `svelte-kit` container.                                                                                                                           |
 | `test-nest`           | Runs `yarn test` in the `nest` container.                                                                                                                                 |
-| `perm`                | Runs `perm-svelte-kit` and `perm-nest`, in that order. ⚠️ Only works on Linux at the moment.                                                                              |
-| `perm-svelte-kit`     | Gives you ownership of files in the `svelte-kit` folder. Can be useful when having problems with the `sync` command for example. ⚠️ Only works on Linux at the moment.    |
-| `perm-nest`           | Gives you ownership of files in the `nest` folder. Can be useful when having problems with the `sync` command for example. ⚠️ Only works on Linux at the moment.          |
-| `sync`                | Runs `sync-svelte-kit` and `sync-nest`, in that order.                                                                                                                    |
-| `sync-svelte-kit`     | Copies the `node_modules` folder from the `svelte-kit` container onto the host. Useful for intellisense in IDEs.                                                          |
-| `sync-nest`           | Copies the `node_modules` folder from the `nest` container onto the host. Useful for intellisense in IDEs.                                                                |
+| `migration`           | Executes migrations by running `yarn migration:up` in the nest container.                                                                                                 |
 
-## Good to know
+### Additional documentation
+
+All the documentation you need to safely develop on RankyList. Feel free to add anything you think is missing!
+
+- [Migrations](docs/MIGRATIONS.MD)
+
+### Good to know
+
 Your PR will always be checked as soon as possible. You need to make sure you do everything you can to make it easier to review it.
 
 You can look at other PRs if you are not too sure about something. Also, make sure to link any issue related to the PR you created.

@@ -7,6 +7,7 @@ import { TierList } from './entities/tier-list.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([TierList])],
   controllers: [TierListsController],
+  exports: [TierListsService],
   providers: [TierListsService],
 })
 export class TierListsModule {}

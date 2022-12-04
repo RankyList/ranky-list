@@ -5,13 +5,13 @@ services:
     build:
       context: .
       dockerfile: docker/svelte-kit/Dockerfile
-    volumes:
-      - "./svelte-kit:/usr/src/svelte-kit"
-      - "/usr/src/svelte-kit/node_modules"
-    stdin_open: true
-    tty: true
     ports:
       - 5173:5173
+    volumes:
+      - "./svelte-kit:/usr/src/svelte-kit"
+    command: sh -c "yarn install && yarn dev"
+    stdin_open: true
+    tty: true
     restart: unless-stopped
     container_name: rl-svelte-kit
 
@@ -19,13 +19,16 @@ services:
     build:
       context: .
       dockerfile: docker/nest/Dockerfile
-    volumes:
-      - "./nest:/usr/src/nest"
-      - "/usr/src/nest/node_modules"
-    stdin_open: true
-    tty: true
     ports:
       - 3000:3000
+    volumes:
+      - "./nest:/usr/src/nest"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    command: sh -c "yarn install && yarn start:dev"
+    stdin_open: true
+    tty: true
     restart: unless-stopped
     container_name: rl-nest
 
@@ -33,11 +36,18 @@ services:
     image: mariadb:10.10.2
     restart: unless-stopped
     container_name: rl-mariadb
+    volumes:
+      - ./data/mysql:/var/lib/mysql
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: yes
       MARIADB_USER: "${MARIADB_USER:?err}"
       MARIADB_PASSWORD_HASH: "${MARIADB_PASSWORD_HASH:?err}"
       MARIADB_DATABASE: "${MARIA_DATABASE:-ranky-list}"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 30s
+      interval: 2s
+      retries: 30
 
   phpmyadmin:
     image: phpmyadmin
@@ -45,6 +55,9 @@ services:
     container_name: rl-phpmyadmin
     ports:
       - 8080:80
+    depends_on:
+      mariadb:
+        condition: service_healthy
     environment:
       - PMA_ARBITRARY=1
 

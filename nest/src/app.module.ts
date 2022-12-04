@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TierListsModule } from './tier-lists/tier-lists.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseConfiguration } from './database/database.configuration';
+import { TierListRanksModule } from './tier-list-ranks/tier-list-ranks.module';
+import { QuestionsModule } from './question/questions.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { DatabaseConfiguration } from './database/database.configuration';
       useClass: DatabaseConfiguration,
     }),
     TierListsModule,
+    TierListRanksModule,
+    QuestionsModule
   ]
 })
 export class AppModule {}
