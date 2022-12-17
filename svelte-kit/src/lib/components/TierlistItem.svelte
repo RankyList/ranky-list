@@ -6,14 +6,14 @@
     export let openItemModal: (props: Record<string, any>) => void;
 </script>
 
-<span style="order: {item.position}">
-    <Lazy height={90}>
+<span style={`order: ${item.position}`}>
+    <Lazy height={96}>
         <img
             alt="item"
             class="cursor-pointer rounded"
-            height="90"
+            height="96"
             src={item.image}
-            width="90"
+            width="96"
             on:click={openItemModal({ item })}
         />
     </Lazy>

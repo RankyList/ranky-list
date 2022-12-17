@@ -27,7 +27,7 @@
     $: inputValue = text;
 </script>
 
-<div class:active class="input-group | flex items-center gap-2 justify-between">
+<div class:active class="input-group | flex flex-grow items-center gap-2 justify-between">
     {#if isTitle}
         <h2 class="input-group__text | flex-shrink-0">{text}</h2>
     {:else}
@@ -41,10 +41,10 @@
     />
 
     {#if active}
-        <ButtonIcon action={(e) => submit(e)} classes="h-full" padding={3} variant="ok" />
-        <ButtonIcon action={cancel} classes="h-full" padding={3} variant="cancel" />
+        <ButtonIcon action={(e) => submit(e)} variant="ok" />
+        <ButtonIcon action={cancel} variant="cancel" />
     {:else}
-        <ButtonIcon action={edit} padding={3} variant="edit" />
+        <ButtonIcon action={edit} variant="edit" />
     {/if}
 </div>
 
