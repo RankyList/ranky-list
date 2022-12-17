@@ -9,4 +9,6 @@ RUN yarn install && \
     npx playwright install && \
     npx playwright install-deps
 
+USER node
+
 CMD ["yarn", "dev"]

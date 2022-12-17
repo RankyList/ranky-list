@@ -39,10 +39,10 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_ROOT_PASSWORD_HASH: "${MARIADB_ROOT_PASSWORD_HASH:?err}"
       MARIADB_USER: "${MARIADB_USER:?err}"
       MARIADB_PASSWORD_HASH: "${MARIADB_PASSWORD_HASH:?err}"
-      MARIADB_DATABASE: "${MARIA_DATABASE:-ranky-list}"
+      MARIADB_DATABASE: "${MARIA_DATABASE:-ranky_list}"
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 30s

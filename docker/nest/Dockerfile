@@ -6,4 +6,6 @@ COPY ./nest/package.json ./nest/yarn.lock ./
 
 RUN yarn install
 
+USER node
+
 CMD ["yarn", "start:dev"]
