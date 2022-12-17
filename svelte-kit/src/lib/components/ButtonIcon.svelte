@@ -8,24 +8,11 @@
         faXmark,
         type IconDefinition
     } from '@fortawesome/free-solid-svg-icons';
+    import type { Variants } from '$lib/types/buttonIcon';
 
     export let action: (e: Event) => void;
-    export let classes = '';
-    export let padding = 4;
+    export let classes: string = '';
     export let variant: keyof Variants = 'add';
-
-    type Variant = {
-        color: string;
-        icon: IconDefinition;
-    };
-
-    type Variants = {
-        add: Variant;
-        edit: Variant;
-        delete: Variant;
-        ok: Variant;
-        cancel: Variant;
-    };
 
     const variants: Variants = {
         add: {
@@ -50,15 +37,18 @@
         }
     };
 
-    let color: string;
+    let colors: string;
     let icon: IconDefinition;
 
-    $: color = variants[variant].color ?? 'primary';
+    $: colors = `
+        bg-${variants[variant].color ?? variants.add.color}-400
+        dark:bg-${variants[variant].color ?? variants.add.color}-600
+    `;
     $: icon = variants[variant].icon ?? faPlus;
 </script>
 
 <button
-    class="aspect-square bg-{color}-400 dark:bg-{color}-600 flex items-center justify-center p-{padding} rounded w-min {classes}"
+    class="aspect-square {colors} flex h-[45px] items-center justify-center rounded w-min {classes}"
     on:click={action}
 >
     <Fa {icon} />
