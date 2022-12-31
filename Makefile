@@ -1,6 +1,5 @@
 COMPOSE=docker compose
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
-EXECNEST=$(COMPOSE) exec nest
 EXECMARIA=$(COMPOSE) exec mariadb
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
@@ -12,6 +11,8 @@ endif
 start:
 	$(COMPOSE) build --force-rm
 	$(COMPOSE) up -d --remove-orphans --force-recreate
+	make generate
+	make migrate
 
 up:
 ifndef UP_ENV_FILE
@@ -26,39 +27,30 @@ stop:
 down:
 	$(COMPOSE) down
 
-ssh-svelte-kit:
+ssh:
 	$(EXECSVELTEKIT) bash
-
-ssh-nest:
-	$(EXECNEST) sh
 
 ssh-maria:
 	$(EXECMARIA) bash
 
-lint: lint-svelte-kit lint-nest
-
-lint-svelte-kit:
+lint:
 	$(EXECSVELTEKIT) yarn lint
 
-lint-nest:
-	$(EXECNEST) yarn lint
-
-format: format-svelte-kit format-nest
-
-format-svelte-kit:
+format:
 	$(EXECSVELTEKIT) yarn format
 
-format-nest:
-	$(EXECNEST) yarn format
-
-test: test-svelte-kit test-nest
-
-test-svelte-kit:
+test:
 	$(EXECSVELTEKIT) npx playwright install
 	$(EXECSVELTEKIT) yarn test
 
-test-nest:
-	$(EXECNEST) yarn test
+generate:
+	$(EXECSVELTEKIT) yarn prisma:generate
 
-migration:
-	$(EXECNEST) yarn migration:up
+migrate:
+	$(EXECSVELTEKIT) yarn prisma:migrate-dev
+
+reset:
+	$(EXECSVELTEKIT) yarn prisma:migrate-reset
+
+deploy:
+	$(EXECSVELTEKIT) yarn prisma:migrate-deploy

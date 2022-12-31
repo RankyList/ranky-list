@@ -2,7 +2,7 @@
 
 The fastest and easiest way to create and share tier lists, and more.
 
-This is a fully open-source project, using [Svelte Kit](https://kit.svelte.dev/) and [NestJS](https://nestjs.com/).
+This is a fully open-source project, using [Svelte Kit](https://kit.svelte.dev/).
 
 ## Content
 
