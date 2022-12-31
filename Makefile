@@ -54,6 +54,7 @@ format-nest:
 test: test-svelte-kit test-nest
 
 test-svelte-kit:
+	$(EXECSVELTEKIT) npx playwright install
 	$(EXECSVELTEKIT) yarn test
 
 test-nest:

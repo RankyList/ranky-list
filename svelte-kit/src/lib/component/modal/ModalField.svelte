@@ -1,11 +1,13 @@
 <script lang="ts">
-    import ButtonIcon from '$lib/components/ButtonIcon.svelte';
+    import ButtonIcon from '$component/icon/ButtonIcon.svelte';
 
     export let isTitle = false;
     export let text: string;
 
     let active = false;
     let input: HTMLElement;
+
+    $: inputValue = text;
 
     const cancel = () => {
         inputValue = text;
@@ -23,28 +25,21 @@
         text = inputValue;
         active = false;
     };
-
-    $: inputValue = text;
 </script>
 
-<div class:active class="input-group | flex flex-grow items-center gap-2 justify-between">
+<div class:active class="input-group | flex flex-grow items-center justify-between gap-2">
     {#if isTitle}
         <h2 class="input-group__text | flex-shrink-0">{text}</h2>
     {:else}
         <span class="input-group__text | flex-shrink-0 text-lg">{text}</span>
     {/if}
-    <input
-        bind:this={input}
-        bind:value={inputValue}
-        class="input-group__input | h-full"
-        type="text"
-    />
+    <input bind:this={input} bind:value={inputValue} class="input-group__input | h-full" type="text" />
 
     {#if active}
-        <ButtonIcon action={(e) => submit(e)} variant="ok" />
-        <ButtonIcon action={cancel} variant="cancel" />
+        <ButtonIcon action={submit} classes="h-full" padding={3} variant="ok" ariaLabel="Submit" />
+        <ButtonIcon action={cancel} classes="h-full" padding={3} variant="cancel" ariaLabel="Cancel" />
     {:else}
-        <ButtonIcon action={edit} variant="edit" />
+        <ButtonIcon action={edit} padding={3} variant="edit" ariaLabel="Edit" />
     {/if}
 </div>
 

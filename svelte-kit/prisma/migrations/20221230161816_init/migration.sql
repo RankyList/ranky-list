@@ -18,6 +18,7 @@ CREATE TABLE `tier_list_ranks` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `color` VARCHAR(50) NOT NULL,
+    `description` TEXT NULL,
     `position` INTEGER NOT NULL,
     `tier_list_id` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -30,6 +31,7 @@ CREATE TABLE `tier_list_ranks` (
 CREATE TABLE `tier_list_items` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(100) NULL,
+    `description` TEXT NULL,
     `position` INTEGER NOT NULL,
     `tier_list_id` VARCHAR(191) NOT NULL,
     `tier_list_rank_id` VARCHAR(191) NULL,

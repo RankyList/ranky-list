@@ -107,6 +107,7 @@ docker-compose.override.yml
 
 # VSCode
 .vscode/
+!.vscode/settings.json
 
 # Local history
 /.history

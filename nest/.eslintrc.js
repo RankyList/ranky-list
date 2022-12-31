@@ -33,6 +33,6 @@ module.exports = {
     'brace-style': ['error', '1tbs'],
     'object-curly-spacing': ['error', 'always'],
     'template-curly-spacing': ['error', 'always'],
-    'quotes': ["error", "single"]
+    'quotes': ["error", "single"],
   },
 };

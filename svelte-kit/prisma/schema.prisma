@@ -30,6 +30,7 @@ model TierListRank {
   id            String         @id @default(uuid())
   name          String         @db.VarChar(100)
   color         String         @db.VarChar(50)
+  description   String?        @db.Text()
   position      Int            @db.Int()
   tierListId    String         @map("tier_list_id")
   tierList      TierList       @relation(fields: [tierListId], references: [id])
@@ -43,6 +44,7 @@ model TierListRank {
 model TierListItem {
   id             String        @id @default(uuid())
   name           String?       @db.VarChar(100)
+  description    String?       @db.Text()
   position       Int           @db.Int()
   tierListId     String        @map("tier_list_id")
   tierList       TierList      @relation(fields: [tierListId], references: [id])
