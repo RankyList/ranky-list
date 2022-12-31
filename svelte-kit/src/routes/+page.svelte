@@ -1,38 +1,26 @@
 <script lang="ts">
-    import { GradientHeading } from '@brainandbones/skeleton';
+    import { GradientHeading } from '@skeletonlabs/skeleton';
+
+    import TierListPreview from '$component/tier-list/TierListPreview.svelte';
+
+    import type { PageData } from './$types';
+
+    export let data: PageData;
 </script>
 
-<div class="container gap-5 grid mx-auto p-8">
-    <GradientHeading
-        tag="h1"
-        direction="bg-gradient-to-tl"
-        from="from-primary-500"
-        to="to-tertiary-500"
-    >
-        Homepage
-    </GradientHeading>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-    <section class="card card-body">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-    </section>
+<svelte:head>
+    <title>RankyList</title>
+    <meta name="description" content="Welcome to RankyList. The easiest way to create a tier list." />
+</svelte:head>
+
+<div class="container mx-auto grid gap-5 p-8">
+    <GradientHeading tag="h1" direction="bg-gradient-to-tl" from="from-primary-500" to="to-tertiary-500">Homepage</GradientHeading>
     <section class="flex space-x-2">
-        <a
-            class="btn btn-filled-primary"
-            href="https://kit.svelte.dev/"
-            target="_blank"
-            rel="noreferrer">SvelteKit</a
-        >
-        <a
-            class="btn btn-filled-accent"
-            href="https://tailwindcss.com/"
-            target="_blank"
-            rel="noreferrer">Tailwind</a
-        >
-        <a
-            class="btn btn-filled-tertiary"
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer">GitHub</a
-        >
+        <h2>Recent tier lists :</h2>
+        {#each data.recentTierLists as tierList}
+            <TierListPreview {tierList} />
+        {:else}
+            <h2>No recent tier list found.</h2>
+        {/each}
     </section>
 </div>
