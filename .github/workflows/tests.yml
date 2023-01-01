@@ -12,5 +12,5 @@ jobs:
       - name: Start the containers
         run: make start-ci
 
-      - name: Run ESLint
+      - name: Run Playwright
         run: make test
