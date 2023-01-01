@@ -4,15 +4,12 @@ services:
   svelte-kit:
     build:
       context: .
-      dockerfile: docker/svelte-kit/Dockerfile
+      dockerfile: docker/CI/svelte-kit/Dockerfile
     ports:
       - 5173:5173
     depends_on:
       mariadb:
         condition: service_healthy
-    volumes:
-      - "./svelte-kit:/usr/src/svelte-kit"
-    command: sh -c "yarn install && yarn dev"
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -22,8 +19,6 @@ services:
     image: mariadb:10.10.2
     restart: unless-stopped
     container_name: rl-mariadb
-    volumes:
-      - ./data/mysql:/var/lib/mysql
     environment:
       MARIADB_ROOT_PASSWORD_HASH: "${MARIADB_ROOT_PASSWORD_HASH:?err}"
       MARIADB_USER: "${MARIADB_USER:?err}"
@@ -34,21 +29,3 @@ services:
       timeout: 30s
       interval: 2s
       retries: 30
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: unless-stopped
-    container_name: rl-phpmyadmin
-    ports:
-      - 8080:80
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    environment:
-      - PMA_ARBITRARY=1
-
-  mailcatcher:
-    image: sj26/mailcatcher:latest
-    ports:
-      - 1080:1080
-    container_name: rl-mailcatcher

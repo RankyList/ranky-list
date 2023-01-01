@@ -54,3 +54,10 @@ reset:
 
 deploy:
 	$(EXECSVELTEKIT) yarn prisma:migrate-deploy
+
+# For CI only
+start-ci:
+	$(COMPOSE) build --force-rm
+	$(COMPOSE) -f docker-compose.ci.yml up -d
+	make generate
+	make migrate
