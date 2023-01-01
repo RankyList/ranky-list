@@ -1,4 +1,5 @@
 COMPOSE=docker compose
+COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECMARIA=$(COMPOSE) exec mariadb
 ifeq (up,$(firstword $(MAKECMDGOALS)))
@@ -54,3 +55,11 @@ reset:
 
 deploy:
 	$(EXECSVELTEKIT) yarn prisma:migrate-deploy
+
+# For CI only
+start-ci:
+	$(COMPOSECI) rm -f
+	$(COMPOSECI) build --no-cache --force-rm
+	$(COMPOSECI) up -d
+	make generate
+	make migrate
