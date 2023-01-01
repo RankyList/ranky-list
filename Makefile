@@ -59,5 +59,6 @@ deploy:
 start-ci:
 	$(COMPOSE) build --force-rm
 	$(COMPOSE) -f docker-compose.ci.yml up -d
+	$(COMPOSE) ps -a
 	make generate
 	make migrate
