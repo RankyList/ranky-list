@@ -13,7 +13,7 @@ jobs:
         run: make start-ci
 
       - name: test
-        run: docker compose exec svelte-kit echo "test"
+        run: docker compose exec svelte-kit yarn lint
 
       - name: Run ESLint
         run: make lint
