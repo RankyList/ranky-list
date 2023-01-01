@@ -12,8 +12,5 @@ jobs:
       - name: Start the containers
         run: make start-ci
 
-      - name: test
-        run: docker compose exec svelte-kit yarn lint
-
       - name: Run ESLint
         run: make lint

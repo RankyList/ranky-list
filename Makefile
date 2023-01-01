@@ -1,4 +1,5 @@
 COMPOSE=docker compose
+COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECMARIA=$(COMPOSE) exec mariadb
 ifeq (up,$(firstword $(MAKECMDGOALS)))
@@ -57,6 +58,8 @@ deploy:
 
 # For CI only
 start-ci:
-	$(COMPOSE) build --force-rm
-	$(COMPOSE) -f docker-compose.ci.yml up -d
-	$(COMPOSE) ps -a
+	$(COMPOSECI) rm -f
+	$(COMPOSECI) build --no-cache --force-rm
+	$(COMPOSECI) up -d
+	make generate
+	make migrate

@@ -2,13 +2,11 @@ FROM node:lts
 
 WORKDIR /usr/src/svelte-kit
 
-COPY . ./
+COPY ./svelte-kit/package.json ./svelte-kit/yarn.lock ./svelte-kit ./
 
 RUN yarn install && \
     mkdir playwright && \
     npx playwright install-deps && \
     npx playwright install
-
-USER node
 
 CMD ["yarn", "dev"]
