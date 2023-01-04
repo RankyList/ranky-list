@@ -11,28 +11,28 @@
     import type { Variants } from '$lib/types/buttonIcon';
 
     export let action: (e: Event) => void;
-    export let classes: string = '';
+    export let classes = '';
     export let variant: keyof Variants = 'add';
 
     const variants: Variants = {
         add: {
-            color: 'primary',
+            color: 'dark:bg-primary-400 dark:bg-primary-600',
             icon: faPlus
         },
         edit: {
-            color: 'primary',
+            color: 'bg-primary-400 dark:bg-primary-600',
             icon: faPenToSquare
         },
         delete: {
-            color: 'warning',
+            color: 'bg-warning-400 dark:bg-warning-600',
             icon: faTrashCan
         },
         ok: {
-            color: 'tertiary',
+            color: 'bg-tertiary-400 dark:bg-tertiary-600',
             icon: faCheck
         },
         cancel: {
-            color: 'warning',
+            color: 'bg-warning-400 dark:bg-warning-600',
             icon: faXmark
         }
     };
@@ -40,10 +40,7 @@
     let colors: string;
     let icon: IconDefinition;
 
-    $: colors = `
-        bg-${variants[variant].color ?? variants.add.color}-400
-        dark:bg-${variants[variant].color ?? variants.add.color}-600
-    `;
+    $: colors = variants[variant].color ?? variants.add.color;
     $: icon = variants[variant].icon ?? faPlus;
 </script>
 

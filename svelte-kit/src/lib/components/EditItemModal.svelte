@@ -26,6 +26,7 @@
     };
 
     let files: FileList;
+    let url: string;
 
     $: url = '';
 </script>

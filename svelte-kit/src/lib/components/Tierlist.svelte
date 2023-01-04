@@ -43,7 +43,7 @@
 
         ranks.every((r) => {
             let found = false
-            
+
             r.items.every((i) => {
                 if(i === item){
                     rank = r
@@ -59,15 +59,13 @@
 
         if(rank){
             rank.items = [
-                ...rank.items.filter((i) => i !== item),
-                
+                ...rank.items.filter((i) => i !== item)
             ]
 
             updateRank(rank)
         } else {
             unAsignedItems = [
-                ...unAsignedItems.filter((i) => i !== item),
-                
+                ...unAsignedItems.filter((i) => i !== item) 
             ]
         }
     }

@@ -24,6 +24,7 @@
         active = false;
     };
 
+    let inputValue: string;
     $: inputValue = text;
 </script>
 
@@ -41,7 +42,7 @@
     />
 
     {#if active}
-        <ButtonIcon action={(e) => submit(e)} variant="ok" />
+        <ButtonIcon action={submit} variant="ok" />
         <ButtonIcon action={cancel} variant="cancel" />
     {:else}
         <ButtonIcon action={edit} variant="edit" />
