@@ -35,7 +35,8 @@
     </AppBar>
     <slot />
     <svelte:fragment slot="pageFooter">
-        {#if $page.route.id !== '/about/enable-javascript'}
+        <!-- eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -->
+        {#if $page.route?.id !== '/about/enable-javascript'}
             <noscript>
                 <div class="m-10">
                     <Alert visible background="bg-yellow-500/60 dark:bg-yellow-200/60" border="border border-yellow-500">
