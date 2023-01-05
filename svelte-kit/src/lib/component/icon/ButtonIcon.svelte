@@ -8,34 +8,33 @@
     export let ariaLabel: string;
     export let action: (e: MouseEvent) => void;
     export let classes = '';
-    export let padding = 4;
     export let variant: keyof Variants = 'add';
 
     const variants: Variants = {
         add: {
-            color: 'primary',
+            color: 'bg-primary-400 dark:bg-primary-600',
             icon: faPlus,
         },
         edit: {
-            color: 'primary',
+            color: 'bg-primary-400 dark:bg-primary-600',
             icon: faPenToSquare,
         },
         delete: {
-            color: 'warning',
+            color: 'bg-warning-400 dark:bg-warning-600',
             icon: faTrashCan,
         },
         ok: {
-            color: 'tertiary',
+            color: 'bg-tertiary-400 dark:bg-tertiary-600',
             icon: faCheck,
         },
         cancel: {
-            color: 'warning',
+            color: 'bg-warning-400 dark:bg-warning-600',
             icon: faXmark,
         },
     };
 
     $: currentVariant = variants[variant];
-    $: classProp = `aspect-square bg-${currentVariant.color}-400 dark:bg-${currentVariant.color}-600 flex items-center justify-center p-${padding} w-min rounded ${classes}`;
+    $: classProp = `aspect-square ${currentVariant.color} flex h-[45px] items-center justify-center rounded w-min ${classes}`;
 </script>
 
 {#if !href}

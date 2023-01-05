@@ -120,7 +120,7 @@
                                     <TierListRank {rank} {openRankModal} classes="row__rank" />
                                     <ButtonIcon
                                         action={() => deleteRank(rank)}
-                                        classes="row__button | h-full lg:h-auto"
+                                        classes="row__button | !h-full lg:!h-[45px]"
                                         variant="delete"
                                         ariaLabel="Delete"
                                     />
@@ -147,7 +147,7 @@
         </AccordionGroup>
         <ButtonIcon action={addRank} classes="mx-auto" ariaLabel="Add a rank" />
     </div>
-    <button class="btn btn-filled-primary btn-base" type="submit">Save</button>
+    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit">Save</button>
 </form>
 
 <TierListItems items={unassignedItems} {addItem} {openItemModal} />

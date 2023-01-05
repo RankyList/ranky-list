@@ -36,10 +36,10 @@
     <input bind:this={input} bind:value={inputValue} class="input-group__input | h-full" type="text" />
 
     {#if active}
-        <ButtonIcon action={submit} classes="h-full" padding={3} variant="ok" ariaLabel="Submit" />
-        <ButtonIcon action={cancel} classes="h-full" padding={3} variant="cancel" ariaLabel="Cancel" />
+        <ButtonIcon action={submit} classes="h-full" variant="ok" ariaLabel="Submit" />
+        <ButtonIcon action={cancel} classes="h-full" variant="cancel" ariaLabel="Cancel" />
     {:else}
-        <ButtonIcon action={edit} padding={3} variant="edit" ariaLabel="Edit" />
+        <ButtonIcon action={edit} variant="edit" ariaLabel="Edit" />
     {/if}
 </div>
 
