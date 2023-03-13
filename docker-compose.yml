@@ -12,7 +12,6 @@ services:
         condition: service_healthy
     volumes:
       - "./svelte-kit:/usr/src/svelte-kit"
-    command: sh -c "yarn install && yarn dev"
     stdin_open: true
     tty: true
     restart: unless-stopped

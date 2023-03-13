@@ -1,6 +1,5 @@
 <script lang="ts">
     import { faHome } from '@fortawesome/free-solid-svg-icons';
-    import { Divider } from '@skeletonlabs/skeleton';
     import FaIcon from 'svelte-fa';
 
     import { page } from '$app/stores';
@@ -27,7 +26,7 @@
 <div class="flex h-full flex-col items-center justify-around">
     <div class="flex flex-col items-center gap-3">
         <h1 class="text-9xl">{status}</h1>
-        <Divider borderWidth="border-t-2" borderColor="border-primary-500" />
+        <hr class="!border-t-2 border-primary-500" />
         <h2 class="text-5xl">{message}</h2>
     </div>
     <div class="flex flex-col items-center gap-3">
@@ -39,7 +38,7 @@
             to let us know what happened.
         </p>
     </div>
-    <a href="/" class="btn btn-filled-tertiary btn-lg rounded-full text-white">
+    <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full text-white">
         <span><FaIcon icon={faHome} /></span>
         <span>Home</span>
     </a>

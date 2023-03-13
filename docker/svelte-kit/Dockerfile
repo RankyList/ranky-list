@@ -10,4 +10,4 @@ RUN yarn install && \
 
 USER node
 
-CMD ["yarn", "dev"]
+ENTRYPOINT [ "/bin/bash", "./scripts/dev.sh" ]

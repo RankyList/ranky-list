@@ -26,7 +26,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
   "[javascript]": {
@@ -60,7 +60,9 @@
   "eslint.workingDirectories": [
     "./svelte-kit"
   ],
+  "prettier.documentSelectors": [
+    "**/*.svelte"
+  ],
   "prettier.requireConfig": true,
-  "svelte.enable-ts-plugin": true,
-  "svelte.plugin.svelte.note-new-transformation": false
+  "svelte.enable-ts-plugin": true
 }

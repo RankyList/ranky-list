@@ -101,6 +101,7 @@
         "noUselessIndex": true
       }
     ],
+    "operator-assignment": ["error", "always"],
     "import/order": [
       "error",
       {
@@ -200,7 +201,9 @@
     },
     "import/resolver": {
       "node": true,
-      "typescript": true
+      "typescript": {
+        "project": ["./.svelte-kit/tsconfig.json"]
+      }
     }
   }
 }

@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { GradientHeading } from '@skeletonlabs/skeleton';
-
     import TierListForm from '$src/lib/component/tier-list/TierListForm.svelte';
 </script>
 
@@ -10,6 +8,6 @@
 </svelte:head>
 
 <div class="container mx-auto mb-16 grid gap-5 p-8">
-    <GradientHeading tag="h1" direction="bg-gradient-to-tl" from="from-primary-500" to="to-tertiary-500">Create a tier list</GradientHeading>
+    <h1 class="bg-gradient-to-tl from-primary-500 to-tertiary-500 box-decoration-clone bg-clip-text text-transparent">Create a tier list</h1>
     <TierListForm />
 </div>

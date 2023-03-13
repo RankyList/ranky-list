@@ -1,10 +1,10 @@
 <script lang="ts">
     import Lazy from 'svelte-lazy';
 
-    import Placeholder from '$component/util/Placeholder.svelte';
-
     import type { ParentModalProp } from '$type/modal';
     import type { Prisma } from '@prisma/client';
+
+    import Placeholder from '$component/util/Placeholder.svelte';
 
     export let item: Prisma.TierListItemUncheckedCreateWithoutTierListInput;
     export let openItemModal: (props: ParentModalProp) => void;
@@ -15,7 +15,7 @@
         <input
             type="image"
             alt={`Image for item ${item.name ?? `number ${item.position}`}`}
-            class="cursor-pointer rounded"
+            class="input cursor-pointer rounded"
             height="90"
             width="90"
             src="https://picsum.photos/90"
