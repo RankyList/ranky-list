@@ -27,7 +27,7 @@
     };
 </script>
 
-<div class:active class="| input-group flex flex-grow items-center justify-between gap-2">
+<div class:active class="input-group flex flex-grow items-center justify-between gap-2">
     {#if isTitle}
         <h2 class="input-group__text | flex-shrink-0">{text}</h2>
     {:else}

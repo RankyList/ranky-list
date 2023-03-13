@@ -11,4 +11,3 @@ yarn install
 echo "Starting dev server"
 
 yarn dev
-/home/yam/Documents/Projects/project-zomboid

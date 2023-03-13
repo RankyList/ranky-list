@@ -9,8 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start the containers
-        run: make start-ci
+      - name: Install dependencies
+        run: yarn install
 
       - name: Run ESLint
         run: make lint

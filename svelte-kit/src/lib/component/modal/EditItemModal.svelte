@@ -2,11 +2,11 @@
     import { FileDropzone } from '@skeletonlabs/skeleton';
     import Lazy from 'svelte-lazy';
 
-    import type { ParentModal } from '$type/modal';
-    import type { Prisma } from '@prisma/client';
-
     import ModalField from '$component/modal/ModalField.svelte';
     import Placeholder from '$component/util/Placeholder.svelte';
+
+    import type { ParentModal } from '$type/modal';
+    import type { Prisma } from '@prisma/client';
 
     export let item: Prisma.TierListItemUncheckedCreateWithoutTierListInput;
     export let parent: ParentModal;
@@ -28,7 +28,7 @@
     <ModalField isTitle bind:text={name} />
     <ModalField bind:text={description} />
     <h3 class="text-lg">Image</h3>
-    <div class="| card grid gap-5 p-4">
+    <div class="card grid gap-5 p-4">
         <span class="grid grid-cols-[4fr,90px] gap-4">
             <!-- TODO: Make a working dropzone -->
             <FileDropzone name="picture" bind:files height="h-full" />

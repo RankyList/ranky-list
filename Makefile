@@ -9,6 +9,7 @@ ifeq (up,$(firstword $(MAKECMDGOALS)))
   $(eval $(UP_ENV_FILE):;@:)
 endif
 
+# Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
 	$(COMPOSE) up -d --remove-orphans --force-recreate
@@ -28,22 +29,39 @@ stop:
 down:
 	$(COMPOSE) down
 
+# SSH
 ssh:
+	$(EXECSVELTEKIT) sh
+
+bash:
 	$(EXECSVELTEKIT) bash
 
 ssh-maria:
+	$(EXECMARIA) sh
+
+bash-maria:
 	$(EXECMARIA) bash
 
+# Linting
 lint:
 	$(EXECSVELTEKIT) yarn lint
 
 format:
 	$(EXECSVELTEKIT) yarn format
 
-test:
-	$(EXECSVELTEKIT) npx playwright install
+# Testing
+test: playwright-install playwright vitest
+
+playwright:
 	$(EXECSVELTEKIT) yarn test
 
+playwright-install:
+	$(EXECSVELTEKIT) npx playwright install
+
+vitest:
+	$(EXECSVELTEKIT) yarn test:unit
+
+# Prisma
 generate:
 	$(EXECSVELTEKIT) yarn prisma:generate
 

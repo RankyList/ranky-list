@@ -1,8 +1,9 @@
 import svg from '@poppanator/sveltekit-svg';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { type UserConfig, loadEnv } from 'vite';
+import { loadEnv } from 'vite';
+import { defineConfig } from 'vitest/config';
 
-const config = (mode: string): UserConfig => {
+export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return {
@@ -22,7 +23,8 @@ const config = (mode: string): UserConfig => {
         usePolling: process.env.VITE_USE_POLLING === 'true',
       },
     },
+    test: {
+      include: ['src/**/*.{test,spec}.{js,ts}'],
+    },
   };
-};
-
-export default config;
+});
