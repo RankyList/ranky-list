@@ -2,6 +2,11 @@
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import slugify from 'slugify';
 
+    import ButtonIcon from '$component/icon/ButtonIcon.svelte';
+    import EditItemModal from '$component/modal/EditItemModal.svelte';
+    import EditRankModal from '$component/modal/EditRankModal.svelte';
+    import { openModal } from '$lib/mixin/modal/openModal';
+
     import TierListItem from './TierListItem.svelte';
     import TierListItems from './TierListItems.svelte';
     import TierListRank from './TierListRank.svelte';
@@ -10,10 +15,6 @@
     import type { Prisma } from '@prisma/client';
 
     import { enhance } from '$app/forms';
-    import ButtonIcon from '$component/icon/ButtonIcon.svelte';
-    import EditItemModal from '$component/modal/EditItemModal.svelte';
-    import EditRankModal from '$component/modal/EditRankModal.svelte';
-    import { openModal } from '$lib/mixin/modal/openModal';
 
     export let action = '';
 

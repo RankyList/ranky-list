@@ -13,6 +13,10 @@ jobs:
         working-directory: ./svelte-kit
         run: yarn install
 
+      - name: Generate Prisma types
+        working-directory: ./svelte-kit
+        run: yarn prisma:generate
+
       - name: Sync & Check
         working-directory: ./svelte-kit
         run: yarn check

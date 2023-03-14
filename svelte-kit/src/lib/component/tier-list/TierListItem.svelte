@@ -1,10 +1,10 @@
 <script lang="ts">
     import Lazy from 'svelte-lazy';
 
+    import Placeholder from '$component/util/Placeholder.svelte';
+
     import type { ParentModalProp } from '$type/modal';
     import type { Prisma } from '@prisma/client';
-
-    import Placeholder from '$component/util/Placeholder.svelte';
 
     export let item: Prisma.TierListItemUncheckedCreateWithoutTierListInput;
     export let openItemModal: (props: ParentModalProp) => void;

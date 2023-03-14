@@ -10,9 +10,9 @@ declare namespace App {
 }
 
 declare module 'svelte-lazy' {
-  import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
-
   import Placeholder from '$src/lib/component/util/Placeholder.svelte';
+
+  import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
 
   interface FadeOption {
     delay?: number;
