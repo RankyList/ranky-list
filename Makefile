@@ -59,6 +59,9 @@ playwright-install:
 	$(EXECSVELTEKIT) npx playwright install
 
 vitest:
+	$(EXECSVELTEKIT) yarn coverage
+
+vitest-watch:
 	$(EXECSVELTEKIT) yarn test:unit
 
 # Prisma

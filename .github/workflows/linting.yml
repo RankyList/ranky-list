@@ -13,6 +13,10 @@ jobs:
         working-directory: ./svelte-kit
         run: yarn install
 
+      - name: Sync & Check
+        working-directory: ./svelte-kit
+        run: yarn check
+
       - name: Run ESLint
         working-directory: ./svelte-kit
         run: yarn lint
