@@ -11,11 +11,14 @@
     "plugin:svelte/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
   ],
   "overrides": [
     {
-      "files": ["*.svelte"],
+      "files": [
+        "*.svelte"
+      ],
       "parser": "svelte-eslint-parser",
       "parserOptions": {
         "parser": "@typescript-eslint/parser"
@@ -32,12 +35,24 @@
       }
     },
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "rules": {
-        "@typescript-eslint/indent": ["error", 2],
-        "@typescript-eslint/no-extra-semi": ["error"],
-        "@typescript-eslint/semi": ["error", "always"],
-        "@typescript-eslint/space-infix-ops": ["error"]
+        "@typescript-eslint/indent": [
+          "error",
+          2
+        ],
+        "@typescript-eslint/no-extra-semi": [
+          "error"
+        ],
+        "@typescript-eslint/semi": [
+          "error",
+          "always"
+        ],
+        "@typescript-eslint/space-infix-ops": [
+          "error"
+        ]
       }
     },
     {
@@ -46,26 +61,54 @@
         "es2017": true,
         "node": true
       },
-      "files": ["src/routes/**/*.server.ts", "src/lib/server/**/*.ts"]
+      "files": [
+        "src/routes/**/*.server.ts",
+        "src/lib/server/**/*.ts"
+      ]
     }
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
-    "extraFileExtensions": [".svelte"],
-    "project": ["./tsconfig.json"],
+    "extraFileExtensions": [
+      ".svelte"
+    ],
+    "project": [
+      "./tsconfig.json"
+    ],
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "import", "prettier", "jsdoc"],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "prettier",
+    "jsdoc"
+  ],
   "root": true,
   "rules": {
-    "@typescript-eslint/no-explicit-any": ["warn"],
-    "@typescript-eslint/no-unnecessary-condition": ["error"],
-    "@typescript-eslint/no-unnecessary-type-arguments": ["error"],
-    "@typescript-eslint/no-unnecessary-type-assertion": ["error"],
-    "@typescript-eslint/no-unnecessary-type-constraint": ["error"],
-    "array-bracket-spacing": ["error", "never"],
-    "comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/no-explicit-any": [
+      "warn"
+    ],
+    "@typescript-eslint/no-unnecessary-condition": [
+      "error"
+    ],
+    "@typescript-eslint/no-unnecessary-type-arguments": [
+      "error"
+    ],
+    "@typescript-eslint/no-unnecessary-type-assertion": [
+      "error"
+    ],
+    "@typescript-eslint/no-unnecessary-type-constraint": [
+      "error"
+    ],
+    "array-bracket-spacing": [
+      "error",
+      "never"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "comma-spacing": [
       "error",
       {
@@ -73,26 +116,39 @@
         "before": false
       }
     ],
-    "eol-last": ["error", "always"],
-    "import/first": ["error"],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "import/first": [
+      "error"
+    ],
     "import/newline-after-import": [
       "error",
       {
         "count": 1
       }
     ],
-    "import/no-absolute-path": ["error"],
+    "import/no-absolute-path": [
+      "error"
+    ],
     "import/no-duplicates": [
       "error",
       {
         "considerQueryString": true
       }
     ],
-    "import/no-relative-packages": ["error"],
+    "import/no-relative-packages": [
+      "error"
+    ],
     "import/no-unresolved": [
       "error",
       {
-        "ignore": ["\\$app.*$", "\\$service-worker.*$", "\\$env.*$"]
+        "ignore": [
+          "\\$app.*$",
+          "\\$service-worker.*$",
+          "\\$env.*$"
+        ]
       }
     ],
     "import/no-useless-path-segments": [
@@ -101,7 +157,10 @@
         "noUselessIndex": true
       }
     ],
-    "operator-assignment": ["error", "always"],
+    "operator-assignment": [
+      "error",
+      "always"
+    ],
     "import/order": [
       "error",
       {
@@ -109,7 +168,16 @@
           "caseInsensitive": false,
           "order": "asc"
         },
-        "groups": ["external", "builtin", "internal", "sibling", "parent", "index", "object", "type"],
+        "groups": [
+          "external",
+          "builtin",
+          "internal",
+          "sibling",
+          "parent",
+          "index",
+          "object",
+          "type"
+        ],
         "newlines-between": "always",
         "pathGroups": [
           {
@@ -124,7 +192,9 @@
       }
     ],
     "indent": "off",
-    "jsdoc/no-types": ["error"],
+    "jsdoc/no-types": [
+      "error"
+    ],
     "keyword-spacing": [
       "error",
       {
@@ -142,12 +212,22 @@
         "ignoreUrls": true
       }
     ],
-    "no-console": ["warn"],
-    "no-else-return": ["error"],
-    "no-empty": ["error"],
+    "no-console": [
+      "warn"
+    ],
+    "no-else-return": [
+      "error"
+    ],
+    "no-empty": [
+      "error"
+    ],
     "no-extra-semi": "off",
-    "no-invalid-regexp": ["error"],
-    "no-multi-assign": ["error"],
+    "no-invalid-regexp": [
+      "error"
+    ],
+    "no-multi-assign": [
+      "error"
+    ],
     "no-multiple-empty-lines": [
       "error",
       {
@@ -156,16 +236,26 @@
         "maxEOF": 0
       }
     ],
-    "no-new-object": ["error"],
-    "no-useless-return": ["error"],
+    "no-new-object": [
+      "error"
+    ],
+    "no-useless-return": [
+      "error"
+    ],
     "object-curly-newline": [
       "error",
       {
         "consistent": true
       }
     ],
-    "object-curly-spacing": ["error", "always"],
-    "one-var": ["error", "never"],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "one-var": [
+      "error",
+      "never"
+    ],
     "padding-line-between-statements": [
       "error",
       {
@@ -174,8 +264,13 @@
         "prev": "var"
       }
     ],
-    "prefer-arrow-callback": ["off"],
-    "quote-props": ["error", "consistent-as-needed"],
+    "prefer-arrow-callback": [
+      "off"
+    ],
+    "quote-props": [
+      "error",
+      "consistent-as-needed"
+    ],
     "quotes": [
       "error",
       "single",
@@ -192,17 +287,31 @@
         "before": false
       }
     ],
-    "space-infix-ops": ["error"]
+    "space-infix-ops": [
+      "error"
+    ]
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx", ".cts", ".mts"],
-      "espree": [".js", "jsx", ".cjs", ".mjs"]
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx",
+        ".cts",
+        ".mts"
+      ],
+      "espree": [
+        ".js",
+        "jsx",
+        ".cjs",
+        ".mjs"
+      ]
     },
     "import/resolver": {
       "node": true,
       "typescript": {
-        "project": ["./.svelte-kit/tsconfig.json"]
+        "project": [
+          "./.svelte-kit/tsconfig.json"
+        ]
       }
     }
   }

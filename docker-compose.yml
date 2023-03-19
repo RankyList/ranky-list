@@ -72,6 +72,22 @@ services:
         condition: service_healthy
     container_name: rl-playwright
 
+  storybook:
+    build:
+      context: .
+      dockerfile: docker/storybook/Dockerfile
+    ports:
+      - 6006:6006
+    depends_on:
+      svelte-kit:
+        condition: service_healthy
+    volumes:
+      - "./svelte-kit:/home/node/storybook"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: rl-storybook
+
   mailcatcher:
     image: sj26/mailcatcher:latest
     restart: unless-stopped
