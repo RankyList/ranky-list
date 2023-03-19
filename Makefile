@@ -1,8 +1,8 @@
 COMPOSE=docker compose
 COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
-EXECSVELTEKITCI=$(COMPOSECI) exec svelte-kit
 EXECMARIA=$(COMPOSE) exec mariadb
+EXECVITESTCI=$(COMPOSECI) exec vitest
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
   UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
@@ -89,9 +89,9 @@ ci-playwright:
 
 ci-vitest:
 	$(COMPOSECI) up -d vitest
-	$(EXECSVELTEKITCI) yarn prisma:generate
-	$(EXECSVELTEKITCI) yarn prisma:migrate-deploy
-	$(EXECSVELTEKITCI) yarn coverage
+	$(EXECVITESTCI) yarn prisma:generate
+	$(EXECVITESTCI) yarn prisma:migrate-deploy
+	$(EXECVITESTCI) yarn coverage
 
 ci-eslint:
 	$(COMPOSECI) up eslint
