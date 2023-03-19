@@ -85,8 +85,6 @@ start-ci:
 	$(COMPOSECI) up mariadb -d
 
 ci-playwright:
-	make generate
-	make deploy
 	$(COMPOSECI) up playwright
 
 ci-vitest:
