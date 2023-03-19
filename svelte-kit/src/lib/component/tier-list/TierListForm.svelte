@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AccordionGroup, AccordionItem } from '@skeletonlabs/skeleton';
+    import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import slugify from 'slugify';
 
     import ButtonIcon from '$component/icon/ButtonIcon.svelte';
@@ -82,21 +82,21 @@
 
 <form class="grid gap-10" method="post" {action} use:enhance>
     <div class="grid grid-cols-2 gap-5">
-        <label>
+        <label class="label">
             <span>Name</span>
-            <input required name="name" bind:value={tierList.name} class="input-group__input | h-full" type="text" />
+            <input required name="name" bind:value={tierList.name} class="input-group__input | input h-full" type="text" />
         </label>
-        <label>
+        <label class="label">
             <span>Slug URL</span>
-            <input disabled value={tierList.slug} class="input-group__input | h-full" type="text" />
+            <input disabled value={tierList.slug} class="input-group__input | input h-full" type="text" />
         </label>
     </div>
-    <label>
+    <label class="label">
         <span>Description</span>
-        <textarea name="description" bind:value={tierList.description} class="input-group__input | h-full" />
+        <textarea name="description" bind:value={tierList.description} class="input-group__input | textarea h-full" />
     </label>
-    <div class="card | grid gap-2 py-4">
-        <AccordionGroup collapse={false} padding="px-4 py-2" spacing="space-y-0">
+    <div class="| card grid gap-2 py-4">
+        <Accordion collapse={false} padding="px-4 py-2" spacing="space-y-0">
             <span class="grid">
                 {#each ranks as rank}
                     <span style="order: {rank.position}">
@@ -144,10 +144,10 @@
                     </span>
                 {/each}
             </span>
-        </AccordionGroup>
+        </Accordion>
         <ButtonIcon action={addRank} classes="mx-auto" ariaLabel="Add a rank" />
     </div>
-    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit">Save</button>
+    <button class="| btn bg-primary-400 dark:bg-primary-600" type="submit">Save</button>
 </form>
 
 <TierListItems items={unassignedItems} {addItem} {openItemModal} />

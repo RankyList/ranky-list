@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AccordionGroup, AccordionItem } from '@skeletonlabs/skeleton';
+    import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
     import ButtonIcon from '$component/icon/ButtonIcon.svelte';
     import TierListItem from '$component/tier-list/TierListItem.svelte';
@@ -12,7 +12,7 @@
     export let openItemModal: (props: ParentModalProp) => void;
 </script>
 
-<AccordionGroup class="card fixed bottom-0 left-0 right-0 shadow-lg" spacing="space-y-0">
+<Accordion class="card fixed bottom-0 left-0 right-0 shadow-lg" spacing="space-y-0">
     <AccordionItem class="w-full" open>
         <svelte:fragment slot="summary">
             <ButtonIcon action={addItem} classes="ml-auto" ariaLabel="Add an item" />
@@ -34,4 +34,4 @@
             </div>
         </svelte:fragment>
     </AccordionItem>
-</AccordionGroup>
+</Accordion>

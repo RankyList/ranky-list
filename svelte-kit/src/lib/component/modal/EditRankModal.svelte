@@ -22,7 +22,7 @@
     <ModalField isTitle bind:text={rank.name} />
     <ModalField bind:text={description} />
     <ColorPicker bind:hex={rank.color} isAlpha={false} label="Color" />
-    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit">Submit</button>
+    <button class="btn bg-primary-400 dark:bg-primary-600" type="submit">Submit</button>
 </form>
 
 <slot />

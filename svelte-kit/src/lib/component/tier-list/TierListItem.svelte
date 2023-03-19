@@ -15,7 +15,7 @@
         <input
             type="image"
             alt={`Image for item ${item.name ?? `number ${item.position}`}`}
-            class="cursor-pointer rounded"
+            class="input cursor-pointer rounded"
             height="90"
             width="90"
             src="https://picsum.photos/90"

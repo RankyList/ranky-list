@@ -28,26 +28,28 @@
     <ModalField isTitle bind:text={name} />
     <ModalField bind:text={description} />
     <h3 class="text-lg">Image</h3>
-    <div class="card | grid gap-5 p-4">
+    <div class="card grid gap-5 p-4">
         <span class="grid grid-cols-[4fr,90px] gap-4">
             <!-- TODO: Make a working dropzone -->
-            <FileDropzone bind:files height="h-full" />
+            <FileDropzone name="picture" bind:files height="h-full" />
             <Lazy height={90} offset={0} placeholder={Placeholder} placeholderProps={{ height: 90 }}>
                 <img
                     alt={`Image for item ${item.name ?? `number ${item.position}`}`}
                     class="rounded"
                     height="90"
-                    src="https://picsum.photos/90"
                     width="90"
+                    src="https://picsum.photos/90"
+                    loading="lazy"
+                    decoding="async"
                 />
             </Lazy>
         </span>
-        <div class="grid gap-2">
-            <label for="url">Or enter url</label>
-            <input bind:value={url} placeholder="https://..." type="text" />
-        </div>
+        <label class="label grid gap-2">
+            <span>Or enter url</span>
+            <input class="input" bind:value={url} placeholder="https://..." type="text" />
+        </label>
     </div>
-    <button class="btn | bg-primary-400 dark:bg-primary-600" type="submit">Submit</button>
+    <button class="| btn bg-primary-400 dark:bg-primary-600" type="submit">Submit</button>
 </form>
 
 <slot />

@@ -2,6 +2,7 @@ COMPOSE=docker compose
 COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECMARIA=$(COMPOSE) exec mariadb
+EXECVITESTCI=$(COMPOSECI) exec vitest
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
   UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
@@ -9,8 +10,15 @@ ifeq (up,$(firstword $(MAKECMDGOALS)))
   $(eval $(UP_ENV_FILE):;@:)
 endif
 
+# Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
+	$(COMPOSE) up -d --remove-orphans --force-recreate
+	make generate
+	make migrate
+
+start-nocache:
+	$(COMPOSE) build --force-rm --no-cache
 	$(COMPOSE) up -d --remove-orphans --force-recreate
 	make generate
 	make migrate
@@ -28,22 +36,36 @@ stop:
 down:
 	$(COMPOSE) down
 
+# SSH
 ssh:
-	$(EXECSVELTEKIT) bash
+	$(EXECSVELTEKIT) sh
 
 ssh-maria:
+	$(EXECMARIA) sh
+
+bash-maria:
 	$(EXECMARIA) bash
 
+# Linting
 lint:
 	$(EXECSVELTEKIT) yarn lint
 
 format:
 	$(EXECSVELTEKIT) yarn format
 
-test:
-	$(EXECSVELTEKIT) npx playwright install
-	$(EXECSVELTEKIT) yarn test
+# Testing
+test: playwright vitest
 
+playwright:
+	$(COMPOSE) up playwright
+
+vitest:
+	$(EXECSVELTEKIT) yarn coverage
+
+vitest-watch:
+	$(EXECSVELTEKIT) yarn test:unit
+
+# Prisma
 generate:
 	$(EXECSVELTEKIT) yarn prisma:generate
 
@@ -57,9 +79,19 @@ deploy:
 	$(EXECSVELTEKIT) yarn prisma:migrate-deploy
 
 # For CI only
-start-ci:
+ci-maria:
 	$(COMPOSECI) rm -f
 	$(COMPOSECI) build --no-cache --force-rm
-	$(COMPOSECI) up -d
-	make generate
-	make migrate
+	$(COMPOSECI) up mariadb -d
+
+ci-playwright:
+	$(COMPOSECI) up playwright
+
+ci-vitest:
+	$(COMPOSECI) up -d vitest
+	$(EXECVITESTCI) yarn prisma:generate
+	$(EXECVITESTCI) yarn prisma:migrate-deploy
+	$(EXECVITESTCI) yarn coverage
+
+ci-eslint:
+	$(COMPOSECI) up eslint

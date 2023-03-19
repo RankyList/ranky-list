@@ -27,13 +27,13 @@
     };
 </script>
 
-<div class:active class="input-group | flex flex-grow items-center justify-between gap-2">
+<div class:active class="input-group flex flex-grow items-center justify-between gap-2">
     {#if isTitle}
         <h2 class="input-group__text | flex-shrink-0">{text}</h2>
     {:else}
         <span class="input-group__text | flex-shrink-0 text-lg">{text}</span>
     {/if}
-    <input bind:this={input} bind:value={inputValue} class="input-group__input | h-full" type="text" />
+    <input bind:this={input} bind:value={inputValue} class="input-group__input | input h-full" type="text" />
 
     {#if active}
         <ButtonIcon action={submit} classes="h-full" variant="ok" ariaLabel="Submit" />

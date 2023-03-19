@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { GradientHeading } from '@skeletonlabs/skeleton';
-
     import TierListPreview from '$component/tier-list/TierListPreview.svelte';
 
     import type { PageData } from './$types';
@@ -14,7 +12,7 @@
 </svelte:head>
 
 <div class="container mx-auto grid gap-5 p-8">
-    <GradientHeading tag="h1" direction="bg-gradient-to-tl" from="from-primary-500" to="to-tertiary-500">Homepage</GradientHeading>
+    <h1><span class="bg-gradient-to-tl from-primary-500 to-tertiary-500 box-decoration-clone bg-clip-text text-transparent">Homepage</span></h1>
     <section class="flex space-x-2">
         <h2>Recent tier lists :</h2>
         {#each data.recentTierLists as tierList}

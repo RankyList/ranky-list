@@ -9,8 +9,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start the containers
-        run: make start-ci
-
-      - name: Run ESLint
-        run: make lint
+      - name: Run ESLint (includes Prettier)
+        run: make ci-eslint
