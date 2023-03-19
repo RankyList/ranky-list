@@ -11,6 +11,8 @@ node_modules
 *.ts
 *.js
 .vscode/
+/coverage
+/.storybook
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml

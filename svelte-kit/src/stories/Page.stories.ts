@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
 import { within, userEvent } from '@storybook/testing-library';
 
 import Page from './Page.svelte';
+
+import type { Meta, StoryObj } from '@storybook/svelte';
 
 const meta = {
   title: 'Example/Page',
@@ -19,11 +20,11 @@ export const LoggedOut: Story = {};
 
 // More on interaction testing: https://storybook.js.org/docs/7.0/svelte/writing-tests/interaction-testing
 export const LoggedIn: Story = {
-  play: async ({ canvasElement }) => {
+  play: ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const loginButton = await canvas.getByRole('button', {
+    const loginButton = canvas.getByRole('button', {
       name: /Log in/i,
     });
-    await userEvent.click(loginButton);
+    userEvent.click(loginButton);
   },
 };

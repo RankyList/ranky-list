@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
 import Header from './Header.svelte';
+
+import type { Meta, StoryObj } from '@storybook/svelte';
 
 const meta = {
   title: 'Example/Header',
