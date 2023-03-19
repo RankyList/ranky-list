@@ -23,7 +23,7 @@ jobs:
 
       - name: Log
         working-directory: ./svelte-kit
-        run: ls ./.svelte-kit
+        run: ls ./.svelte-kit/types
 
       - name: Run ESLint (includes Prettier)
         working-directory: ./svelte-kit
