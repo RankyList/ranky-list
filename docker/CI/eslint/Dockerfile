@@ -2,9 +2,7 @@ FROM node:current-alpine3.17
 
 WORKDIR /home/node/svelte-kit
 
-COPY --chown=node:node ./svelte-kit ./
-
-USER node
+COPY ./svelte-kit ./
 
 RUN yarn install && \
     yarn prisma:generate && \
