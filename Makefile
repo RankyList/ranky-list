@@ -1,6 +1,7 @@
 COMPOSE=docker compose
 COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
+EXECSVELTEKITCI=$(COMPOSECI) exec svelte-kit
 EXECMARIA=$(COMPOSE) exec mariadb
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
@@ -84,8 +85,12 @@ start-ci:
 	$(COMPOSECI) up mariadb -d
 
 ci-playwright:
+	make generate
+	make deploy
 	$(COMPOSECI) up playwright
 
 ci-vitest:
 	$(COMPOSECI) up svelte-kit
-	$(COMPOSECI) exec svelte-kit yarn coverage
+	$(EXECSVELTEKITCI) yarn prisma:generate
+	$(EXECSVELTEKITCI) yarn prisma:migrate-deploy
+	$(EXECSVELTEKITCI) yarn coverage

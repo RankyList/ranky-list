@@ -4,8 +4,6 @@ WORKDIR /home/node/svelte-kit
 
 COPY ./svelte-kit ./
 
-RUN yarn install && \
-    yarn prisma:generate && \
-    yarn prisma:migrate-deploy
+RUN yarn install
 
 CMD [ "yarn", "dev" ]

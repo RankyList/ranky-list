@@ -4,8 +4,6 @@ WORKDIR /testing
 
 COPY ./svelte-kit ./
 
-RUN yarn install && \
-    yarn prisma:generate && \
-    yarn prisma:migrate-deploy
+RUN yarn install
 
-CMD [ "yarn", "test" ]
+ENTRYPOINT [ "/bin/sh", "./scripts/ci.sh" ]
