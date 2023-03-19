@@ -88,7 +88,7 @@ ci-playwright:
 	$(COMPOSECI) up playwright
 
 ci-vitest:
-	$(COMPOSECI) up svelte-kit
+	$(COMPOSECI) up -d svelte-kit
 	$(EXECSVELTEKITCI) yarn prisma:generate
 	$(EXECSVELTEKITCI) yarn prisma:migrate-deploy
 	$(EXECSVELTEKITCI) yarn coverage
