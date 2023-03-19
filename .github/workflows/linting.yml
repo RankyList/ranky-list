@@ -21,6 +21,6 @@ jobs:
         working-directory: ./svelte-kit
         run: yarn check
 
-      - name: Run ESLint
+      - name: Run ESLint (includes Prettier)
         working-directory: ./svelte-kit
         run: yarn lint

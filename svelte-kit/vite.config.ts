@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
     server: {
       watch: {
         usePolling: process.env.VITE_USE_POLLING === 'true',
+        ignored: ['coverage/**', '.vscode/**', '.idea/**', 'test-results/**', '.svelte-kit/**'],
       },
     },
     test: {

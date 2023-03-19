@@ -1,6 +1,6 @@
-FROM node:lts
+FROM mcr.microsoft.com/playwright:v1.31.2-focal
 
-WORKDIR /home/node/svelte-kit
+WORKDIR /testing
 
 COPY ./svelte-kit ./
 
@@ -8,4 +8,4 @@ RUN yarn install && \
     yarn prisma:generate && \
     yarn prisma:migrate-deploy
 
-CMD [ "yarn", "dev" ]
+CMD [ "yarn", "test" ]

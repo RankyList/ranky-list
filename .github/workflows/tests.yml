@@ -13,7 +13,7 @@ jobs:
         run: make start-ci
 
       - name: Run Playwright
-        run: make playwright
+        run: make ci-playwright
 
   vitest:
     runs-on: ubuntu-latest

@@ -1,13 +1,7 @@
-FROM node:lts
+FROM node:current-alpine3.17
 
-WORKDIR /usr/src/svelte-kit
-
-COPY ./svelte-kit/package.json ./svelte-kit/yarn.lock ./
-
-RUN yarn install && \
-    mkdir playwright && \
-    npx playwright install-deps
+WORKDIR /home/node/svelte-kit
 
 USER node
 
-ENTRYPOINT [ "/bin/bash", "./scripts/dev.sh" ]
+ENTRYPOINT [ "/bin/sh", "./scripts/dev.sh" ]

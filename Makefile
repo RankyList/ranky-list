@@ -16,6 +16,12 @@ start:
 	make generate
 	make migrate
 
+start-nocache:
+	$(COMPOSE) build --force-rm --no-cache
+	$(COMPOSE) up -d --remove-orphans --force-recreate
+	make generate
+	make migrate
+
 up:
 ifndef UP_ENV_FILE
 	$(COMPOSE) up -d --remove-orphans
@@ -33,9 +39,6 @@ down:
 ssh:
 	$(EXECSVELTEKIT) sh
 
-bash:
-	$(EXECSVELTEKIT) bash
-
 ssh-maria:
 	$(EXECMARIA) sh
 
@@ -50,13 +53,10 @@ format:
 	$(EXECSVELTEKIT) yarn format
 
 # Testing
-test: playwright-install playwright vitest
+test: playwright vitest
 
 playwright:
-	$(EXECSVELTEKIT) yarn test
-
-playwright-install:
-	$(EXECSVELTEKIT) npx playwright install
+	$(COMPOSE) up playwright
 
 vitest:
 	$(EXECSVELTEKIT) yarn coverage
@@ -81,6 +81,11 @@ deploy:
 start-ci:
 	$(COMPOSECI) rm -f
 	$(COMPOSECI) build --no-cache --force-rm
-	$(COMPOSECI) up -d
-	make generate
-	make migrate
+	$(COMPOSECI) up mariadb -d
+
+ci-playwright:
+	$(COMPOSECI) up playwright
+
+ci-vitest:
+	$(COMPOSECI) up svelte-kit
+	$(COMPOSECI) exec svelte-kit yarn coverage
