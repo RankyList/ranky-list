@@ -9,8 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start the containers
-        run: make start-ci
+      - name: Start the db
+        run: make ci-maria
 
       - name: Run Playwright
         run: make ci-playwright
@@ -21,8 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start the containers
-        run: make start-ci
+      - name: Start the db
+        run: make ci-maria
 
       - name: Run Vitest
         run: make ci-vitest

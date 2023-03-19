@@ -79,7 +79,7 @@ deploy:
 	$(EXECSVELTEKIT) yarn prisma:migrate-deploy
 
 # For CI only
-start-ci:
+ci-maria:
 	$(COMPOSECI) rm -f
 	$(COMPOSECI) build --no-cache --force-rm
 	$(COMPOSECI) up mariadb -d
@@ -88,7 +88,10 @@ ci-playwright:
 	$(COMPOSECI) up playwright
 
 ci-vitest:
-	$(COMPOSECI) up -d svelte-kit
+	$(COMPOSECI) up -d vitest
 	$(EXECSVELTEKITCI) yarn prisma:generate
 	$(EXECSVELTEKITCI) yarn prisma:migrate-deploy
 	$(EXECSVELTEKITCI) yarn coverage
+
+ci-eslint:
+	$(COMPOSECI) up eslint

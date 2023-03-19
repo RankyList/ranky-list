@@ -11,17 +11,24 @@ services:
         condition: service_healthy
     container_name: rl-playwright
 
-  svelte-kit:
+  vitest:
     build:
       context: .
-      dockerfile: docker/CI/svelte-kit/Dockerfile
+      dockerfile: docker/CI/vitest/Dockerfile
     depends_on:
       mariadb:
         condition: service_healthy
     stdin_open: true
     tty: true
     restart: unless-stopped
-    container_name: rl-svelte-kit
+    container_name: rl-vitest
+
+  eslint:
+    build:
+      context: .
+      dockerfile: docker/CI/eslint/Dockerfile
+    restart: "no"
+    container_name: rl-eslint
 
   mariadb:
     image: mariadb:10.10.2
