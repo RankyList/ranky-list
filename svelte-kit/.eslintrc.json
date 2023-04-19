@@ -8,11 +8,10 @@
     "eslint:recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:svelte/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:prettier/recommended",
-    "plugin:storybook/recommended"
+    "plugin:svelte/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base"
   ],
   "overrides": [
     {
@@ -22,6 +21,8 @@
         "parser": "@typescript-eslint/parser"
       },
       "rules": {
+        "@typescript-eslint/indent": ["error", 4],
+        "indent": ["error", 4],
         "no-multiple-empty-lines": [
           "error",
           {
@@ -35,8 +36,15 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@typescript-eslint/indent": ["error", 2],
+        "@typescript-eslint/indent": ["error", 2]
+      }
+    },
+    {
+      "files": ["*.ts", "*.svelte"],
+      "rules": {
+        "@typescript-eslint/consistent-type-imports": ["error"],
         "@typescript-eslint/no-extra-semi": ["error"],
+        "@typescript-eslint/no-unnecessary-condition": ["error"],
         "@typescript-eslint/semi": ["error", "always"],
         "@typescript-eslint/space-infix-ops": ["error"]
       }
@@ -57,24 +65,18 @@
     "project": ["./tsconfig.json"],
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "import", "prettier", "jsdoc"],
+  "plugins": ["@typescript-eslint", "jsdoc", "import", "import-no-duplicates-prefix-resolved-path"],
   "root": true,
   "rules": {
-    "@typescript-eslint/no-explicit-any": ["warn"],
-    "@typescript-eslint/no-unnecessary-condition": ["error"],
-    "@typescript-eslint/no-unnecessary-type-arguments": ["error"],
-    "@typescript-eslint/no-unnecessary-type-assertion": ["error"],
-    "@typescript-eslint/no-unnecessary-type-constraint": ["error"],
-    "array-bracket-spacing": ["error", "never"],
-    "comma-dangle": ["error", "always-multiline"],
-    "comma-spacing": [
+    "@typescript-eslint/no-throw-literal": "off",
+    "eol-last": ["error", "always"],
+    "import-no-duplicates-prefix-resolved-path/no-duplicates": [
       "error",
       {
-        "after": true,
-        "before": false
+        "prefixResolvedPathWithImportName": true
       }
     ],
-    "eol-last": ["error", "always"],
+    "import/extensions": "off",
     "import/first": ["error"],
     "import/newline-after-import": [
       "error",
@@ -83,12 +85,9 @@
       }
     ],
     "import/no-absolute-path": ["error"],
-    "import/no-duplicates": [
-      "error",
-      {
-        "considerQueryString": true
-      }
-    ],
+    "import/no-duplicates": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-mutable-exports": "off",
     "import/no-relative-packages": ["error"],
     "import/no-unresolved": [
       "error",
@@ -102,7 +101,6 @@
         "noUselessIndex": true
       }
     ],
-    "operator-assignment": ["error", "always"],
     "import/order": [
       "error",
       {
@@ -115,16 +113,16 @@
         "pathGroups": [
           {
             "group": "internal",
-            "pattern": "$(src|component|server|store)/*"
+            "pattern": "$(src|components|server|stores|utils)/*"
           },
           {
             "group": "type",
-            "pattern": "$type/*"
+            "pattern": "$types/*"
           }
         ]
       }
     ],
-    "indent": "off",
+    "import/prefer-default-export": "off",
     "jsdoc/no-types": ["error"],
     "keyword-spacing": [
       "error",
@@ -143,12 +141,11 @@
         "ignoreUrls": true
       }
     ],
-    "no-console": ["warn"],
-    "no-else-return": ["error"],
-    "no-empty": ["error"],
+    "no-constant-condition": ["error"],
     "no-extra-semi": "off",
     "no-invalid-regexp": ["error"],
     "no-multi-assign": ["error"],
+    "no-multi-spaces": ["error"],
     "no-multiple-empty-lines": [
       "error",
       {
@@ -157,12 +154,11 @@
         "maxEOF": 0
       }
     ],
-    "no-new-object": ["error"],
-    "no-useless-return": ["error"],
     "object-curly-newline": [
       "error",
       {
-        "consistent": true
+        "consistent": true,
+        "multiline": true
       }
     ],
     "object-curly-spacing": ["error", "always"],
@@ -203,7 +199,8 @@
     "import/resolver": {
       "node": true,
       "typescript": {
-        "project": ["./.svelte-kit/tsconfig.json"]
+        "alwaysTryTypes": true,
+        "project": ["./tsconfig.json", "./.svelte-kit/tsconfig.json"]
       }
     }
   }

@@ -1,22 +1,21 @@
 import { error } from '@sveltejs/kit';
+import { ClientResponseError } from 'pocketbase';
 
-import { prisma } from '$server/prisma';
+import type { TierlistResponse } from '$src/lib/types/pocketbase.js';
 
-import type { PageServerLoad } from './$types';
+export const load = async ({ params, locals }) => {
+  const { slug } = params;
+  let tierList: TierlistResponse;
 
-export const load = (async ({ params }) => {
-  const slug = params.slug;
-  const tierList = await prisma.tierList.findFirst({
-    where: {
-      slug: slug,
-    },
-  });
+  try {
+    tierList = await locals.pb.collection('tierlist').getFirstListItem(`slug = "${slug}"`);
+  } catch (e) {
+    if (e instanceof ClientResponseError && e.status === 404) {
+      throw error(404, `Tier list "${slug}" not found`);
+    }
 
-  if (!tierList) {
-    throw error(404, `Tier list "${slug}" not found`);
+    throw error(500, { message: 'Something went wrong while trying to retrieve the tier list.' });
   }
 
-  return {
-    tierList,
-  };
-}) satisfies PageServerLoad;
+  return { tierList: structuredClone(tierList) };
+};

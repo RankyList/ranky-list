@@ -8,55 +8,19 @@ services:
     ports:
       - 5173:5173
     depends_on:
-      mariadb:
+      pocketbase:
         condition: service_healthy
     volumes:
-      - "./svelte-kit:/home/node/svelte-kit"
+      - ./svelte-kit:/home/node/svelte-kit
     stdin_open: true
     tty: true
     restart: unless-stopped
     container_name: rl-svelte-kit
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "http://localhost:5173",
-          "-q",
-          "--spider"
-        ]
+      test: wget http://localhost:5173 -q --spider || exit 1
       timeout: 30s
       interval: 2s
       retries: 30
-
-  mariadb:
-    image: mariadb:10.10.2
-    restart: unless-stopped
-    container_name: rl-mariadb
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-    environment:
-      MARIADB_ROOT_PASSWORD_HASH: "${MARIADB_ROOT_PASSWORD_HASH:?err}"
-      MARIADB_USER: "${MARIADB_USER:?err}"
-      MARIADB_PASSWORD_HASH: "${MARIADB_PASSWORD_HASH:?err}"
-      MARIADB_DATABASE: "${MARIA_DATABASE:-ranky_list}"
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 30s
-      interval: 2s
-      retries: 30
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: unless-stopped
-    container_name: rl-phpmyadmin
-    ports:
-      - 8080:80
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    environment:
-      - PMA_ARBITRARY=1
 
   playwright:
     image: mcr.microsoft.com/playwright:v1.31.2-focal
@@ -66,8 +30,6 @@ services:
     volumes:
       - ./svelte-kit:/testing
     depends_on:
-      mariadb:
-        condition: service_healthy
       svelte-kit:
         condition: service_healthy
     container_name: rl-playwright
@@ -82,7 +44,7 @@ services:
       svelte-kit:
         condition: service_healthy
     volumes:
-      - "./svelte-kit:/home/node/storybook"
+      - ./svelte-kit:/home/node/storybook
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -94,3 +56,18 @@ services:
     ports:
       - 1080:1080
     container_name: rl-mailcatcher
+
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: rl-pocketbase
+    restart: unless-stopped
+    ports:
+      - 8090:8090
+    volumes:
+      - ./data/pocketbase/data:/pb_data
+      - ./data/pocketbase/public:/pb_public
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
