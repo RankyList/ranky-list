@@ -4,10 +4,7 @@
 trap "exit" SIGINT
 trap "exit" SIGTERM
 
-echo "Generate & deploy"
-
-yarn prisma:generate
-yarn prisma:migrate-deploy
+# TODO add the Pocketbase migration here
 
 echo "Run Playwright"
 
