@@ -1,4 +1,4 @@
-import Placeholder from '$component/util/Placeholder.svelte';
+import Placeholder from '$components/misc/Placeholder.svelte';
 
 import type { Meta, StoryObj } from '@storybook/svelte';
 

@@ -3,4 +3,4 @@
     export let animate = true;
 </script>
 
-<div class={`placeholder}`} class:animate-pulse={animate} style={`height: ${height}px;`} {...$$props} />
+<div class={'placeholder}'} class:animate-pulse={animate} style={`height: ${height}px;`} {...$$props} />

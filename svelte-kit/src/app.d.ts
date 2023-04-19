@@ -1,7 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import PocketBase from 'pocketbase';
+import type PocketBase from 'pocketbase';
 
 declare global {
   // and what to do when importing types
@@ -18,8 +18,7 @@ declare global {
   }
 
   declare module 'svelte-lazy' {
-    import Placeholder from '$src/lib/component/util/Placeholder.svelte';
-
+    import type Placeholder from '$src/lib/component/util/Placeholder.svelte';
     import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
 
     interface FadeOption {
