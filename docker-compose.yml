@@ -60,7 +60,7 @@ services:
   pocketbase:
     build:
       context: .
-      dockerfile: ./docker/pocket-base/Dockerfile 
+      dockerfile: ./docker/pocketbase/Dockerfile 
     ports:
       - 8090:8090
     command: wgo run -xdir pb_data main.go serve --http 0.0.0.0:8090
@@ -77,18 +77,4 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  # pocketbase:
-  #   image: ghcr.io/muchobien/pocketbase:latest
-  #   container_name: rl-pocketbase
-  #   restart: unless-stopped
-  #   ports:
-  #     - 8090:8090
-  #   volumes:
-  #     - ./data/pocketbase/data:/pb_data
-  #     - ./data/pocketbase/public:/pb_public
-  #   healthcheck:
-  #     test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5
+      
