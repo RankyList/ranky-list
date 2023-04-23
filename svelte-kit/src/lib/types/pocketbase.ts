@@ -3,9 +3,9 @@
 */
 
 export enum Collections {
-  Item = 'item',
-  Rank = 'rank',
-  Tierlist = 'tierlist',
+  Items = 'items',
+  Ranks = 'ranks',
+  Tierlists = 'tierlists',
   Users = 'users',
 }
 
@@ -33,21 +33,21 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export type ItemRecord = {
+export type ItemsRecord = {
   name: string
   description?: string
   position?: number
 };
 
-export type RankRecord = {
+export type RanksRecord = {
   name: string
   color: string
   description?: string
   position?: number
-  items: RecordIdString[]
+  items?: RecordIdString[]
 };
 
-export type TierlistRecord = {
+export type TierlistsRecord = {
   name: string
   slug: string
   description?: string
@@ -62,23 +62,23 @@ export type UsersRecord = {
 };
 
 // Response types include system fields and match responses from the PocketBase API
-export type ItemResponse = ItemRecord & BaseSystemFields;
-export type RankResponse<Texpand = unknown> = RankRecord & BaseSystemFields<Texpand>;
-export type TierlistResponse<Texpand = unknown> = TierlistRecord & BaseSystemFields<Texpand>;
+export type ItemsResponse = ItemsRecord & BaseSystemFields;
+export type RanksResponse<Texpand = unknown> = RanksRecord & BaseSystemFields<Texpand>;
+export type TierlistsResponse<Texpand = unknown> = TierlistsRecord & BaseSystemFields<Texpand>;
 export type UsersResponse = UsersRecord & AuthSystemFields;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
-  item: ItemRecord
-  rank: RankRecord
-  tierlist: TierlistRecord
+  items: ItemsRecord
+  ranks: RanksRecord
+  tierlists: TierlistsRecord
   users: UsersRecord
 };
 
 export type CollectionResponses = {
-  item: ItemResponse
-  rank: RankResponse
-  tierlist: TierlistResponse
+  items: ItemsResponse
+  ranks: RanksResponse
+  tierlists: TierlistsResponse
   users: UsersResponse
 };

@@ -12,6 +12,7 @@ svelte.config.js
 !.storybook
 /coverage
 /.storybook
+/fixtures
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml
