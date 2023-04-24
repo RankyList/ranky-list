@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     container_name: rl-svelte-kit
     healthcheck:
-      test: ps aux | grep '[/]usr/local/bin/node /home/node/svelte-kit/node_modules/.bin/vite dev --host' || exit 1
+      test: wget --no-verbose --tries=1 --spider http://localhost:5173/api/healthz || exit 1
       timeout: 30s
       interval: 2s
       retries: 30
