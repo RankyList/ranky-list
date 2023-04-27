@@ -37,6 +37,7 @@ export type ItemsRecord = {
   name: string
   description?: string
   position?: number
+  rank: RecordIdString
 };
 
 export type RanksRecord = {
@@ -44,7 +45,7 @@ export type RanksRecord = {
   color: string
   description?: string
   position?: number
-  items?: RecordIdString[]
+  tierlist: RecordIdString
 };
 
 export type TierlistsRecord = {
@@ -53,19 +54,19 @@ export type TierlistsRecord = {
   description?: string
   public?: boolean
   canBeTemplate?: boolean
-  ranks: RecordIdString[]
+  createdBy?: RecordIdString
 };
 
-export type UsersRecord = {
-  name?: string
+export type UsersRecord<Twebsites = unknown> = {
+  websites?: null | Twebsites
   avatar?: string
 };
 
 // Response types include system fields and match responses from the PocketBase API
-export type ItemsResponse = ItemsRecord & BaseSystemFields;
+export type ItemsResponse<Texpand = unknown> = ItemsRecord & BaseSystemFields<Texpand>;
 export type RanksResponse<Texpand = unknown> = RanksRecord & BaseSystemFields<Texpand>;
 export type TierlistsResponse<Texpand = unknown> = TierlistsRecord & BaseSystemFields<Texpand>;
-export type UsersResponse = UsersRecord & AuthSystemFields;
+export type UsersResponse<Twebsites = unknown> = UsersRecord<Twebsites> & AuthSystemFields;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 

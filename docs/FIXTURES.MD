@@ -8,7 +8,9 @@ This section concerns fixtures for PocketBase. Fixtures are fake data generated 
     - [Commands](#commands)
   - [How to create a fixture](#how-to-create-a-fixture)
     - [Every necessary step](#every-necessary-step)
-    - [Example](#example)
+    - [Examples](#examples)
+      - [Simple fixture](#simple-fixture)
+      - [Inserting files](#inserting-files)
 
 ## How to load fixtures
 
@@ -55,72 +57,106 @@ Follow these steps to create a new fixture for a collection :
 5. Your `load` must be an async callback which receives `pb: PocketBase` as its first argument, an object `references` containing the already registered items by the other fixtures as its second argument, and `faker: Faker`.
 6. Your `load` function must return an object with a `records` property, which is an object with `string | number` as its key and a `Response` corresponding to the newly inserted data.
 
-### Example
+### Examples
+
+Here are some examples to better understand how to create a fixture.
+You can look at other existing fixtures too in the `svelte-kit/fixtures/data` folder (where you will add your new fixture).
+
+#### Simple fixture
 
 Here is an example of what a fixture can look like (taken from the `tierlists.ts` fixture) :
 
 ```ts
 // svelte-kit/fixtures/data/tierlists.ts
 
-// Classic imports (not type) must end with .js
-import { RANKS_FIXTURE_RANGE, RANKS_FIXTURE_NAMES } from './ranks.js';
-
-// Import the necessary types for full type-safety
+// Import the necessary types with "import type..."
 import type { Fixture, Reference } from '../index';
-import type { TierlistsRecord, TierlistsResponse } from '../../src/lib/types/pocketbase';
+import type { RanksRecord, RanksResponse } from '../../src/lib/types/pocketbase';
 
-// Define constants that could be helpful to other fixtures, such as how many records we are creating
-// Note that we are also using constants declared by the "ranks" fixture
-export const TIERLISTS_FIXTURE_RANGE = Math.ceil(RANKS_FIXTURE_RANGE / RANKS_FIXTURE_NAMES);
+// Export useful constants concerning this fixture, such as how many ranks we add per tierlist
+export const RANKS_FIXTURE_RANKS_PER_TIERLIST = 5;
 
 // The required default export
 export default ({
-  // The unique name of our fixture. It must be the name of one of the existing collections
-  name: 'tierlists',
-  // The order (ascendant) in which our fixture will be loaded. Here, we make sure to load it after its dependency "ranks"
+  // The name of our fixture, usually the name of the file and collection
+  name: 'ranks',
+  // The order (ascendant) in which to load this fixture
   order: 2,
-  // The load callback which will insert our records and return them
+  // Our load function with PocketBase, records of other fixtures and Faker
   load: async (pb, references, faker) => {
-    // The object containing all our records
-    const records: Reference<TierlistsResponse> = {};
-    // Get the "ranks" references if they exist
-    const rankReferences = references.ranks || {};
-    const tierlistNames = ['Tierlist', 'Rankings', ''];
+    // Prepare the records we will return
+    const records: Reference<RanksResponse> = {};
+    // Because we are loading after the "tierlists" fixture, all the tierlists inserted are available inside "references.tierlists"
+    const tierlistsReferences = Object.entries(references.tierlists || {});
 
-    // Create a simple loop to add our tierlists
-    for (const i of Array(TIERLISTS_FIXTURE_RANGE).keys()) {
-      const tierlistRanks: string[] = [];
-
-      // Make sure all our tierlists only have x number of ranks (where x is RANKS_FIXTURE_NAMES)
-      for (const n of Array(RANKS_FIXTURE_NAMES).keys()) {
-        const rankIndex = i * RANKS_FIXTURE_NAMES + n;
-
-        if (rankIndex < RANKS_FIXTURE_RANGE) {
-          tierlistRanks.push(rankReferences[rankIndex].id);
-        }
+    // We loop over each tierlist
+    for (const [i, tierlist] of tierlistsReferences) {
+      // We use the constant defined earlier to know how many ranks to add
+      for (const t of Array(RANKS_FIXTURE_RANKS_PER_TIERLIST).keys()) {
+        // We create a new record with fake data and add it to our "records" object
+        records[i] = await pb.collection('ranks').create<RanksResponse>({
+          name: String.fromCharCode(65 + t), // Use the same names for every 5 ranks
+          color: faker.internet.color(),
+          description: faker.lorem.sentences(),
+          position: t,
+          tierlist: tierlist.id,
+        } as RanksRecord); // Use "as" for type-safety
       }
-
-      // Start creating fake data using the faker instance of our load function
-      const name = `${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()} ${faker.helpers.arrayElement(tierlistNames)}`;
-
-      // Create and save the newly added record in our "records" object
-      records[i] = await pb.collection('tierlists').create<TierlistsResponse>({
-        name,
-        slug: faker.helpers.slugify(name),
-        description: faker.lorem.sentences(),
-        public: faker.datatype.boolean(),
-        canBeTemplate: faker.datatype.boolean(),
-        ranks: tierlistRanks,
-      } as TierlistsRecord);
     }
 
-    // Return an object containing a "records" property with our records
+    // We return our records, which will be available to other fixtures as "references.ranks"
     return { records };
   },
 // Use the Fixture<T> type to get full type-safety on your export
-}) satisfies Fixture<TierlistsResponse>;
+}) satisfies Fixture<RanksResponse>;
 
 ```
 
 > **Note**  
 > Your "records" object can also contain strings as keys (eg: you need to be able to locate a specific user).
+
+With that, your fixture will be automatically loaded.
+You can (and should) use a `FormData` instance containing all your fields instead of an object if you want to send files.
+
+> **Warning**
+> All module imports (not types) must end with the ".js" extension.
+
+#### Inserting files
+
+To insert a file, you must use a `FormData` object. Take a look at this example from the `users` fixture :
+
+```ts
+// svelte-kit/fixtures/data/users.ts
+
+// ...
+
+// Create a new FormData
+const formData = new FormData();
+
+try {
+  // Get a fake url 🐱
+  const url = faker.image.cats();
+  // Use the utils function "downloadImage" to get the image as a Blob
+  const avatar = await downloadImage(url, 'blob');
+
+  // Append the Blob "avatar" to our FormData
+  formData.append('avatar', avatar, url.split('/').at(-1)?.split('?').at(0));
+} catch (_) {
+  // Catch the error and show a warning, this just means that our user won't have an avatar (instead of failing all fixtures)
+  console.warn(chalk.yellow(`Failed to download image ${avatarUrl}. User ${email} will have no avatar.`));
+}
+
+// ...
+
+// Append other necessary fields
+formData.append('email', email);
+
+// ...
+
+// Create the record using our `FormData` instance
+records[i] = await pb.collection('users').create<UsersResponse>(formData);
+
+```
+
+> **Note**  
+> `FormData.append` only accepts `string` or `Blob` as value. For any other value, you can use `JSON.stringify`.

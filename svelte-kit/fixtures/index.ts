@@ -10,23 +10,23 @@ import type { BaseSystemFields, CollectionRecords, CollectionResponses } from '.
 
 export type Reference<T = BaseSystemFields> = {
   [key: string | number]: T;
-}
+};
 
 export type ReferenceHolder<T = BaseSystemFields> = {
   records: Reference<T>;
-}
+};
 
 export type ReferenceMap = {
   [key in keyof CollectionResponses]?: Reference<CollectionResponses[key]>;
-}
+};
 
 export type Fixture<T = BaseSystemFields> = {
   name: keyof CollectionRecords;
   order?: number;
   load(pb: PocketBase, references: ReferenceMap, faker: Faker): Promise<ReferenceHolder<T>>;
-}
+};
 
-const prompt = createInterface({ input: process.stdin, output: process.stdout })
+const prompt = createInterface({ input: process.stdin, output: process.stdout });
 const shouldExecute = process.argv.includes('-f');
 
 if (!shouldExecute) {
@@ -115,7 +115,7 @@ try {
     if (!fixtures.some((f) => f.name === fixture.name)) {
       fixtures.push(fixture);
     } else {
-      console.warn(chalk.yellow(`Fixture ${chalk.underline(fixture.name)} already exists, skipping...`))
+      console.warn(chalk.yellow(`Fixture ${chalk.underline(fixture.name)} already exists, skipping...`));
     }
   }
 

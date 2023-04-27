@@ -106,10 +106,10 @@ playwright:
 	$(COMPOSE) up playwright
 
 vitest:
-	$(EXECSVELTEKIT) yarn coverage
+	$(EXECSVELTEKIT) yarn test:unit
 
 vitest-watch:
-	$(EXECSVELTEKIT) yarn test:unit
+	$(EXECSVELTEKIT) yarn test:unit:watch
 
 # For CI only
 ci-pocketbase:
@@ -122,7 +122,7 @@ ci-playwright:
 
 ci-vitest:
 	$(COMPOSECI) up -d vitest
-	$(EXECVITESTCI) yarn coverage
+	$(EXECVITESTCI) yarn test:unit
 
 ci-eslint:
 	$(COMPOSECI) up eslint

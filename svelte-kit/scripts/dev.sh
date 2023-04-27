@@ -10,4 +10,4 @@ yarn install
 
 echo "Starting dev server"
 
-yarn dev
+yarn test:unit:ui
