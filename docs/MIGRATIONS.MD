@@ -4,9 +4,11 @@ This section concerns migrations for the DB. Migrations are **required** wheneve
 
 ## Content
 
-- [Create a migration](#create-a-migration)
-- [Run a migration](#run-a-migration)
-- [Go further](#go-further)
+- [Migrations](#migrations)
+  - [Content](#content)
+  - [Create a migration](#create-a-migration)
+  - [Run a migration](#run-a-migration)
+  - [Go further](#go-further)
 
 ## Create a migration
 

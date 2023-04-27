@@ -1,8 +1,5 @@
 version: '3.9'
 
-env_file: 
-  - /.env.local
-
 services:
   svelte-kit:
     build:
