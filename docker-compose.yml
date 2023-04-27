@@ -1,5 +1,8 @@
 version: '3.9'
 
+env_file: 
+  - /.env.local
+
 services:
   svelte-kit:
     build:
@@ -68,6 +71,9 @@ services:
       - ./pocketbase:/usr/src/app
       - ./data/pocketbase/data:/usr/src/app/pb_data
       - ./data/pocketbase/public:/usr/src/app/pb_public
+    environment:
+      DB_USER: "${DB_USER:?err}"
+      DB_PASS: "${DB_PASS:?err}"
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -77,4 +83,3 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      
