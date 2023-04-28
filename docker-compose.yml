@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     container_name: rl-svelte-kit
     healthcheck:
-      test: wget http://localhost:5173 -q --spider || exit 1
+      test: wget --no-verbose --tries=1 --spider http://localhost:5173/api/healthz || exit 1
       timeout: 30s
       interval: 2s
       retries: 30

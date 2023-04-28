@@ -113,6 +113,7 @@ docker-compose.override.yml
 
 # Data (pocketbase persist)
 data/
+!svelte-kit/fixtures/data
 
 # Playwright
 svelte-kit/test-results

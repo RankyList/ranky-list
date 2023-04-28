@@ -3,6 +3,9 @@ COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECPOCKETBASE=$(COMPOSE) exec pocketbase
 EXECVITESTCI=$(COMPOSECI) exec vitest
+POCKETBASEURL ?= http://pocketbase:8090
+POCKETBASEEMAIL ?= "root@ranky-list.com"
+POCKETBASEPASSWORD ?= "xxxxxxxxx"
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
   UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
@@ -65,6 +68,13 @@ logs-svelte-kit:
 logs-pocketbase:
 	$(COMPOSE) logs pocketbase
 
+# Yarn
+upgrade:
+	$(EXECSVELTEKIT) yarn upgrade-interactive
+
+upgrade-latest:
+	$(EXECSVELTEKIT) yarn upgrade-interactive --latest
+
 # Pocketbase
 migrate:
 	$(EXECPOCKETBASE) go run main.go migrate create
@@ -76,7 +86,11 @@ history-sync:
 	$(EXECPOCKETBASE) go run main.go migrate history-sync
 
 generate:
-	$(EXECSVELTEKIT) npx pocketbase-typegen -u http://pocketbase:8090 -e root@ranky-list.com -p "changeThisLater" -o ./src/lib/types/pocketbase.ts
+	$(EXECSVELTEKIT) npx pocketbase-typegen -u $(POCKETBASEURL) -e $(POCKETBASEEMAIL) -p "$(POCKETBASEPASSWORD)" -o ./src/lib/types/pocketbase.ts
+	$(EXECSVELTEKIT) yarn eslint --fix ./src/lib/types/pocketbase.ts
+
+fixtures:
+	$(EXECSVELTEKIT) yarn fixtures -f
 
 # Linting
 lint:
@@ -92,10 +106,10 @@ playwright:
 	$(COMPOSE) up playwright
 
 vitest:
-	$(EXECSVELTEKIT) yarn coverage
+	$(EXECSVELTEKIT) yarn test:unit
 
 vitest-watch:
-	$(EXECSVELTEKIT) yarn test:unit
+	$(EXECSVELTEKIT) yarn test:unit:watch
 
 # For CI only
 ci-pocketbase:
@@ -108,7 +122,7 @@ ci-playwright:
 
 ci-vitest:
 	$(COMPOSECI) up -d vitest
-	$(EXECVITESTCI) yarn coverage
+	$(EXECVITESTCI) yarn test:unit
 
 ci-eslint:
 	$(COMPOSECI) up eslint

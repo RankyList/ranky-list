@@ -3,9 +3,9 @@
 */
 
 export enum Collections {
-  Item = 'item',
-  Rank = 'rank',
-  Tierlist = 'tierlist',
+  Items = 'items',
+  Ranks = 'ranks',
+  Tierlists = 'tierlists',
   Users = 'users',
 }
 
@@ -33,52 +33,53 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export type ItemRecord = {
+export type ItemsRecord = {
   name: string
   description?: string
   position?: number
+  rank: RecordIdString
 };
 
-export type RankRecord = {
+export type RanksRecord = {
   name: string
   color: string
   description?: string
   position?: number
-  items: RecordIdString[]
+  tierlist: RecordIdString
 };
 
-export type TierlistRecord = {
+export type TierlistsRecord = {
   name: string
   slug: string
   description?: string
   public?: boolean
   canBeTemplate?: boolean
-  ranks: RecordIdString[]
+  createdBy?: RecordIdString
 };
 
-export type UsersRecord = {
-  name?: string
+export type UsersRecord<Twebsites = unknown> = {
+  websites?: null | Twebsites
   avatar?: string
 };
 
 // Response types include system fields and match responses from the PocketBase API
-export type ItemResponse = ItemRecord & BaseSystemFields;
-export type RankResponse<Texpand = unknown> = RankRecord & BaseSystemFields<Texpand>;
-export type TierlistResponse<Texpand = unknown> = TierlistRecord & BaseSystemFields<Texpand>;
-export type UsersResponse = UsersRecord & AuthSystemFields;
+export type ItemsResponse<Texpand = unknown> = ItemsRecord & BaseSystemFields<Texpand>;
+export type RanksResponse<Texpand = unknown> = RanksRecord & BaseSystemFields<Texpand>;
+export type TierlistsResponse<Texpand = unknown> = TierlistsRecord & BaseSystemFields<Texpand>;
+export type UsersResponse<Twebsites = unknown> = UsersRecord<Twebsites> & AuthSystemFields;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
-  item: ItemRecord
-  rank: RankRecord
-  tierlist: TierlistRecord
+  items: ItemsRecord
+  ranks: RanksRecord
+  tierlists: TierlistsRecord
   users: UsersRecord
 };
 
 export type CollectionResponses = {
-  item: ItemResponse
-  rank: RankResponse
-  tierlist: TierlistResponse
+  items: ItemsResponse
+  ranks: RanksResponse
+  tierlists: TierlistsResponse
   users: UsersResponse
 };
