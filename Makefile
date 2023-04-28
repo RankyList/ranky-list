@@ -1,7 +1,7 @@
 COMPOSE=docker compose
 COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
-EXECMARIA=$(COMPOSE) exec mariadb
+EXECPOCKETBASE=$(COMPOSE) exec pocketbase
 EXECVITESTCI=$(COMPOSECI) exec vitest
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
@@ -13,15 +13,11 @@ endif
 # Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
-	$(COMPOSE) up -d --remove-orphans --force-recreate
-	make generate
-	make migrate
+	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase --remove-orphans --force-recreate
 
 start-nocache:
 	$(COMPOSE) build --force-rm --no-cache
-	$(COMPOSE) up -d --remove-orphans --force-recreate
-	make generate
-	make migrate
+	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase --remove-orphans --force-recreate
 
 up:
 ifndef UP_ENV_FILE
@@ -40,11 +36,47 @@ down:
 ssh:
 	$(EXECSVELTEKIT) sh
 
-ssh-maria:
-	$(EXECMARIA) sh
+bash:
+	$(EXECSVELTEKIT) bash
 
-bash-maria:
-	$(EXECMARIA) bash
+ssh-pocketbase:
+	$(EXECPOCKETBASE) sh
+
+bash-pocketbase:
+	$(EXECPOCKETBASE) bash
+
+# Containers & healthcheck
+list-containers:
+	docker compose ps -a
+
+healthcheck-svelte-kit:
+	docker inspect --format "{{json .State.Health }}" svelte-kit
+
+healthcheck-pocketbase:
+	docker inspect --format "{{json .State.Health }}" pocketbase
+
+# Logs
+logs:
+	$(COMPOSE) logs
+
+logs-svelte-kit:
+	$(COMPOSE) logs svelte-kit
+
+logs-pocketbase:
+	$(COMPOSE) logs pocketbase
+
+# Pocketbase
+migrate:
+	$(EXECPOCKETBASE) go run main.go migrate create
+
+migrate-collections:
+	$(EXECPOCKETBASE) go run main.go migrate collections
+
+history-sync:
+	$(EXECPOCKETBASE) go run main.go migrate history-sync
+
+generate:
+	$(EXECSVELTEKIT) npx pocketbase-typegen -u http://pocketbase:8090 -e root@ranky-list.com -p "changeThisLater" -o ./src/lib/types/pocketbase.ts
 
 # Linting
 lint:
@@ -65,32 +97,17 @@ vitest:
 vitest-watch:
 	$(EXECSVELTEKIT) yarn test:unit
 
-# Prisma
-generate:
-	$(EXECSVELTEKIT) yarn prisma:generate
-
-migrate:
-	$(EXECSVELTEKIT) yarn prisma:migrate-dev
-
-reset:
-	$(EXECSVELTEKIT) yarn prisma:migrate-reset
-
-deploy:
-	$(EXECSVELTEKIT) yarn prisma:migrate-deploy
-
 # For CI only
-ci-maria:
+ci-pocketbase:
 	$(COMPOSECI) rm -f
 	$(COMPOSECI) build --no-cache --force-rm
-	$(COMPOSECI) up mariadb -d
+	$(COMPOSECI) up pocketbase -d
 
 ci-playwright:
 	$(COMPOSECI) up playwright
 
 ci-vitest:
 	$(COMPOSECI) up -d vitest
-	$(EXECVITESTCI) yarn prisma:generate
-	$(EXECVITESTCI) yarn prisma:migrate-deploy
 	$(EXECVITESTCI) yarn coverage
 
 ci-eslint:

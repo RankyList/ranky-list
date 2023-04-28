@@ -1,10 +1,11 @@
 <script lang="ts">
     import { faHome } from '@fortawesome/free-solid-svg-icons';
     import FaIcon from 'svelte-fa';
+    import { MetaTags } from 'svelte-meta-tags';
 
     import { page } from '$app/stores';
 
-    const status = $page.status;
+    const { status } = $page;
     const message = $page.error?.message ?? 'Oops... Something went wrong.';
     const title = `${status} - ${message}`;
     const params = new URLSearchParams({
@@ -18,15 +19,12 @@
     }[status];
 </script>
 
-<svelte:head>
-    <title>{title}</title>
-    <meta name="description" content={message} />
-</svelte:head>
+<MetaTags {title} description={message} />
 
-<div class="flex h-full flex-col items-center justify-around">
+<div class="flex h-full flex-col items-center justify-center gap-24">
     <div class="flex flex-col items-center gap-3">
         <h1 class="text-9xl">{status}</h1>
-        <hr class="!border-t-2 border-primary-500" />
+        <hr class="w-full" />
         <h2 class="text-5xl">{message}</h2>
     </div>
     <div class="flex flex-col items-center gap-3">

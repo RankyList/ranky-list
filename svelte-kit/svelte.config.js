@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -14,10 +14,11 @@ const config = {
     adapter: adapter(),
     alias: {
       $src: 'src',
-      $component: 'src/lib/component',
+      $components: 'src/lib/components',
       $server: 'src/lib/server',
-      $store: 'src/lib/store',
-      $type: 'src/lib/type',
+      $stores: 'src/lib/stores',
+      $types: 'src/lib/types',
+      $utils: 'src/lib/utils',
     },
   },
 };

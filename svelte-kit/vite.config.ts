@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [sveltekit(), svg({
-      includePaths: ['src/lib/component/icon/svg'],
+      includePaths: ['src/lib/components/icons'],
       svgoOptions: {
         plugins: [
           {

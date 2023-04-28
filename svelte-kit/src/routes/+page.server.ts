@@ -1,16 +1,18 @@
-import { prisma } from '$src/lib/server/prisma';
+import { error } from '@sveltejs/kit';
 
-import type { PageServerLoad } from './$types';
+import type { TierlistResponse } from '$src/lib/types/pocketbase.js';
+import type { ListResult } from 'pocketbase';
 
-export const load = (async () => {
-  const recentTierLists = await prisma.tierList.findMany({
-    orderBy: [
-      {
-        createdAt: 'desc',
-      },
-    ],
-    take: 10,
-  });
+export const load = async ({ locals }) => {
+  let recentTierLists: ListResult<TierlistResponse>;
 
-  return { recentTierLists };
-}) satisfies PageServerLoad;
+  try {
+    recentTierLists = await locals.pb.collection('tierlist').getList<TierlistResponse>(1, 10, {
+      sort: '-created',
+    });
+  } catch (_) {
+    throw error(500, { message: 'Something went wrong while trying to retrieve the latest tier lists.' });
+  }
+
+  return { recentTierLists: structuredClone(recentTierLists) };
+};

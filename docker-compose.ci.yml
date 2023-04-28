@@ -7,7 +7,7 @@ services:
       dockerfile: docker/CI/playwright/Dockerfile
     restart: "no"
     depends_on:
-      mariadb:
+      pocketbase:
         condition: service_healthy
     container_name: rl-playwright
 
@@ -16,11 +16,11 @@ services:
       context: .
       dockerfile: docker/CI/vitest/Dockerfile
     depends_on:
-      mariadb:
+      pocketbase:
         condition: service_healthy
     stdin_open: true
     tty: true
-    restart: unless-stopped
+    restart: "no"
     container_name: rl-vitest
 
   eslint:
@@ -30,17 +30,12 @@ services:
     restart: "no"
     container_name: rl-eslint
 
-  mariadb:
-    image: mariadb:10.10.2
-    restart: unless-stopped
-    container_name: rl-mariadb
-    environment:
-      MARIADB_ROOT_PASSWORD_HASH: "${MARIADB_ROOT_PASSWORD_HASH:?err}"
-      MARIADB_USER: "${MARIADB_USER:?err}"
-      MARIADB_PASSWORD_HASH: "${MARIADB_PASSWORD_HASH:?err}"
-      MARIADB_DATABASE: "${MARIA_DATABASE:-ranky_list}"
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: rl-pocketbase
+    restart: "no"
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 30s
-      interval: 2s
-      retries: 30
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5

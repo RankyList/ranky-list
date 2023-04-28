@@ -111,7 +111,7 @@ docker-compose.override.yml
 # Local history
 /.history
 
-# Data (mariadb persist)
+# Data (pocketbase persist)
 data/
 
 # Playwright

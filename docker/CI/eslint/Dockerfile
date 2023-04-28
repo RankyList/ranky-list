@@ -5,7 +5,6 @@ WORKDIR /home/node/svelte-kit
 COPY ./svelte-kit ./
 
 RUN yarn install && \
-    yarn prisma:generate && \
     yarn check
 
 CMD [ "yarn", "lint" ]

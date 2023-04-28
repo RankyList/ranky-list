@@ -4,10 +4,10 @@
     import '../global.scss';
 
     import { faArrowCircleRight, faWarning } from '@fortawesome/free-solid-svg-icons';
-    import { AppShell, AppBar, LightSwitch, Modal } from '@skeletonlabs/skeleton';
+    import { AppShell, AppBar, LightSwitch, Modal, Toast } from '@skeletonlabs/skeleton';
     import FaIcon from 'svelte-fa';
 
-    import Logo from '$component/icon/svg/ranky-list-logo.svg?component';
+    import Logo from '$components/icons/ranky-list-logo.svg?component';
 
     import { page } from '$app/stores';
 </script>
@@ -23,8 +23,8 @@
             </a>
         </svelte:fragment>
         <div class="container mx-auto">
-            <a class="hidden sm:inline" href="/tier-list">Find a tierlist</a>
-            <a class="hidden sm:inline" href="/tier-list/create">Create a tierlist</a>
+            <span class="hidden sm:inline">Find a tierlist</span>
+            <span class="hidden sm:inline">Create a tierlist</span>
         </div>
         <svelte:fragment slot="trail">
             <div class="flex items-center gap-5">
@@ -62,3 +62,4 @@
 </AppShell>
 
 <Modal />
+<Toast position="r" />

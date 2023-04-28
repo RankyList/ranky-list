@@ -1,5 +1,14 @@
+<script lang="ts">
+    import { MetaTags } from 'svelte-meta-tags';
+</script>
+
+<MetaTags
+    title="Enabling JavaScript"
+    description="Why and how to enable JavaScript. You will learn how JavaScript helps improve your user experience."
+/>
+
 <div class="container mx-auto flex flex-col gap-8 text-2xl">
-    <h1 class="my-10 text-center text-6xl">Enabling Javascript</h1>
+    <h1 class="my-10 text-center text-6xl">Enabling JavaScript</h1>
     <noscript>
         <p class="unstyled">
             Dear RankyList user, Thank you for visiting our website. We apologize for any inconvenience, but it appears that Javascript is currently

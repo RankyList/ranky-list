@@ -1,12 +1,9 @@
 <script lang="ts">
-    import type { PageData } from './$types';
+    import { MetaTags } from 'svelte-meta-tags';
 
-    export let data: PageData;
+    export let data;
 </script>
 
-<svelte:head>
-    <title>{data.tierList.name}</title>
-    <meta name="description" content={data.tierList.description ?? `The ${data.tierList.name} tier list. Created by TODO.`} />
-</svelte:head>
+<MetaTags title={data.tierList.name} description={data.tierList.description ?? `The ${data.tierList.name} tier list. Created by TODO.`} />
 
 <h1>{data.tierList.name}</h1>
