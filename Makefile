@@ -111,11 +111,13 @@ vitest:
 vitest-watch:
 	$(EXECSVELTEKIT) yarn test:unit:watch
 
+# Build
+build-pocketbase:
+	$(COMPOSECI) up build-pocketbase -d
+
 # For CI only
-ci-golangci:
-	$(COMPOSECI) rm -f
-	$(COMPOSECI) build --no-cache --force-rm
-	$(COMPOSECI) up golangci -d
+ci-pocketbase:
+	$(COMPOSECI) up golangci
 
 ci-playwright:
 	$(COMPOSECI) up playwright

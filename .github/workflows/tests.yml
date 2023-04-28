@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Start the db
-        run: make ci-golangci
+        run: make build-pocketbase
 
       - name: Run Playwright
         run: make ci-playwright
@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Start the db
-        run: make ci-golangci
+        run: make build-pocketbase
 
       - name: Run Vitest
         run: make ci-vitest
