@@ -56,18 +56,25 @@ services:
     ports:
       - 1080:1080
     container_name: rl-mailcatcher
-
+  
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
-    container_name: rl-pocketbase
-    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/pocketbase/Dockerfile 
     ports:
       - 8090:8090
+    command: wgo run -xdir pb_data main.go serve --http 0.0.0.0:8090
     volumes:
-      - ./data/pocketbase/data:/pb_data
-      - ./data/pocketbase/public:/pb_public
+      - ./pocketbase:/usr/src/app
+    environment:
+      DB_USER: "${DB_USER:?err}"
+      DB_PASS: "${DB_PASS:?err}"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: rl-pocketbase
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
-      interval: 5s
+      interval: 20s
       timeout: 5s
       retries: 5

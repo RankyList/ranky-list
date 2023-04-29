@@ -17,7 +17,7 @@
     "format": "prettier --plugin-search-dir . --write . && eslint . --fix",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "fixtures": "ts-node --esm fixtures/index.ts"
+    "fixtures": "tsx fixtures/index.ts"
   },
   "dependencies": {
     "dayjs": "^1.11.7",
@@ -83,8 +83,8 @@
     "svelte-meta-tags": "^2.7.0",
     "svelte-preprocess": "^5.0.3",
     "tailwindcss": "^3.3.2",
-    "ts-node": "^10.9.1",
     "tslib": "^2.3.1",
+    "tsx": "^3.12.6",
     "typescript": "^5.0.4",
     "vite": "^4.3.3",
     "vitest": "^0.30.1"

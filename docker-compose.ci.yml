@@ -7,7 +7,7 @@ services:
       dockerfile: docker/CI/playwright/Dockerfile
     restart: "no"
     depends_on:
-      pocketbase:
+      build-pocketbase:
         condition: service_healthy
     container_name: rl-playwright
 
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: docker/CI/vitest/Dockerfile
     depends_on:
-      pocketbase:
+      build-pocketbase:
         condition: service_healthy
     stdin_open: true
     tty: true
@@ -30,12 +30,36 @@ services:
     restart: "no"
     container_name: rl-eslint
 
-  pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
-    container_name: rl-pocketbase
+  golangci:
+    build:
+      context: .
+      dockerfile: docker/CI/golangci/Dockerfile 
     restart: "no"
+    container_name: rl-golangci
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
+
+  build-pocketbase:
+    build:
+      context: .
+      dockerfile: docker/build/pocketbase/Dockerfile 
+    restart: "no"
+    container_name: rl-b-pocketbase
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+# pocketbase:
+  #   image: ghcr.io/muchobien/pocketbase:latest
+  #   container_name: rl-pocketbase
+  #   restart: "no"
+  #   healthcheck:
+  #     test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
