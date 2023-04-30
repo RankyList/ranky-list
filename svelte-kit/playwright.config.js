@@ -1,7 +1,9 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
+import path from 'path';
+import { defineConfig } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
-  testDir: './tests',
+export default defineConfig({
+  testDir: path.join(process.cwd(), 'tests'),
+  testMatch: /.*.ts/,
   webServer: {
     command: 'yarn build && yarn preview',
     ignoreHTTPSErrors: true,
@@ -13,6 +15,4 @@ const config: PlaywrightTestConfig = {
     baseURL: 'http://localhost:4173',
     screenshot: 'only-on-failure'
   },
-};
-
-export default config;
+});

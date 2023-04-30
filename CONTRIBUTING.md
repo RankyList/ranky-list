@@ -3,21 +3,21 @@
 How to contribute to the project?
 There are 2 ways of contributing: reporting a bug or proposing a feature, and making changes to the code.
 
-## Content
-
-- [How to contribute by reporting a bug/proposing a feature?](#how-to-contribute-by-reporting-a-bugproposing-a-feature)
-- [How to contribute to the code?](#how-to-contribute-to-the-code)
-  - [Branches](#branches)
-  - [Prerequisites](#prerequisites)
-  - [Launch the project locally](#launch-the-project-locally)
-  - [What do I need to check before making a PR?](#what-do-i-need-to-check-before-making-a-pr)
-  - [Make commands](#make-commands)
-  - [Environment files](#environment-files)
-  - [The database](#the-database)
-  - [IDEs](#ides)
-    - [VSCode](#vscode)
-  - [Additional documentation](#additional-documentation)
-  - [Good to know](#good-to-know)
+- [Contributing to the project](#contributing-to-the-project)
+  - [How to contribute by reporting a bug/proposing a feature?](#how-to-contribute-by-reporting-a-bugproposing-a-feature)
+  - [How to contribute to the code?](#how-to-contribute-to-the-code)
+    - [Branches](#branches)
+    - [Prerequisites](#prerequisites)
+    - [Launch the project locally](#launch-the-project-locally)
+    - [What do I need to check before making a PR?](#what-do-i-need-to-check-before-making-a-pr)
+    - [Docker services](#docker-services)
+    - [Make commands](#make-commands)
+    - [Environment files](#environment-files)
+    - [The database](#the-database)
+    - [IDEs](#ides)
+      - [VSCode](#vscode)
+    - [Additional documentation](#additional-documentation)
+    - [Good to know](#good-to-know)
 
 ## How to contribute by reporting a bug/proposing a feature?
 
@@ -42,7 +42,7 @@ Everything you need to know to use this project and contribute to it is written 
 
 - [Docker](https://www.docker.com/) (with Docker Compose).
 - [Git](https://git-scm.com/).
-- This is obvious, but having experience with node/javascript is a must.
+- This is obvious, but having experience with Node/JavaScript is a must.
 
 ### Launch the project locally
 
@@ -53,7 +53,8 @@ Everything you need to know to use this project and contribute to it is written 
 - Go to `localhost:5173` to access the app.
 - From there, you can add your own code and tests in the appropriate folders.
 
-⚠️ Docker is required ⚠️
+> **Warning**
+> Docker is required. We do not recommend running this project without it.
 
 ### What do I need to check before making a PR?
 
@@ -66,25 +67,62 @@ Make sure of the following :
 - The linter does not fail (or at least not because of your PR).
 - You avoided the usage of an external dependency (only use one if you need to).
 
+### Docker services
+
+List of all the Docker services.
+
+| Service       | Description                                                                                             | Port(s)                                |
+| ------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `svelte-kit`  | The main service running the SvelteKit app.                                                             | `5173` and `5174` for Vitest UI        |
+| `playwright`  | A non-restarting service which runs all Playwright tests.                                               |                                        |
+| `storybook`   | Service responsible for the Storybook components. Shares the same volume as the `svelte-kit` container. | `6006`                                 |
+| `mailcatcher` | SMTP service used to catch emails during development.                                                   | `1080` for UI, `1025` for internal API |
+| `pocketbase`  | Service running PocketBase, including the SQLite DB and API. Also serves as a Go backend.               | `8090`                                 |
+
+> **Note**
+> Vitest runs alongside the `svelte-kit` container since it is integrated with Vite. Go to [http://localhost:5174/\_\_vitest\_\_/](http://localhost:5174/\_\_vitest\_\_/) to access its web UI.
+
 ### Make commands
 
 List of the available make commands.
 
-| Command               | Description                                                                                                                                                                                                   |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `start`               | Builds the containers and starts them, then runs `make generate` and `make migrate`.                                                                                                                          |
-| `up`                  | Starts the containers. You can provide a custom `.env` file if you want to override settings, eg: `make up .env.local`                                                                                        |
-| `stop`                | Stops all running containers.                                                                                                                                                                                 |
-| `down`                | Removes all containers.                                                                                                                                                                                       |
-| `ssh-svelte-kit`      | Runs `bash` in the `svelte-kit` container.                                                                                                                                                                    |
-| `ssh-maria`           | Runs `bash` in the `mariadb` container.                                                                                                                                                                       |
-| `lint`                | Runs `yarn lint` in the `svelte-kit` container. Will not run any fixes. This is also the command used in the Github CI for linting.                                                                           |
-| `format`              | Runs `yarn format` in the `svelte-kit` container. Will run fixes.                                                                                                                                             |
-| `test`                | Runs `yarn test` in the `svelte-kit` container. This is also the command used in the Github CI for tests. :warning: The first run might be slow because Playwright will install browsers needed for tests.    |
-| `generate`            | Generates all the Prisma types (based on the current schema) needed in the SvelteKit app by running `yarn prisma:generate` in the `svelte-kit` container.                                                     |
-| `migrate`             | Executes pending migrations by running `yarn prisma:migrate-dev` in the `svelte-kit` container.                                                                                                               |
-| `reset`               | Resets the database by running `yarn prisma:migrate-reset` in the `svelte-kit` container.                                                                                                                     |
-| `deploy`              | Runs `yarn prisma:migrate-deploy` in the `svelte-kit` container. :warning: This is only for production.                                                                                                       |
+| Command                  | Description                                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `start`                  | Builds the containers and starts them, then runs the `fixtures` command.                                           |
+| `start-nocache`          | Builds the containers without using cache and starts them, then runs the `fixtures` command.                       |
+| `up [env_file]`          | Starts the containers in detached mode, using the specified environment file if provided.                          |
+| `build`                  | Builds all containers without using cache.                                                                         |
+| `restart`                | Restarts all stopped and running services.                                                                         |
+| `stop`                   | Stops the containers.                                                                                              |
+| `down`                   | Stops and removes the containers, networks, and volumes.                                                           |
+| `ssh`                    | Connects to the `svelte-kit` container via SSH.                                                                    |
+| `bash`                   | Opens a Bash shell in the `svelte-kit` container.                                                                  |
+| `ssh-pocketbase`         | Connects to the `pocketbase` container via SSH.                                                                    |
+| `bash-pocketbase`        | Opens a Bash shell in the `pocketbase` container.                                                                  |
+| `list-containers`        | Lists all containers, including those not running.                                                                 |
+| `healthcheck-svelte-kit` | Shows the health status of the `svelte-kit` container.                                                             |
+| `healthcheck-pocketbase` | Shows the health status of the `pocketbase` container.                                                             |
+| `logs`                   | Displays logs from all containers.                                                                                 |
+| `logs-svelte-kit`        | Displays logs from the `svelte-kit` container.                                                                     |
+| `logs-pocketbase`        | Displays logs from the `pocketbase` container.                                                                     |
+| `upgrade`                | Runs an interactive upgrade of dependencies (using `yarn`) in the `svelte-kit` container.                          |
+| `upgrade-latest`         | Runs an interactive upgrade of dependencies (using `yarn`) to their latest versions in the `svelte-kit` container. |
+| `migrate`                | Runs the Pocketbase migration create command in the `pocketbase` container.                                        |
+| `migrate-collections`    | Runs the Pocketbase migration collections command in the `pocketbase` container.                                   |
+| `history-sync`           | Runs the Pocketbase migration history-sync command in the `pocketbase` container.                                  |
+| `generate`               | Generates Pocketbase type definitions in ./src/lib/types/pocketbase.ts, based on the Pocketbase API.               |
+| `fixtures`               | Runs the fixtures script to generate mock data in the `svelte-kit` container.                                      |
+| `lint`                   | Runs linting in the `svelte-kit` container using Prettier and ESLint.                                              |
+| `format`                 | Runs linting and formats code in the `svelte-kit` container using Prettier and ESLint.                             |
+| `test`                   | Runs the `playwright` and `vitest` commands.                                                                       |
+| `playwright`             | Starts the `playwright` service once in the `svelte-kit` container, for end-to-end testing.                        |
+| `vitest`                 | Runs the unit tests in the `svelte-kit` container, using Vitest.                                                   |
+| `vitest-watch`           | Runs the unit tests in watch mode in the svelte-kit container, using Vite.                                         |
+| `build-pocketbase`       | Builds the `pocketbase` container using the docker-compose.ci.yml file. For build only.                            |
+| `ci-golang`              | Starts the `golangci` service in the docker-compose.ci.yml file. For CI only.                                      |
+| `ci-playwright`          | Starts the `playwright` service in the docker-compose.ci.yml file. For CI only.                                    |
+| `ci-vitest`              | Starts the `vitest` service in the docker-compose.ci.yml file. For CI only.                                        |
+| `ci-eslint`              | Starts the `eslint` service in the docker-compose.ci.yml file. For CI only.                                        |
 
 ### Environment files
 
@@ -94,17 +132,16 @@ To override a value from a `.env` file, create a `.env.local` file (which will n
 
 ### The database
 
-RankyList currently uses MariaDB as database. You can easily access it with a friendly GUI thanks to PHPMyAdmin by going to `localhost:8080`.
+RankyList currently uses PocketBase as its DB, which itself uses SQLite under the hood.
+You can easily access it with a friendly GUI by going to [http://localhost:8090/](http://localhost:8090/).
 
 Assuming you did not change the credentials in the root `.env` file :
 
-- Server : `mariadb`,
-- User : `root`,
+- User : `root@root.com`,
 - Password : `root`.
 
-You can then access the current database named `ranky_list`.
-
-:grey_question: The database is kept on your host in a `data` folder at the root of the project.
+> **Note**
+> Migrations are applied automatically and the database is kept on your host machine, so you will not lose data even after deleting the container.
 
 ### IDEs
 
@@ -131,6 +168,8 @@ That should be all you need.
 All the documentation you need to safely develop on RankyList. Feel free to add anything you think is missing!
 
 - [Migrations](docs/MIGRATIONS.MD)
+- [Fixtures](docs/FIXTURES.MD)
+- [Emails](docs/EMAILS.MD)
 - [What technologies is RankyList currently using?](https://github.com/RankyList/ranky-list/issues/22)
 
 ### Good to know

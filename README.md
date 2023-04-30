@@ -1,17 +1,18 @@
-# ![RankyList icon](docs/logo.ico?raw=true) Ranky List
+# Ranky List
+
+![RankyList icon](docs/img/logo.ico?raw=true)
 
 The fastest and easiest way to create and share tier lists, and more.
 
-This is a fully open-source project, using [Svelte Kit](https://kit.svelte.dev/).
+This is a fully open-source project, using [SvelteKit](https://kit.svelte.dev/).
 
-## Content
-
-- [What is this project about, exactly?](#what-is-this-project-about-exactly)
-- [How long until 1.0?](#how-long-until-10)
-- [How can I contribute?](#how-can-i-contribute)
-- [Have a question?](#have-a-question)
-- [Is there anything else I need to know?](#is-there-anything-else-i-need-to-know)
-- [Special note](#special-note)
+- [Ranky List](#ranky-list)
+  - [What is this project about, exactly?](#what-is-this-project-about-exactly)
+  - [How long until 1.0?](#how-long-until-10)
+  - [How can I contribute?](#how-can-i-contribute)
+  - [Have a question?](#have-a-question)
+  - [Is there anything else I need to know?](#is-there-anything-else-i-need-to-know)
+  - [Special note](#special-note)
 
 ## What is this project about, exactly?
 

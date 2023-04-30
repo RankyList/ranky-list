@@ -4,8 +4,8 @@ EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECPOCKETBASE=$(COMPOSE) exec pocketbase
 EXECVITESTCI=$(COMPOSECI) exec vitest
 POCKETBASEURL ?= http://pocketbase:8090
-POCKETBASEEMAIL ?= "root@ranky-list.com"
-POCKETBASEPASSWORD ?= "xxxxxxxxx"
+POCKETBASEEMAIL ?= "root@root.com"
+POCKETBASEPASSWORD ?= "root"
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
   UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
@@ -17,10 +17,12 @@ endif
 start:
 	$(COMPOSE) build --force-rm
 	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase --remove-orphans --force-recreate
+	make fixtures
 
 start-nocache:
 	$(COMPOSE) build --force-rm --no-cache
 	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase --remove-orphans --force-recreate
+	make fixtures
 
 up:
 ifndef UP_ENV_FILE
@@ -28,6 +30,12 @@ ifndef UP_ENV_FILE
 else
 	$(COMPOSE) --env-file ${UP_ENV_FILE} up -d --remove-orphans
 endif
+
+build:
+	$(COMPOSE) build --force-rm --no-cache
+
+restart:
+	$(COMPOSE) restart svelte-kit storybook mailcatcher pocketbase
 
 stop:
 	$(COMPOSE) stop
@@ -103,7 +111,7 @@ format:
 test: playwright vitest
 
 playwright:
-	$(COMPOSE) up playwright
+	$(COMPOSE) up playwright --remove-orphans
 
 vitest:
 	$(EXECSVELTEKIT) yarn test:unit
@@ -111,12 +119,8 @@ vitest:
 vitest-watch:
 	$(EXECSVELTEKIT) yarn test:unit:watch
 
-# Build
-build-pocketbase:
-	$(COMPOSECI) up build-pocketbase -d
-
 # For CI only
-ci-pocketbase:
+ci-golang:
 	$(COMPOSECI) up golangci
 
 ci-playwright:
@@ -128,3 +132,6 @@ ci-vitest:
 
 ci-eslint:
 	$(COMPOSECI) up eslint
+
+ci-pocketbase:
+	$(COMPOSECI) up pocketbase -d

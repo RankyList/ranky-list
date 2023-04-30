@@ -7,17 +7,20 @@ export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return {
-    plugins: [sveltekit(), svg({
-      includePaths: ['src/lib/components/icons'],
-      svgoOptions: {
-        plugins: [
-          {
-            name: 'preset-default',
-            params: { overrides: { removeViewBox: false } },
-          },
-        ],
-      },
-    })],
+    plugins: [
+      sveltekit(),
+      svg({
+        includePaths: ['src/lib/components/icons'],
+        svgoOptions: {
+          plugins: [
+            {
+              name: 'preset-default',
+              params: { overrides: { removeViewBox: false } },
+            },
+          ],
+        },
+      }),
+    ],
     server: {
       watch: {
         usePolling: process.env.VITE_USE_POLLING === 'true',
@@ -26,6 +29,12 @@ export default defineConfig(({ mode }) => {
     },
     test: {
       include: ['src/**/*.{test,spec}.{js,ts}'],
+      css: false,
+      api: {
+        host: '0.0.0.0',
+        port: 5174,
+        strictPort: true,
+      },
     },
   };
 });
