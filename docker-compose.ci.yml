@@ -7,7 +7,7 @@ services:
       dockerfile: docker/CI/playwright/Dockerfile
     restart: "no"
     depends_on:
-      build-pocketbase:
+      pocketbase:
         condition: service_healthy
     container_name: rl-playwright
 

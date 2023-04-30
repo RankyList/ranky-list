@@ -124,7 +124,6 @@ ci-pocketbase:
 	$(COMPOSECI) up golangci
 
 ci-playwright:
-	make ci-build-pocketbase
 	$(COMPOSECI) up playwright
 
 ci-vitest:
