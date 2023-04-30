@@ -119,7 +119,7 @@ List of the available make commands.
 | `vitest`                 | Runs the unit tests in the `svelte-kit` container, using Vitest.                                                   |
 | `vitest-watch`           | Runs the unit tests in watch mode in the svelte-kit container, using Vite.                                         |
 | `build-pocketbase`       | Builds the `pocketbase` container using the docker-compose.ci.yml file. For build only.                            |
-| `ci-pocketbase`          | Starts the `golangci` service in the docker-compose.ci.yml file. For CI only.                                      |
+| `ci-golang`              | Starts the `golangci` service in the docker-compose.ci.yml file. For CI only.                                      |
 | `ci-playwright`          | Starts the `playwright` service in the docker-compose.ci.yml file. For CI only.                                    |
 | `ci-vitest`              | Starts the `vitest` service in the docker-compose.ci.yml file. For CI only.                                        |
 | `ci-eslint`              | Starts the `eslint` service in the docker-compose.ci.yml file. For CI only.                                        |

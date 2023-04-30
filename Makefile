@@ -120,7 +120,7 @@ vitest-watch:
 	$(EXECSVELTEKIT) yarn test:unit:watch
 
 # For CI only
-ci-pocketbase:
+ci-golang:
 	$(COMPOSECI) up golangci
 
 ci-playwright:
@@ -133,6 +133,5 @@ ci-vitest:
 ci-eslint:
 	$(COMPOSECI) up eslint
 
-# Build
-ci-build-pocketbase:
+ci-pocketbase:
 	$(COMPOSECI) up pocketbase -d
