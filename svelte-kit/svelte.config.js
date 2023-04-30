@@ -8,6 +8,8 @@ const config = {
   preprocess: [
     preprocess({
       postcss: true,
+      scss: true,
+      typescript: true,
     }),
   ],
   kit: {

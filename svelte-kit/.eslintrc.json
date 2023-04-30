@@ -11,7 +11,8 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:svelte/recommended",
     "airbnb-base",
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "plugin:prettier/recommended"
   ],
   "overrides": [
     {
@@ -19,34 +20,13 @@
       "parser": "svelte-eslint-parser",
       "parserOptions": {
         "parser": "@typescript-eslint/parser"
-      },
-      "rules": {
-        "@typescript-eslint/indent": ["error", 4],
-        "indent": ["error", 4],
-        "no-multiple-empty-lines": [
-          "error",
-          {
-            "max": 1,
-            "maxBOF": 2,
-            "maxEOF": 0
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts"],
-      "rules": {
-        "@typescript-eslint/indent": ["error", 2]
       }
     },
     {
       "files": ["*.ts", "*.svelte"],
       "rules": {
         "@typescript-eslint/consistent-type-imports": ["error"],
-        "@typescript-eslint/no-extra-semi": ["error"],
-        "@typescript-eslint/no-unnecessary-condition": ["error"],
-        "@typescript-eslint/semi": ["error", "always"],
-        "@typescript-eslint/space-infix-ops": ["error"]
+        "@typescript-eslint/no-unnecessary-condition": ["error"]
       }
     },
     {
@@ -65,11 +45,10 @@
     "project": ["./tsconfig.json"],
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "jsdoc", "import", "import-no-duplicates-prefix-resolved-path"],
+  "plugins": ["@typescript-eslint", "jsdoc", "import", "import-no-duplicates-prefix-resolved-path", "prettier"],
   "root": true,
   "rules": {
     "@typescript-eslint/no-throw-literal": "off",
-    "eol-last": ["error", "always"],
     "import-no-duplicates-prefix-resolved-path/no-duplicates": [
       "error",
       {
@@ -130,67 +109,12 @@
         "before": true
       }
     ],
-    "max-len": [
-      "warn",
-      {
-        "code": 150,
-        "ignoreComments": true,
-        "ignoreRegExpLiterals": true,
-        "ignoreStrings": true,
-        "ignoreTemplateLiterals": true,
-        "ignoreUrls": true
-      }
-    ],
     "no-constant-condition": ["error"],
-    "no-extra-semi": "off",
     "no-invalid-regexp": ["error"],
     "no-multi-assign": ["error"],
-    "no-multi-spaces": ["error"],
-    "no-multiple-empty-lines": [
-      "error",
-      {
-        "max": 1,
-        "maxBOF": 0,
-        "maxEOF": 0
-      }
-    ],
     "no-param-reassign": "off",
-    "object-curly-newline": [
-      "error",
-      {
-        "consistent": true,
-        "multiline": true
-      }
-    ],
-    "object-curly-spacing": ["error", "always"],
     "one-var": ["error", "never"],
-    "padding-line-between-statements": [
-      "error",
-      {
-        "blankLine": "always",
-        "next": "return",
-        "prev": "var"
-      }
-    ],
-    "prefer-arrow-callback": ["off"],
-    "quote-props": ["error", "consistent-as-needed"],
-    "quotes": [
-      "error",
-      "single",
-      {
-        "allowTemplateLiterals": true,
-        "avoidEscape": true
-      }
-    ],
-    "semi": "off",
-    "semi-spacing": [
-      "error",
-      {
-        "after": true,
-        "before": false
-      }
-    ],
-    "space-infix-ops": ["error"]
+    "prefer-arrow-callback": ["off"]
   },
   "settings": {
     "import/parsers": {

@@ -15,9 +15,6 @@ services:
     build:
       context: .
       dockerfile: docker/CI/vitest/Dockerfile
-    depends_on:
-      build-pocketbase:
-        condition: service_healthy
     stdin_open: true
     tty: true
     restart: "no"
@@ -33,7 +30,7 @@ services:
   golangci:
     build:
       context: .
-      dockerfile: docker/CI/golangci/Dockerfile 
+      dockerfile: docker/CI/golangci/Dockerfile
     restart: "no"
     container_name: rl-golangci
     healthcheck:
@@ -42,24 +39,14 @@ services:
       timeout: 5s
       retries: 5
 
-  build-pocketbase:
+  pocketbase:
     build:
       context: .
-      dockerfile: docker/build/pocketbase/Dockerfile 
+      dockerfile: docker/build/pocketbase/Dockerfile
     restart: "no"
-    container_name: rl-b-pocketbase
+    container_name: rl-pocketbase
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
       interval: 20s
       timeout: 5s
       retries: 5
-
-# pocketbase:
-  #   image: ghcr.io/muchobien/pocketbase:latest
-  #   container_name: rl-pocketbase
-  #   restart: "no"
-  #   healthcheck:
-  #     test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5

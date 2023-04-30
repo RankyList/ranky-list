@@ -10,7 +10,7 @@
     "test": "playwright test",
     "test:unit": "vitest run --coverage",
     "test:unit:watch": "vitest -w",
-    "test:unit:ui": "vitest --ui -w --api.host 0.0.0.0 --api.port 5173 --no-open",
+    "test:unit:ui": "vitest -w --ui --no-open",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",

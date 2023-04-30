@@ -7,12 +7,12 @@ node_modules
 .env.*
 !.env.example
 *.cjs
+playwright.config.ts
 !eslintrc.cjs
-*.ts
-*.js
 .vscode/
 /coverage
 /.storybook
+/fixtures
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml

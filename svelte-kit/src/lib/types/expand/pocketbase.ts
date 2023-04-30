@@ -1,11 +1,11 @@
 export type UsersPassword = {
-  password: string,
-  passwordConfirm: string,
+  password: string;
+  passwordConfirm: string;
 };
 
 export type UsersWebsites = {
   [key: string | number]: {
-    name: string,
-    url: string,
-  }
+    name: string;
+    url: string;
+  };
 };

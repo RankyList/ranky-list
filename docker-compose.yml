@@ -7,11 +7,13 @@ services:
       dockerfile: docker/svelte-kit/Dockerfile
     ports:
       - 5173:5173
+      - 5174:5174
     depends_on:
       pocketbase:
         condition: service_healthy
     volumes:
       - ./svelte-kit:/home/node/svelte-kit
+      - ./docker/svelte-kit/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -56,11 +58,11 @@ services:
     ports:
       - 1080:1080
     container_name: rl-mailcatcher
-  
+
   pocketbase:
     build:
       context: .
-      dockerfile: ./docker/pocketbase/Dockerfile 
+      dockerfile: ./docker/pocketbase/Dockerfile
     ports:
       - 8090:8090
     command: wgo run -xdir pb_data main.go serve --http 0.0.0.0:8090

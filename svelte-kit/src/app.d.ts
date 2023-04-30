@@ -7,7 +7,7 @@ declare global {
   // and what to do when importing types
   declare namespace App {
     interface Locals {
-      pb: PocketBase,
+      pb: PocketBase;
     }
 
     // interface PageData {}
