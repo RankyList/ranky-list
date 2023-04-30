@@ -7,7 +7,7 @@ node_modules
 .env.*
 !.env.example
 *.cjs
-playwright.config.ts
+playwright.config.js
 !eslintrc.cjs
 .vscode/
 /coverage

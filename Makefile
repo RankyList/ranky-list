@@ -111,7 +111,7 @@ format:
 test: playwright vitest
 
 playwright:
-	$(COMPOSE) up playwright
+	$(COMPOSE) up playwright --remove-orphans
 
 vitest:
 	$(EXECSVELTEKIT) yarn test:unit

@@ -25,7 +25,7 @@ services:
       retries: 30
 
   playwright:
-    image: mcr.microsoft.com/playwright:v1.31.2-focal
+    image: mcr.microsoft.com/playwright:v1.33.0-focal
     restart: "no"
     working_dir: /testing
     command: [ "yarn", "test" ]
