@@ -21,6 +21,7 @@ const config = {
       $stores: 'src/lib/stores',
       $types: 'src/lib/types',
       $utils: 'src/lib/utils',
+      $schemas: 'src/lib/schemas',
     },
   },
 };

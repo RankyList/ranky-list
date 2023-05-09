@@ -1,27 +1,24 @@
 import { pb } from '$server/pocketbase';
+import dayjs from '$utils/dayjs';
 
-import type { Handle } from '@sveltejs/kit';
+import type { UsersResponse } from './lib/types/pocketbase';
 
-export const handle = (async ({ event, resolve }) => {
+export const handle = async ({ event, resolve }) => {
   event.locals.pb = pb;
-
-  // load the store data from the request cookie string
   event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
+  event.locals.authProviders = await event.locals.pb.collection('users').listAuthMethods();
 
   try {
-    // get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
     if (event.locals.pb.authStore.isValid) {
-      await event.locals.pb.collection('users').authRefresh();
+      event.locals.user = await event.locals.pb.collection('users').authRefresh<UsersResponse>();
     }
   } catch (_) {
-    // clear the auth store on failed refresh
     event.locals.pb.authStore.clear();
   }
 
   const response = await resolve(event);
 
-  // send back the default 'pb_auth' cookie to the client with the latest store state
-  response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie());
+  response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate() }));
 
   return response;
-}) satisfies Handle;
+};

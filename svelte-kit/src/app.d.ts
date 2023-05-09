@@ -1,13 +1,16 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import type PocketBase from 'pocketbase';
+import type { UsersResponse } from '$types/pocketbase';
+import type PocketBase, { AuthMethodsList, RecordAuthResponse } from 'pocketbase';
 
 declare global {
   // and what to do when importing types
   declare namespace App {
     interface Locals {
       pb: PocketBase;
+      user: RecordAuthResponse<UsersResponse> | null;
+      authProviders: AuthMethodsList;
     }
 
     // interface PageData {}

@@ -1,3 +1,5 @@
+import { redirect } from '@sveltejs/kit';
+
 import type { TierlistsResponse } from '$src/lib/types/pocketbase.js';
 
 export const load = async ({ locals }) => {
@@ -6,4 +8,15 @@ export const load = async ({ locals }) => {
   });
 
   return { recentTierLists: structuredClone(recentTierLists) };
+};
+
+export const actions = {
+  logout: async ({ locals }) => {
+    if (locals.user) {
+      locals.pb.authStore.clear();
+      locals.user = null;
+    }
+
+    throw redirect(302, '/');
+  },
 };

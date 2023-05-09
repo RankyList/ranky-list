@@ -23,17 +23,16 @@ export default ({
         max: USERS_FIXTURE_MAX_WEBSITES_PER_USER,
       });
       const websites: UsersWebsites = {};
-      const avatarUrl = faker.internet.avatar();
+      const url = faker.image.cats();
       const email = faker.internet.email();
       const formData = new FormData();
 
       try {
-        const url = faker.image.cats();
         const avatar = await downloadImage(url, 'blob');
 
         formData.append('avatar', avatar, url.split('/').at(-1)?.split('?').at(0));
       } catch (_) {
-        console.warn(chalk.yellow(`Failed to download image ${avatarUrl}. User ${email} will have no avatar.`));
+        console.warn(chalk.yellow(`Failed to download image ${url}. User ${email} will have no avatar.`));
       }
 
       for (const w of Array(numWebsites).keys()) {
