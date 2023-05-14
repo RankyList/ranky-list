@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       sveltekit(),
       svg({
-        includePaths: ['src/lib/components/icons'],
+        includePaths: ['src/lib/components/icon'],
         svgoOptions: {
           plugins: [
             {

@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { ClientResponseError } from 'pocketbase';
 
-import type { TierlistsResponse } from '$src/lib/types/pocketbase.js';
+import type { TierlistsResponse } from '$types/pocketbase.js';
 
 export const load = async ({ params, locals }) => {
   const { tierlistSlug } = params;

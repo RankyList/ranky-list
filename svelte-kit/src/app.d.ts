@@ -21,7 +21,7 @@ declare global {
   }
 
   declare module 'svelte-lazy' {
-    import type Placeholder from '$src/lib/component/util/Placeholder.svelte';
+    import type Placeholder from './lib/components/misc/Placeholder.svelte';
     import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
 
     interface FadeOption {

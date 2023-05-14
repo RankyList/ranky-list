@@ -7,13 +7,11 @@ services:
       dockerfile: docker/svelte-kit/Dockerfile
     ports:
       - 5173:5173
-      - 5174:5174
     depends_on:
       pocketbase:
         condition: service_healthy
     volumes:
       - ./svelte-kit:/home/node/svelte-kit
-      - ./docker/svelte-kit/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -23,6 +21,22 @@ services:
       timeout: 30s
       interval: 2s
       retries: 30
+
+  vitest:
+    build:
+      context: .
+      dockerfile: docker/vitest/Dockerfile
+    ports:
+      - 5174:5174
+    depends_on:
+      svelte-kit:
+        condition: service_healthy
+    volumes:
+      - ./svelte-kit:/home/node/testing
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: rl-vitest
 
   playwright:
     image: mcr.microsoft.com/playwright:v1.33.0-focal

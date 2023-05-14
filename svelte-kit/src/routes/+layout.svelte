@@ -4,16 +4,34 @@
     import '../global.scss';
 
     import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-    import { AppShell, AppBar, LightSwitch, Modal, Toast, storePopup, type PopupSettings, popup, modalStore } from '@skeletonlabs/skeleton';
-    import { IconAlertTriangleFilled, IconArrowRightCircle } from '@tabler/icons-svelte';
+    import {
+        AppShell,
+        AppBar,
+        LightSwitch,
+        Modal,
+        Toast,
+        storePopup,
+        type PopupSettings,
+        popup,
+        modalStore,
+        focusTrap,
+        ProgressRadial,
+        toastStore,
+        Avatar,
+    } from '@skeletonlabs/skeleton';
+    import { IconAlertTriangleFilled, IconArrowRightCircle, IconUser } from '@tabler/icons-svelte';
+    import { onDestroy } from 'svelte';
+    import { fade } from 'svelte/transition';
 
-    import Logo from '$components/icons/ranky-list-logo.svg?component';
+    import Logo from '$components/icon/ranky-list-logo.svg?component';
     import LoginModal from '$components/modal/LoginModal.svelte';
-    import { loginModal } from '$src/lib/utils/modal';
     import { authProviders } from '$stores/auth-providers';
+    import { authWindow } from '$stores/auth-window';
+    import { loginModal } from '$utils/modal';
 
     import type { ModalComponentRegistry } from '$types/modal';
 
+    import { browser } from '$app/environment';
     import { enhance } from '$app/forms';
     import { page } from '$app/stores';
 
@@ -33,7 +51,70 @@
 
     authProviders.set(data.authProviders);
     storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+    const onmessage = (e: MessageEvent) => {
+        if (!browser || e.origin !== window.origin) {
+            return;
+        }
+
+        if (typeof e.data === 'object' && e.data.context === 'oauth' && typeof e.data?.success === 'boolean') {
+            authWindow.detach(true);
+            window.removeEventListener('message', onmessage);
+        }
+    };
+
+    const handleAuthWindowClose = () => {
+        if (!browser) {
+            return;
+        }
+
+        const closed = authWindow.close();
+
+        if (!closed) {
+            toastStore.trigger({
+                message: 'Sorry, something went wrong while trying to close the authentication window.',
+                classes: 'variant-filled-error',
+            });
+        }
+    };
+
+    $: if (data.user) {
+        modalStore.close();
+    }
+
+    $: if ($authWindow.opened) {
+        window.addEventListener('message', onmessage);
+    } else {
+        window.removeEventListener('message', onmessage);
+    }
+
+    onDestroy(() => {
+        if (!browser) {
+            return;
+        }
+
+        window.removeEventListener('message', onmessage);
+    });
 </script>
+
+<svelte:body aria-busy={$authWindow.opened} />
+
+{#if $authWindow.opened}
+    <div
+        transition:fade
+        class="absolute left-0 top-0 z-[9999] flex h-full w-full flex-col items-center justify-center gap-5 bg-gray-700/90"
+        use:focusTrap={true}
+    >
+        <ProgressRadial stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" />
+        <p>Authentication in progress...</p>
+        {#if $authWindow.window}
+            <div role="group" class="flex flex-row gap-3">
+                <button type="button" class="btn variant-ghost" on:click={() => $authWindow.window?.focus()}>Open</button>
+                <button type="button" class="btn variant-ghost" on:click={handleAuthWindowClose}>Cancel</button>
+            </div>
+        {/if}
+    </div>
+{/if}
 
 <AppShell>
     <AppBar shadow="shadow" slot="header">
@@ -62,7 +143,17 @@
                         <a href="/register">Register</a>
                     {/if}
                 </noscript>
-                <button class="btn" use:popup={userPopup}>(user icon)</button>
+                <button class="btn-icon variant-soft-primary" use:popup={userPopup}>
+                    {#if data.user}
+                        <!-- TODO This is temporary -->
+                        <Avatar
+                            src={data.user.avatar ? `http://localhost:8090/api/files/_pb_users_auth_/d1ijmt74g6vuvdq/${data.user.avatar}` : undefined}
+                            initials={data.user.username.at(0)}
+                        />
+                    {:else}
+                        <IconUser />
+                    {/if}
+                </button>
                 <div data-popup="user-popup" class="card variant-filled-surface p-4">
                     <nav class="list-nav">
                         {#if data.user}
@@ -78,7 +169,16 @@
                         {:else}
                             <ul>
                                 <li>
-                                    <button type="button" on:click={() => modalStore.trigger(loginModal)}>
+                                    <button
+                                        type="button"
+                                        on:click={() => {
+                                            if (data.user) {
+                                                return;
+                                            }
+
+                                            modalStore.trigger(loginModal);
+                                        }}
+                                    >
                                         <span class="flex-auto">Login</span>
                                     </button>
                                 </li>
@@ -117,4 +217,4 @@
 </AppShell>
 
 <Modal components={modalComponentRegistry} />
-<Toast position="r" />
+<Toast position="br" zIndex="z-[1000]" />

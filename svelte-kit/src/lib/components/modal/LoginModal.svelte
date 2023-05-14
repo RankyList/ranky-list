@@ -2,7 +2,7 @@
     import LoginForm from '$components/form/LoginForm.svelte';
 
     import type { ModalParent } from '$types/modal';
-    import type { LoginSchema } from '$types/schemas/login';
+    import type { LoginSchema } from '$types/schema/login';
     import type { Validation } from 'sveltekit-superforms/index';
 
     export let loginForm: Validation<LoginSchema>;

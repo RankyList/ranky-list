@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-import type { TierlistsResponse } from '$src/lib/types/pocketbase.js';
+import type { TierlistsResponse } from '$types/pocketbase.js';
 
 export const load = async ({ locals }) => {
   const recentTierLists = await locals.pb.collection('tierlists').getList<TierlistsResponse>(1, 10, {

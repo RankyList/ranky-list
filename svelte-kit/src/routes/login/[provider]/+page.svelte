@@ -1,13 +1,51 @@
 <script lang="ts">
+    import { IconHome } from '@tabler/icons-svelte';
+    import { onDestroy } from 'svelte';
+
     import { browser } from '$app/environment';
 
-    if (browser && window.opener) {
-        const opener = window.opener as Window;
+    let untilClose = 5;
+    let timeout: number | null = null;
 
-        opener.postMessage({ success: true, context: 'oauth' }, window.location.origin);
+    if (browser) {
+        const timer = () => {
+            timeout = window.setTimeout(() => {
+                untilClose -= 1;
+
+                if (untilClose <= 0) {
+                    window.close();
+                } else {
+                    timer();
+                }
+            }, 1000);
+        };
+
+        timer();
+
+        const opener = window.opener as Window | null;
+
+        if (opener) {
+            opener.postMessage({ context: 'oauth', success: true });
+        }
     }
+
+    onDestroy(() => {
+        if (browser && timeout) {
+            window.clearTimeout(timeout);
+            timeout = null;
+        }
+    });
 </script>
 
-<h1>Login successful.</h1>
+<div class="flex h-full w-full flex-col items-center justify-center gap-5">
+    <h1>You are now logged in.</h1>
 
-<p>You can now close this window.</p>
+    <p>You can leave this page. This window will close automatically in {untilClose}s.</p>
+
+    <noscript>
+        <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full text-white">
+            <span><IconHome /></span>
+            <span>Home</span>
+        </a>
+    </noscript>
+</div>

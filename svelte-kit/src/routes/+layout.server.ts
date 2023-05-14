@@ -1,6 +1,6 @@
 import { superValidate } from 'sveltekit-superforms/server';
 
-import { loginSchema } from '$src/lib/schemas/login.js';
+import { loginSchema } from '$schemas/login.js';
 
 export const load = async ({ locals, url }) => {
   const loginForm = await superValidate(loginSchema);

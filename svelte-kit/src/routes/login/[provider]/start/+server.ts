@@ -16,7 +16,7 @@ export const GET = ({ params, cookies, locals, url }) => {
 
   const authUrl = new URL(provider.authUrl);
 
-  authUrl.searchParams.append('redirect_uri', `${url.origin}/login/${provider.name}`);
+  authUrl.searchParams.set('redirect_uri', `${url.origin}/login/${provider.name}`);
 
   throw redirect(303, authUrl.toString());
 };
