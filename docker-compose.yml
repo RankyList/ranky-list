@@ -11,7 +11,7 @@ services:
       pocketbase:
         condition: service_healthy
     volumes:
-      - ./svelte-kit:/home/node/svelte-kit
+      - svelte-kit-volume:/home/node/svelte-kit
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -32,7 +32,7 @@ services:
       svelte-kit:
         condition: service_healthy
     volumes:
-      - ./svelte-kit:/home/node/testing
+      - svelte-kit-volume:/home/node/testing
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -44,7 +44,7 @@ services:
     working_dir: /testing
     command: [ "yarn", "test" ]
     volumes:
-      - ./svelte-kit:/testing
+      - svelte-kit-volume:/testing
     depends_on:
       svelte-kit:
         condition: service_healthy
@@ -60,7 +60,7 @@ services:
       svelte-kit:
         condition: service_healthy
     volumes:
-      - ./svelte-kit:/home/node/storybook
+      - svelte-kit-volume:/home/node/storybook
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -94,3 +94,11 @@ services:
       interval: 20s
       timeout: 5s
       retries: 5
+
+volumes:
+  svelte-kit-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/svelte-kit

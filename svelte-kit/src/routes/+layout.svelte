@@ -68,7 +68,7 @@
             return;
         }
 
-        const closed = authWindow.close();
+        const closed = authWindow.close(true);
 
         if (!closed) {
             toastStore.trigger({
@@ -78,15 +78,22 @@
         }
     };
 
-    $: if (data.user) {
+    const handleAuthWindowChange = (opened: boolean) => {
+        if (!browser) {
+            return;
+        }
+        if (opened) {
+            window.addEventListener('message', onmessage);
+        } else {
+            window.removeEventListener('message', onmessage);
+        }
+    };
+
+    $: if ($page.data.user) {
         modalStore.close();
     }
 
-    $: if ($authWindow.opened) {
-        window.addEventListener('message', onmessage);
-    } else {
-        window.removeEventListener('message', onmessage);
-    }
+    $: handleAuthWindowChange($authWindow.opened);
 
     onDestroy(() => {
         if (!browser) {
@@ -136,7 +143,7 @@
             <div class="flex items-center gap-5">
                 <LightSwitch />
                 <noscript>
-                    {#if data.user}
+                    {#if $page.data.user}
                         <a href="/logout">Logout</a>
                     {:else}
                         <a href="/login">Login</a>
@@ -144,11 +151,13 @@
                     {/if}
                 </noscript>
                 <button class="btn-icon variant-soft-primary" use:popup={userPopup}>
-                    {#if data.user}
-                        <!-- TODO This is temporary -->
+                    {#if $page.data.user}
+                        <!-- TODO Change this to proper URL, this is temporary -->
                         <Avatar
-                            src={data.user.avatar ? `http://localhost:8090/api/files/_pb_users_auth_/d1ijmt74g6vuvdq/${data.user.avatar}` : undefined}
-                            initials={data.user.username.at(0)}
+                            src={$page.data.user.avatar
+                                ? `http://localhost:8090/api/files/_pb_users_auth_/d1ijmt74g6vuvdq/${$page.data.user.avatar}`
+                                : undefined}
+                            initials={$page.data.user.username.at(0)}
                         />
                     {:else}
                         <IconUser />
@@ -156,7 +165,7 @@
                 </button>
                 <div data-popup="user-popup" class="card variant-filled-surface p-4">
                     <nav class="list-nav">
-                        {#if data.user}
+                        {#if $page.data.user}
                             <ul>
                                 <li>
                                     <form use:enhance action="/?/logout" method="post">
@@ -172,7 +181,7 @@
                                     <button
                                         type="button"
                                         on:click={() => {
-                                            if (data.user) {
+                                            if ($page.data.user) {
                                                 return;
                                             }
 

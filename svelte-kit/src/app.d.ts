@@ -13,39 +13,13 @@ declare global {
       authProviders: AuthMethodsList;
     }
 
-    // interface PageData {}
+    interface PageData {
+      user: UsersResponse | null;
+    }
 
     // interface Error {}
 
     // interface Platform {}
-  }
-
-  declare module 'svelte-lazy' {
-    import type Placeholder from './lib/components/misc/Placeholder.svelte';
-    import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
-
-    interface FadeOption {
-      delay?: number;
-      duration?: number;
-    }
-
-    interface Lazy {
-      height?: number | string = 0;
-      offset?: number = 150;
-      placeholder?: string | ComponentType<Placeholder> | null = null;
-      placeholderProps?: ComponentProps<Placeholder> | null = null;
-      class?: string = '';
-      fadeOption?: FadeOption | null = {
-        delay: 0,
-        duration: 400,
-      };
-      onload?: ((node: Node) => void) | null = null;
-      resetHeightDelay?: number = 0;
-    }
-
-    const content: ComponentType<SvelteComponentTyped<Lazy>>;
-
-    export default content;
   }
 
   declare module '*.svg?component' {

@@ -2,8 +2,11 @@ import { error, redirect } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 
 import type { UsersResponse } from '$types/pocketbase.js';
+import type { RecordAuthResponse } from 'pocketbase';
 
-export const load = async ({ url, locals, params, cookies }) => {
+export const load = async ({ url, locals, params, cookies, parent }) => {
+  await parent();
+
   if (locals.user) {
     throw redirect(303, '/');
   }
@@ -31,8 +34,12 @@ export const load = async ({ url, locals, params, cookies }) => {
     throw error(400, { message: 'Login failed.' });
   }
 
+  let user: RecordAuthResponse<UsersResponse> | null = null;
+
   try {
-    await locals.pb.collection('users').authWithOAuth2Code(provider.name, code, codeVerifier, `${url.origin}/login/${provider.name}`);
+    user = await locals.pb
+      .collection('users')
+      .authWithOAuth2Code<UsersResponse>(provider.name, code, codeVerifier, `${url.origin}/login/${provider.name}`);
 
     try {
       locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate() });
@@ -43,13 +50,5 @@ export const load = async ({ url, locals, params, cookies }) => {
     throw error(401, { message: 'Login failed.' });
   }
 
-  try {
-    if (locals.pb.authStore.isValid) {
-      locals.user = await locals.pb.collection('users').authRefresh<UsersResponse>();
-    }
-  } catch (_) {
-    locals.pb.authStore.clear();
-  }
-
-  return { user: locals.user ? structuredClone(locals.user.record) : null };
+  return { user: user ? structuredClone(user.record) : null };
 };

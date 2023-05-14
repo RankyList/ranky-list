@@ -16,12 +16,12 @@ endif
 # Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
-	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase --remove-orphans --force-recreate
+	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase vitest --remove-orphans --force-recreate
 	make fixtures
 
 start-nocache:
 	$(COMPOSE) build --force-rm --no-cache
-	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase --remove-orphans --force-recreate
+	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase vitest --remove-orphans --force-recreate
 	make fixtures
 
 up:
