@@ -43,7 +43,7 @@
     <p>You can leave this page. This window will close automatically in {untilClose}s.</p>
 
     <noscript>
-        <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full text-white">
+        <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full">
             <span><IconHome /></span>
             <span>Home</span>
         </a>

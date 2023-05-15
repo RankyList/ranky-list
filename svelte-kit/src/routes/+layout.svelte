@@ -1,6 +1,6 @@
 <script lang="ts">
     import '../theme.postcss';
-    import '@skeletonlabs/skeleton/styles/all.css';
+    import '@skeletonlabs/skeleton/styles/skeleton.css';
     import '../global.scss';
 
     import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -82,6 +82,7 @@
         if (!browser) {
             return;
         }
+
         if (opened) {
             window.addEventListener('message', onmessage);
         } else {
@@ -144,7 +145,11 @@
                 <LightSwitch />
                 <noscript>
                     {#if $page.data.user}
-                        <a href="/logout">Logout</a>
+                        <form use:enhance action="/?/logout" method="post">
+                            <button type="submit">
+                                <span class="flex-auto">Logout</span>
+                            </button>
+                        </form>
                     {:else}
                         <a href="/login">Login</a>
                         <a href="/register">Register</a>

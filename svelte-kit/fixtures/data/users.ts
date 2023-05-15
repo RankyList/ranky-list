@@ -18,12 +18,12 @@ export default ({
     const records: Reference<UsersResponse> = {};
 
     for (const i of Array(USERS_FIXTURE_RANGE).keys()) {
-      const numWebsites = faker.datatype.number({
+      const numWebsites = faker.number.int({
         min: USERS_FIXTURE_MIN_WEBSITES_PER_USER,
         max: USERS_FIXTURE_MAX_WEBSITES_PER_USER,
       });
       const websites: UsersWebsites = {};
-      const url = faker.image.cats();
+      const url = faker.image.urlLoremFlickr({ category: 'cats' });
       const email = faker.internet.email();
       const formData = new FormData();
 

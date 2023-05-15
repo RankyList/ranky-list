@@ -4,9 +4,7 @@ import dayjs from 'dayjs';
 import type { UsersResponse } from '$types/pocketbase.js';
 import type { RecordAuthResponse } from 'pocketbase';
 
-export const load = async ({ url, locals, params, cookies, parent }) => {
-  await parent();
-
+export const load = async ({ url, locals, params, cookies }) => {
   if (locals.user) {
     throw redirect(303, '/');
   }

@@ -13,7 +13,7 @@ export default ({
     const usersReferences = Object.entries(references.users || {});
 
     for (const [i, user] of usersReferences) {
-      const numTierlists = faker.datatype.number({
+      const numTierlists = faker.number.int({
         min: TIERLISTS_FIXTURE_MIN_TIERLISTS_PER_USER,
         max: TIERLISTS_FIXTURE_MAX_TIERLISTS_PER_USER,
       });
@@ -23,7 +23,7 @@ export default ({
 
         records[i] = await pb.collection('tierlists').create<TierlistsResponse>({
           name,
-          slug: faker.helpers.slugify(name).toLocaleLowerCase(faker.locale),
+          slug: faker.helpers.slugify(name).toLocaleLowerCase(),
           description: faker.lorem.sentences(),
           public: faker.datatype.boolean(),
           canBeTemplate: faker.datatype.boolean(),

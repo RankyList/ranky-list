@@ -35,7 +35,7 @@
             to let us know what happened.
         </p>
     </div>
-    <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full text-white">
+    <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full">
         <span><IconHome /></span>
         <span>Home</span>
     </a>
