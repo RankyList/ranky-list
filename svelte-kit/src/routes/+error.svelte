@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { faHome } from '@fortawesome/free-solid-svg-icons';
-    import FaIcon from 'svelte-fa';
+    import { IconHome } from '@tabler/icons-svelte';
     import { MetaTags } from 'svelte-meta-tags';
 
     import { page } from '$app/stores';
@@ -36,8 +35,8 @@
             to let us know what happened.
         </p>
     </div>
-    <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full text-white">
-        <span><FaIcon icon={faHome} /></span>
+    <a href="/" class="btn-filled-tertiary btn btn-lg rounded-full">
+        <span><IconHome /></span>
         <span>Home</span>
     </a>
 </div>

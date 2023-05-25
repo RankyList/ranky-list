@@ -12,7 +12,7 @@ export default ({
     const ranksReferences = Object.values(references.ranks || {});
 
     for (const rank of ranksReferences) {
-      const numItems = Array(faker.datatype.number({
+      const numItems = Array(faker.number.int({
         min: ITEMS_FIXTURE_MIN_ITEMS_PER_RANK,
         max: ITEMS_FIXTURE_MAX_ITEMS_PER_RANK
       }))

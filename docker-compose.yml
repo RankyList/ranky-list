@@ -7,13 +7,11 @@ services:
       dockerfile: docker/svelte-kit/Dockerfile
     ports:
       - 5173:5173
-      - 5174:5174
     depends_on:
       pocketbase:
         condition: service_healthy
     volumes:
-      - ./svelte-kit:/home/node/svelte-kit
-      - ./docker/svelte-kit/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - svelte-kit-volume:/home/node/svelte-kit
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -24,13 +22,29 @@ services:
       interval: 2s
       retries: 30
 
+  vitest:
+    build:
+      context: .
+      dockerfile: docker/vitest/Dockerfile
+    ports:
+      - 5174:5174
+    depends_on:
+      svelte-kit:
+        condition: service_healthy
+    volumes:
+      - svelte-kit-volume:/home/node/testing
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: rl-vitest
+
   playwright:
     image: mcr.microsoft.com/playwright:v1.33.0-focal
     restart: "no"
     working_dir: /testing
     command: [ "yarn", "test" ]
     volumes:
-      - ./svelte-kit:/testing
+      - svelte-kit-volume:/testing
     depends_on:
       svelte-kit:
         condition: service_healthy
@@ -46,7 +60,7 @@ services:
       svelte-kit:
         condition: service_healthy
     volumes:
-      - ./svelte-kit:/home/node/storybook
+      - svelte-kit-volume:/home/node/storybook
     stdin_open: true
     tty: true
     restart: unless-stopped
@@ -80,3 +94,11 @@ services:
       interval: 20s
       timeout: 5s
       retries: 5
+
+volumes:
+  svelte-kit-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/svelte-kit

@@ -10,4 +10,4 @@ yarn install
 
 echo "Starting dev server"
 
-supervisord -c /etc/supervisor/conf.d/supervisord.conf
+yarn dev

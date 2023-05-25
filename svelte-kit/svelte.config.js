@@ -15,12 +15,12 @@ const config = {
   kit: {
     adapter: adapter(),
     alias: {
-      $src: 'src',
       $components: 'src/lib/components',
       $server: 'src/lib/server',
       $stores: 'src/lib/stores',
       $types: 'src/lib/types',
       $utils: 'src/lib/utils',
+      $schemas: 'src/lib/schemas',
     },
   },
 };

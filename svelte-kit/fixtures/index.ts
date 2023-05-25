@@ -3,7 +3,7 @@ import fs from 'graceful-fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
-import { faker, type Faker } from '@faker-js/faker';
+import { type Faker } from '@faker-js/faker';
 import { createInterface } from 'readline/promises';
 
 import type { BaseSystemFields, CollectionRecords, CollectionResponses } from '../src/lib/types/pocketbase';
@@ -68,7 +68,7 @@ try {
   }
 
   if (!process.env.SECRET_FIXTURES_LOCALE) {
-    console.warn(chalk.yellow('Env variable "SECRET_FIXTURES_LOCALE" is not set, defaulting to "en".'))
+    console.warn(chalk.yellow('Env variable "SECRET_FIXTURES_LOCALE" is not set, defaulting to "en".'));
   }
 
   console.info(chalk.green('Env variables loaded successfully!'));
@@ -79,9 +79,20 @@ try {
   process.exit(1);
 }
 
-faker.setLocale(process.env.SECRET_FIXTURES_LOCALE ?? 'en');
-
 let pb: PocketBase;
+let faker: Faker;
+
+if (process.env.SECRET_FIXTURES_LOCALE) {
+  try {
+    faker = (await import(`@faker-js/faker/locale/${process.env.SECRET_FIXTURES_LOCALE}`)).faker;
+  } catch (_) {
+    console.warn(chalk.yellow(`Failed to load locale "${process.env.SECRET_FIXTURES_LOCALE}" for faker. Defaulting en "en".`));
+
+    faker = (await import('@faker-js/faker/locale/en')).faker;
+  }
+} else {
+  faker = (await import('@faker-js/faker/locale/en')).faker;
+}
 
 try {
   console.info(chalk.blue('Logging into PocketBase...'));
