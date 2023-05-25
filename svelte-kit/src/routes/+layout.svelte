@@ -17,7 +17,9 @@
         <svelte:fragment slot="lead">
             <a class="flex items-center gap-3" href="/">
                 <Logo height="40" width="40" role="image" aria-labelledby="RankyList logo" />
-                <span class="from-tertiary-500 to-primary-500 bg-gradient-to-r to-50% box-decoration-clone bg-clip-text text-3xl text-transparent">
+                <span
+                    class="from-primary-500 to-secondary-500 bg-gradient-to-bl from-50% box-decoration-clone bg-clip-text text-3xl text-transparent"
+                >
                     RankyList
                 </span>
             </a>
