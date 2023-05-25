@@ -16,8 +16,10 @@
     <AppBar shadow="shadow" slot="header">
         <svelte:fragment slot="lead">
             <a class="flex items-center gap-3" href="/">
-                <Logo width="30" role="image" aria-labelledby="RankyList logo" />
-                <span class="bg-gradient-to-r from-primary-500 to-tertiary-500 box-decoration-clone bg-clip-text text-3xl text-transparent">
+                <Logo height="40" width="40" role="image" aria-labelledby="RankyList logo" />
+                <span
+                    class="from-primary-500 to-secondary-500 bg-gradient-to-bl from-50% box-decoration-clone bg-clip-text text-3xl text-transparent"
+                >
                     RankyList
                 </span>
             </a>
