@@ -6,7 +6,7 @@ A simple component to display a placeholder. See the [Skeleton documentation](ht
 
 ```html
 <script lang="ts">
-    import { Placeholder } from '$components/misc/Placeholder.svelte';
+  import { Placeholder } from '$components/misc/Placeholder.svelte';
 </script>
 ```
 

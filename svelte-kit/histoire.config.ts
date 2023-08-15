@@ -15,8 +15,8 @@ export default defineConfig({
     favicon: './static/favicon.ico',
     colors: {
       gray: defaultColors.slate,
-      primary: defaultColors.orange
-    }
+      primary: defaultColors.orange,
+    },
   },
   vite: {
     server: {

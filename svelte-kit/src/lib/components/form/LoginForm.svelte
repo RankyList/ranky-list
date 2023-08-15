@@ -129,7 +129,7 @@
 
             <a
                 href={url}
-                class="variant-filled-primary logo-item py-4"
+                class="logo-item variant-filled-primary py-4"
                 on:click={(e) => handleOAuth(e, url)}
                 class:disabled={$authWindow.opened}
                 aria-disabled={$authWindow.opened}
