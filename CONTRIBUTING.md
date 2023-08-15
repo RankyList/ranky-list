@@ -48,9 +48,10 @@ Everything you need to know to use this project and contribute to it is written 
 
 - Fork the project (if you are not part of the RankyList team).
 - Clone the project with `git@github.com:RankyList/ranky-list.git` *OR* `git@github.com:your-username/ranky-list.git` if you forked the project.
+- Add the necessary Traefik URLs to your `hosts` file (see [Docker services](#docker-services)). If you do not want to use Traefik, you can add a `compose.override.yml` and open the necessary ports to connect to the services the classic way.
 - Create your own branch from `develop` or any branch other than `master` (eg: `feature/my-feature`).
 - Launch the project using `make start` if you have Make installed, or `docker compose build && docker compose up -d` otherwise (you may need additional steps to have the project working, check what's inside the Makefile).
-- Go to `localhost:5173` to access the app.
+- Go to [http://ranky-list.local](http://ranky-list.local) (or [http://localhost:5173](http://localhost:5173) if you don't want to use Traefik) to access the app.
 - From there, you can add your own code and tests in the appropriate folders.
 
 > **Warning**
@@ -71,16 +72,19 @@ Make sure of the following :
 
 List of all the Docker services.
 
-| Service       | Description                                                                                             | Port(s)                                |
-| ------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `svelte-kit`  | The main service running the SvelteKit app.                                                             | `5173` and `5174` for Vitest UI        |
-| `playwright`  | A non-restarting service which runs all Playwright tests.                                               |                                        |
-| `storybook`   | Service responsible for the Storybook components. Shares the same volume as the `svelte-kit` container. | `6006`                                 |
-| `mailcatcher` | SMTP service used to catch emails during development.                                                   | `1080` for UI, `1025` for internal API |
-| `pocketbase`  | Service running PocketBase, including the SQLite DB and API. Also serves as a Go backend.               | `8090`                                 |
+To add the necessary hosts for Traefik, open your `hosts` file (usually `/etc/hosts` on Linux) and add a newline for each service.
+For example, add `127.0.0.1 ranky-list.local` to be able to access the app on [http://ranky-list.local](http://ranky-list.local).
+
+| Service       | Description                                                                                                | Port(s)                                | Traefik URL                                                                                                             |
+| ------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `svelte-kit`  | The main service running the SvelteKit app.                                                                | `5173` and `5174` for Vitest UI        | [http://ranky-list.local](http://ranky-list.local) and [http://vitest.ranky-list.local](http://vitest.ranky-list.local) |
+| `playwright`  | A non-restarting service which runs all Playwright tests.                                                  |                                        |                                                                                                                         |
+| `Histoire`    | Service responsible for running Histoire and its UI. Shares the same volume as the `svelte-kit` container. | `6006`                                 | [http://histoire.ranky-list.local](http://histoire.ranky-list.local)                                                    |
+| `mailcatcher` | SMTP service used to catch emails during development.                                                      | `1080` for UI, `1025` for internal API | [http://mailcatcher.ranky-list.local](http://mailcatcher.ranky-list.local)                                              |
+| `pocketbase`  | Service running PocketBase, including the SQLite DB and API. Also serves as a Go backend.                  | `8090`                                 | [http://pocketbase.ranky-list.local](http://pocketbase.ranky-list.local/_/#)                                            |
 
 > **Note**
-> Vitest runs alongside the `svelte-kit` container since it is integrated with Vite. Go to [http://localhost:5174/\_\_vitest\_\_/](http://localhost:5174/\_\_vitest\_\_/) to access its web UI.
+> Vitest runs alongside the `svelte-kit` container since it is integrated with Vite. Run `make vitest-ui` and go to [http://vitest.ranky-list.local/\_\_vitest\_\_/](http://vitest.ranky-list.local/\_\_vitest\_\_/) to access its web UI.
 
 ### Make commands
 
@@ -118,11 +122,12 @@ List of the available make commands.
 | `playwright`             | Starts the `playwright` service once in the `svelte-kit` container, for end-to-end testing.                        |
 | `vitest`                 | Runs the unit tests in the `svelte-kit` container, using Vitest.                                                   |
 | `vitest-watch`           | Runs the unit tests in watch mode in the svelte-kit container, using Vite.                                         |
-| `build-pocketbase`       | Builds the `pocketbase` container using the docker-compose.ci.yml file. For build only.                            |
-| `ci-golang`              | Starts the `golangci` service in the docker-compose.ci.yml file. For CI only.                                      |
-| `ci-playwright`          | Starts the `playwright` service in the docker-compose.ci.yml file. For CI only.                                    |
-| `ci-vitest`              | Starts the `vitest` service in the docker-compose.ci.yml file. For CI only.                                        |
-| `ci-eslint`              | Starts the `eslint` service in the docker-compose.ci.yml file. For CI only.                                        |
+| `vitest-ui`              | Starts the Vitest web server to access tests through an [UI](https://vitest.dev/guide/ui.html).                    |
+| `build-pocketbase`       | Builds the `pocketbase` container using the compose.ci.yml file. For build only.                                   |
+| `ci-golang`              | Starts the `golangci` service in the compose.ci.yml file. For CI only.                                             |
+| `ci-playwright`          | Starts the `playwright` service in the compose.ci.yml file. For CI only.                                           |
+| `ci-vitest`              | Starts the `vitest` service in the compose.ci.yml file. For CI only.                                               |
+| `ci-eslint`              | Starts the `eslint` service in the compose.ci.yml file. For CI only.                                               |
 
 ### Environment files
 
@@ -145,7 +150,7 @@ Assuming you did not change the credentials in the root `.env` file :
 
 ### IDEs
 
-You can use any IDE you'd like. We of course recommend VSCode, which this project already includes a `settings.json` file for with everything configured.
+You can use any IDE you'd like. We of course recommend VSCode, which this project already includes a `workspace.code-workspace` file for with everything configured.
 
 Feel free to add documentation for your IDE here.
 
@@ -155,7 +160,7 @@ The configuration for VSCode is already set and ready to use in `.vscode/setting
 
 Of course, it will require some VSCode extensions to work properly :
 
-- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) for Dockerfile and docker-compose files support,
+- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) for Dockerfile and Docker Compose file support,
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for formatting generic files (HTML, JSON, SCSS, etc...),
 - [Markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) for Markdown files support and linting,
 - [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) for Svelte files support and linting,

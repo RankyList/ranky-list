@@ -115,7 +115,9 @@
     "no-multi-assign": ["error"],
     "no-param-reassign": "off",
     "one-var": ["error", "never"],
-    "prefer-arrow-callback": ["off"]
+    "prefer-arrow-callback": ["off"],
+    "prettier/prettier": ["warn"],
+    "no-restricted-syntax": ["off"]
   },
   "settings": {
     "import/parsers": {

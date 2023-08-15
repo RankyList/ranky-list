@@ -24,10 +24,7 @@
     import { fade } from 'svelte/transition';
 
     import Logo from '$components/icon/ranky-list-logo.svg?component';
-    import LoginModal from '$components/modal/LoginModal.svelte';
-    import { authProviders } from '$stores/auth-providers';
     import { authWindow } from '$stores/auth-window';
-    import { loginModal } from '$utils/modal';
 
     import type { ModalComponentRegistry } from '$types/modal';
 
@@ -35,21 +32,13 @@
     import { enhance } from '$app/forms';
     import { page } from '$app/stores';
 
-    export let data;
-
-    const modalComponentRegistry: ModalComponentRegistry = {
-        loginModal: {
-            ref: LoginModal,
-            props: { loginForm: data.loginForm },
-        },
-    };
+    const modalComponentRegistry: ModalComponentRegistry = {};
     const userPopup: PopupSettings = {
         event: 'focus-click',
         target: 'user-popup',
         placement: 'bottom',
     };
 
-    authProviders.set(data.authProviders);
     storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
     const onmessage = (e: MessageEvent) => {
@@ -144,16 +133,28 @@
             <div class="flex items-center gap-5">
                 <LightSwitch />
                 <noscript>
-                    {#if $page.data.user}
-                        <form use:enhance action="/?/logout" method="post">
-                            <button type="submit">
-                                <span class="flex-auto">Logout</span>
-                            </button>
-                        </form>
-                    {:else}
-                        <a href="/login">Login</a>
-                        <a href="/register">Register</a>
-                    {/if}
+                    <nav aria-label="My account">
+                        {#if $page.data.user}
+                            <ul>
+                                <li>
+                                    <form action="/?/logout" method="post">
+                                        <button type="submit">
+                                            <span class="flex-auto">Logout</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        {:else}
+                            <ul>
+                                <li>
+                                    <a href="/login">Login</a>
+                                </li>
+                                <li>
+                                    <a href="/register">Register</a>
+                                </li>
+                            </ul>
+                        {/if}
+                    </nav>
                 </noscript>
                 <button class="btn-icon variant-soft-primary" use:popup={userPopup}>
                     {#if $page.data.user}
@@ -169,7 +170,7 @@
                     {/if}
                 </button>
                 <div data-popup="user-popup" class="card variant-filled-surface p-4">
-                    <nav class="list-nav">
+                    <nav aria-label="My account" class="list-nav">
                         {#if $page.data.user}
                             <ul>
                                 <li>
@@ -183,18 +184,10 @@
                         {:else}
                             <ul>
                                 <li>
-                                    <button
-                                        type="button"
-                                        on:click={() => {
-                                            if ($page.data.user) {
-                                                return;
-                                            }
-
-                                            modalStore.trigger(loginModal);
-                                        }}
-                                    >
-                                        <span class="flex-auto">Login</span>
-                                    </button>
+                                    <a href="/login">Login</a>
+                                </li>
+                                <li>
+                                    <a href="/register">Register</a>
                                 </li>
                             </ul>
                         {/if}

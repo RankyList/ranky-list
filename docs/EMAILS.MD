@@ -8,7 +8,7 @@ Sending emails with PocketBase is very easy. However, to test emails during deve
 
 ## Testing emails in dev
 
-Go to [http://localhost:8090/_/#/settings/mail](http://localhost:8090/_/#/settings/mail), enable `Use SMTP mail server` and edit the following settings :
+Go to [http://pocketbase.ranky-list.local/_/#/settings/mail](http://pocketbase.ranky-list.local/_/#/settings/mail), enable `Use SMTP mail server` and edit the following settings :
 
 | Setting          | Value             |
 | ---------------- | ----------------- |
@@ -17,7 +17,7 @@ Go to [http://localhost:8090/_/#/settings/mail](http://localhost:8090/_/#/settin
 | TLS encryption   | `Auto (StartTLS)` |
 | AUTH method      | `PLAIN (default)` |
 
-You are done! You can now go to [http://localhost:1080/](http://localhost:1080/) to see sent emails.
+You are done! You can now go to [http://mailcatcher.ranky-list.local](http://mailcatcher.ranky-list.local) to see sent emails.
 You can send emails to any address, they will always be caught by the `mailcatcher` service.
 
 ## Creating custom emails

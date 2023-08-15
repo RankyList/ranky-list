@@ -1,6 +1,8 @@
-FROM node:current-alpine3.17
+FROM node:current-alpine3.18
 
 WORKDIR /home/node/svelte-kit
+
+RUN apk add xdg-utils
 
 USER node
 

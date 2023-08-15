@@ -11,7 +11,6 @@ playwright.config.js
 !eslintrc.cjs
 .vscode/
 /coverage
-/.storybook
 /fixtures
 
 # Ignore files for PNPM, NPM and YARN

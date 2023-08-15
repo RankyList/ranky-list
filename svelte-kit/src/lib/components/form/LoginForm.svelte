@@ -5,14 +5,15 @@
     import { superForm } from 'sveltekit-superforms/client';
 
     import { loginSchema } from '$schemas/login';
-    import { availableAuthProviders } from '$stores/auth-providers';
     import { authWindow } from '$stores/auth-window';
 
+    import type { AuthProvider } from '$types/auth/providers';
     import type { LoginSchema } from '$types/schema/login';
-    import type { Validation } from 'sveltekit-superforms';
+    import type { SuperValidated } from 'sveltekit-superforms';
 
-    export let data: Validation<LoginSchema>;
-    export let options: Partial<Parameters<typeof superForm>[1]> = {};
+    export let data: SuperValidated<LoginSchema>;
+    export let options: Partial<Parameters<typeof superForm<typeof loginSchema>>[1]> = {};
+    export let authProviders: AuthProvider[] = [];
     export let timeoutMessage = 'Sorry... This is taking longer than expected.';
     export let oAuthFailedMessage = 'Sorry, something went wrong while starting the authentication process.';
 
@@ -22,7 +23,7 @@
         timeoutMs: 5000,
         validators: loginSchema,
         ...options,
-    } as Partial<Parameters<typeof superForm>[1]>);
+    });
 
     const handleOAuth = (e: Event, url: string) => {
         e.preventDefault();
@@ -119,11 +120,11 @@
     </div>
 </form>
 
-{#if $availableAuthProviders.length > 0}
+{#if authProviders.length > 0}
     <hr />
 
     <div class="logo-cloud grid-cols-1 gap-1">
-        {#each $availableAuthProviders as authProvider}
+        {#each authProviders as authProvider}
             {@const url = `/login/${authProvider.name}/start`}
 
             <a

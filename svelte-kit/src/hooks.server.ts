@@ -2,11 +2,11 @@ import { pb } from '$server/pocketbase';
 import dayjs from '$utils/dayjs';
 
 import type { UsersResponse } from './lib/types/pocketbase';
+import type { Handle } from '@sveltejs/kit';
 
-export const handle = async ({ event, resolve }) => {
+export const handle = (async ({ event, resolve }) => {
   event.locals.pb = pb;
   event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
-  event.locals.authProviders = await event.locals.pb.collection('users').listAuthMethods();
 
   try {
     if (event.locals.pb.authStore.isValid) {
@@ -21,4 +21,4 @@ export const handle = async ({ event, resolve }) => {
   response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate() }));
 
   return response;
-};
+}) satisfies Handle;
