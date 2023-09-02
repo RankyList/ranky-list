@@ -1,0 +1,126 @@
+version: '3.9'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    container_name: rl-traefik
+
+  svelte-kit:
+    build:
+      context: .
+      dockerfile: docker/svelte-kit/Dockerfile
+    depends_on:
+      pocketbase:
+        condition: service_healthy
+    volumes:
+      - svelte-kit-volume:/home/node/svelte-kit
+    labels:
+      - "traefik.enable=true"
+      # SvelteKit
+      - "traefik.http.routers.svelte-kit.rule=Host(`ranky-list.local`)"
+      - "traefik.http.routers.svelte-kit.entrypoints=web"
+      - "traefik.http.routers.svelte-kit.service=svelte-kit"
+      - "traefik.http.services.svelte-kit.loadbalancer.server.port=5173"
+      # Vitest
+      - "traefik.http.routers.vitest.rule=Host(`vitest.ranky-list.local`)"
+      - "traefik.http.routers.vitest.entrypoints=web"
+      - "traefik.http.routers.vitest.service=vitest"
+      - "traefik.http.services.vitest.loadbalancer.server.port=5174"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: rl-svelte-kit
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5173/api/healthz || exit 1
+      interval: 10s
+      timeout: 20s
+      retries: 10
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.37.0-focal
+    restart: "no"
+    working_dir: /testing
+    command: [ "yarn", "test" ]
+    volumes:
+      - svelte-kit-volume:/testing
+    depends_on:
+      svelte-kit:
+        condition: service_healthy
+    container_name: rl-playwright
+
+  histoire:
+    image: node:current-alpine3.18
+    command: yarn story:dev --port 6006
+    working_dir: /home/node/histoire
+    user: node
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    volumes:
+      - svelte-kit-volume:/home/node/histoire
+    depends_on:
+      svelte-kit:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.histoire.rule=Host(`histoire.ranky-list.local`)"
+      - "traefik.http.routers.histoire.entrypoints=web"
+      - "traefik.http.routers.histoire.service=histoire"
+      - "traefik.http.services.histoire.loadbalancer.server.port=6006"
+    container_name: rl-histoire
+
+  mailcatcher:
+    image: sj26/mailcatcher:latest
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailcatcher.rule=Host(`mailcatcher.ranky-list.local`)"
+      - "traefik.http.routers.mailcatcher.entrypoints=web"
+      - "traefik.http.routers.mailcatcher.service=mailcatcher"
+      - "traefik.http.services.mailcatcher.loadbalancer.server.port=1080"
+    container_name: rl-mailcatcher
+
+  pocketbase:
+    build:
+      context: .
+      dockerfile: ./docker/pocketbase/Dockerfile
+    command: wgo run -xdir pb_data main.go serve --http 0.0.0.0:8090
+    volumes:
+      - ./pocketbase:/usr/src/app
+    environment:
+      DB_USER: "${DB_USER:?err}"
+      DB_PASS: "${DB_PASS:?err}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pocketbase.rule=Host(`pocketbase.ranky-list.local`)"
+      - "traefik.http.routers.pocketbase.entrypoints=web"
+      - "traefik.http.routers.pocketbase.service=pocketbase"
+      - "traefik.http.services.pocketbase.loadbalancer.server.port=8090"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: rl-pocketbase
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 10s
+      timeout: 20s
+      retries: 10
+
+volumes:
+  svelte-kit-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/svelte-kit

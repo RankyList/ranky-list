@@ -1,15 +1,17 @@
 import { error, redirect } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 
-import type { UsersResponse } from '$types/pocketbase.js';
+import type { UsersResponse } from '$types/pocketbase';
+import type { PageServerLoad } from './$types';
 import type { RecordAuthResponse } from 'pocketbase';
 
-export const load = async ({ url, locals, params, cookies }) => {
+export const load = (async ({ url, locals, params, cookies }) => {
   if (locals.user) {
     throw redirect(303, '/');
   }
 
-  const provider = locals.authProviders.authProviders.find((providerInfo) => providerInfo.name === params.provider);
+  const authMethods = await locals.pb.collection('users').listAuthMethods();
+  const provider = authMethods.authProviders.find((providerInfo) => providerInfo.name === params.provider);
 
   if (!provider) {
     throw error(404, { message: 'Provider not found.' });
@@ -48,5 +50,5 @@ export const load = async ({ url, locals, params, cookies }) => {
     throw error(401, { message: 'Login failed.' });
   }
 
-  return { user: user ? structuredClone(user.record) : null };
-};
+  return { user: structuredClone(user.record) };
+}) satisfies PageServerLoad;

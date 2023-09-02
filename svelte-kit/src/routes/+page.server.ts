@@ -1,14 +1,15 @@
 import { redirect } from '@sveltejs/kit';
 
-import type { TierlistsResponse } from '$types/pocketbase.js';
+import type { TierlistsResponse } from '$types/pocketbase';
+import type { Actions, PageServerLoad } from './$types';
 
-export const load = async ({ locals }) => {
+export const load = (async ({ locals }) => {
   const recentTierLists = await locals.pb.collection('tierlists').getList<TierlistsResponse>(1, 10, {
     sort: '-created',
   });
 
   return { recentTierLists: structuredClone(recentTierLists) };
-};
+}) satisfies PageServerLoad;
 
 export const actions = {
   logout: async ({ locals }) => {
@@ -19,4 +20,4 @@ export const actions = {
 
     throw redirect(302, '/');
   },
-};
+} satisfies Actions;

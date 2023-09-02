@@ -1,5 +1,5 @@
 COMPOSE=docker compose
-COMPOSECI=$(COMPOSE) -f docker-compose.ci.yml
+COMPOSECI=$(COMPOSE) -f compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECPOCKETBASE=$(COMPOSE) exec pocketbase
 EXECVITESTCI=$(COMPOSECI) exec vitest
@@ -16,26 +16,26 @@ endif
 # Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
-	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase vitest --remove-orphans --force-recreate
+	$(COMPOSE) up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans --force-recreate
 	make fixtures
 
 start-nocache:
 	$(COMPOSE) build --force-rm --no-cache
-	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase vitest --remove-orphans --force-recreate
+	$(COMPOSE) up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans --force-recreate
 	make fixtures
 
 up:
 ifndef UP_ENV_FILE
-	$(COMPOSE) up -d svelte-kit storybook mailcatcher pocketbase vitest --remove-orphans
+	$(COMPOSE) up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans
 else
-	$(COMPOSE) --env-file ${UP_ENV_FILE} up -d svelte-kit storybook mailcatcher pocketbase vitest --remove-orphans
+	$(COMPOSE) --env-file ${UP_ENV_FILE} up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans
 endif
 
 build:
 	$(COMPOSE) build --force-rm --no-cache
 
 restart:
-	$(COMPOSE) restart svelte-kit storybook mailcatcher pocketbase vitest
+	$(COMPOSE) restart traefik svelte-kit histoire mailcatcher pocketbase
 
 stop:
 	$(COMPOSE) stop
@@ -118,6 +118,9 @@ vitest:
 
 vitest-watch:
 	$(EXECSVELTEKIT) yarn test:unit:watch
+
+vitest-ui:
+	$(EXECSVELTEKIT) yarn test:unit:ui
 
 # For CI only
 ci-golang:

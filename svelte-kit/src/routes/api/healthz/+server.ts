@@ -1,6 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 
-export const GET = () => {
+import type { RequestHandler } from './$types';
+
+export const GET = (() => {
   const health = {
     uptime: process.uptime(),
     message: 'Service is healthy.',
@@ -12,6 +14,6 @@ export const GET = () => {
   } catch (_) {
     health.message = 'Service is unhealthy.';
 
-    return error(500, health);
+    throw error(500, health);
   }
-};
+}) satisfies RequestHandler;

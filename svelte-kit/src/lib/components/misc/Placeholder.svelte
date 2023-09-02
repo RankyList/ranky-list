@@ -1,6 +1,10 @@
 <script lang="ts">
     export let height: number;
     export let animate = true;
+    export let circle = false;
+
+    $: classes = `placeholder ${$$props.class || ''}}`;
+    $: style = `height: ${height}px; ${$$props.style || ''}`;
 </script>
 
-<div class={'placeholder'} class:animate-pulse={animate} style={`height: ${height}px;`} {...$$props} />
+<div {...$$props} class={classes} class:animate-pulse={animate} class:placeholder-circle={circle} {style} />

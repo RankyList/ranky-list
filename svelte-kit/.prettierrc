@@ -21,6 +21,5 @@
   "tabWidth": 2,
   "trailingComma": "all",
   "useTabs": false,
-  "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
-  "pluginSearchDirs": false
+  "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
 }

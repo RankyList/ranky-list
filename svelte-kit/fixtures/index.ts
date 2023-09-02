@@ -138,8 +138,7 @@ try {
     const collectionName = fixture.name;
     console.info(chalk.yellow(`Deleting records in ${chalk.underline(collectionName)} collection...`));
 
-    const { totalItems } = await pb.collection(collectionName).getList(1, 1);
-    const records = await pb.collection(collectionName).getFullList({ batch: totalItems });
+    const records = await pb.collection(collectionName).getFullList();
 
     for (const record of records) {
       await pb.collection(collectionName).delete(record.id);

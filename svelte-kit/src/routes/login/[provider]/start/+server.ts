@@ -1,11 +1,14 @@
 import { error, redirect } from '@sveltejs/kit';
 
-export const GET = ({ params, cookies, locals, url }) => {
+import type { RequestHandler } from './$types';
+
+export const GET = (async ({ params, cookies, locals, url }) => {
   if (locals.user) {
     throw redirect(303, '/');
   }
 
-  const provider = locals.authProviders.authProviders.find((providerInfo) => providerInfo.name === params.provider);
+  const authMethods = await locals.pb.collection('users').listAuthMethods();
+  const provider = authMethods.authProviders.find((providerInfo) => providerInfo.name === params.provider);
 
   if (!provider) {
     throw error(404, { message: 'Provider not found.' });
@@ -19,4 +22,4 @@ export const GET = ({ params, cookies, locals, url }) => {
   authUrl.searchParams.set('redirect_uri', `${url.origin}/login/${provider.name}`);
 
   throw redirect(303, authUrl.toString());
-};
+}) satisfies RequestHandler;

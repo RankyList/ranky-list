@@ -1,13 +1,13 @@
 import type { ModalSettings as BaseModalSettings, ModalComponent as BaseModalComponent, CssClasses } from '@skeletonlabs/skeleton';
 import type { SvelteComponent } from 'svelte';
 
-export type ModalComponentNames = 'loginModal';
+export type ModalComponentNames = '';
 
 export interface ModalComponent extends BaseModalComponent {
   ref: typeof SvelteComponent;
 }
 
-export type ModalComponentRegistry = Record<ModalComponentNames, ModalComponent>;
+export type ModalComponentRegistry = Partial<Record<ModalComponentNames, ModalComponent>>;
 
 export interface ModalSettings extends BaseModalSettings {
   component?: ModalComponent | ModalComponentNames;

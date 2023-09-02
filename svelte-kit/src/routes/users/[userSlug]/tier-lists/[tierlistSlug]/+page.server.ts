@@ -1,9 +1,10 @@
 import { error } from '@sveltejs/kit';
 import { ClientResponseError } from 'pocketbase';
 
-import type { TierlistsResponse } from '$types/pocketbase.js';
+import type { TierlistsResponse } from '$types/pocketbase';
+import type { PageServerLoad } from './$types';
 
-export const load = async ({ params, locals }) => {
+export const load = (async ({ params, locals }) => {
   const { tierlistSlug } = params;
   let tierList: TierlistsResponse;
 
@@ -18,4 +19,4 @@ export const load = async ({ params, locals }) => {
   }
 
   return { tierList: structuredClone(tierList) };
-};
+}) satisfies PageServerLoad;

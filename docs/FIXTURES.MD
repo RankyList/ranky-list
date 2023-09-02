@@ -135,7 +135,7 @@ const formData = new FormData();
 
 try {
   // Get a fake url 🐱
-  const url = faker.image.cats();
+  const url = faker.image.urlLoremFlickr({ category: 'cats' });
   // Use the utils function "downloadImage" to get the image as a Blob
   const avatar = await downloadImage(url, 'blob');
 

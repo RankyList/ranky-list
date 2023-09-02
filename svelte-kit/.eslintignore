@@ -9,10 +9,10 @@ node_modules
 *.cjs
 playwright.config.js
 svelte.config.js
-!.storybook
 /coverage
-/.storybook
 /fixtures
+vitest.config.ts
+histoire.config.ts
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml

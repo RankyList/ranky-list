@@ -1,0 +1,90 @@
+{
+    "folders": [
+        {
+            "name": "SvelteKit",
+            "path": "svelte-kit"
+        },
+        {
+            "name": "PocketBase",
+            "path": "pocketbase"
+        },
+        {
+            "name": "Docker",
+            "path": "docker"
+        },
+        {
+            "name": "Root",
+            "path": "./"
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/Thumbs.db": true,
+        },
+        "[dockercompose]": {
+            "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+        },
+        "[dockerfile]": {
+            "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+        },
+        "[html]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[markdown]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[sass]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[scss]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[svelte]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+            "editor.formatOnSave": true
+        },
+        "[javascript]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+        },
+        "[typescript]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+            "editor.detectIndentation": false,
+            "editor.insertSpaces": true,
+            "editor.tabSize": 2
+        },
+        "eslint.options": {
+            "extensions": [
+                ".js",
+                ".ts",
+                ".svelte"
+            ]
+        },
+        "eslint.probe": [
+            "javascript",
+            "typescript",
+            "html",
+            "markdown",
+            "svelte"
+        ],
+        "eslint.validate": [
+            "javascript",
+            "svelte"
+        ],
+        "prettier.documentSelectors": [
+            "**/*.svelte"
+        ],
+        "prettier.requireConfig": true,
+        "svelte.enable-ts-plugin": true
+    }
+}
