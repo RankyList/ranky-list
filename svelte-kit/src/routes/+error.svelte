@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { IconHome } from '@tabler/icons-svelte';
     import { MetaTags } from 'svelte-meta-tags';
 
     import { page } from '$app/stores';
+    import IconHome from '~icons/tabler/home';
 
     const { status } = $page;
     const message = $page.error?.message ?? 'Oops... Something went wrong.';

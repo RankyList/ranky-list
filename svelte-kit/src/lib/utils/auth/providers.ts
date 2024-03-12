@@ -1,6 +1,8 @@
-import { IconBrandDiscord, IconBrandGithub, IconBrandGoogle } from '@tabler/icons-svelte';
-
 import type { AuthProviderInfo } from '$types/auth/providers';
+
+import IconBrandDiscord from '~icons/tabler/brand-discord';
+import IconBrandGithub from '~icons/tabler/brand-github';
+import IconBrandGoogle from '~icons/tabler/brand-google';
 
 export const allowedAuthProviders: Record<string, AuthProviderInfo> = {
   discord: {

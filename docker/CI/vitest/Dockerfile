@@ -4,6 +4,6 @@ WORKDIR /home/node/svelte-kit
 
 COPY ./svelte-kit ./
 
-RUN yarn install
+RUN corepack enable && yarn install
 
 CMD [ "yarn", "dev" ]

@@ -1,29 +1,34 @@
 <script lang="ts">
-    import { ProgressRadial, toastStore } from '@skeletonlabs/skeleton';
-    import { IconCircleX, IconX } from '@tabler/icons-svelte';
+    import { ProgressRadial } from '@skeletonlabs/skeleton';
+    import { Field, Control, Label, FieldErrors, Description } from 'formsnap';
     import { fade, slide } from 'svelte/transition';
+    import { toast } from 'svelte-sonner';
+    import { valibotClient } from 'sveltekit-superforms/adapters';
     import { superForm } from 'sveltekit-superforms/client';
 
-    import { loginSchema } from '$schemas/login';
+    import { LoginSchema } from '$schemas/login';
     import { authWindow } from '$stores/auth-window';
+    import { defaultFormOptions } from '$utils/form/defaults';
 
+    import type { LoginInput } from '$schemas/login';
     import type { AuthProvider } from '$types/auth/providers';
-    import type { LoginSchema } from '$types/schema/login';
     import type { SuperValidated } from 'sveltekit-superforms';
 
-    export let data: SuperValidated<LoginSchema>;
-    export let options: Partial<Parameters<typeof superForm<typeof loginSchema>>[1]> = {};
+    import IconCircleX from '~icons/tabler/circle-x';
+    import IconX from '~icons/tabler/x';
+
+    export let data: SuperValidated<LoginInput>;
+    export let options: Partial<Parameters<typeof superForm<LoginInput>>[1]> = {};
     export let authProviders: AuthProvider[] = [];
     export let timeoutMessage = 'Sorry... This is taking longer than expected.';
     export let oAuthFailedMessage = 'Sorry, something went wrong while starting the authentication process.';
 
-    const { form, enhance, errors, constraints, message, delayed, timeout, submitting } = superForm(data, {
-        taintedMessage: null,
-        delayMs: 500,
-        timeoutMs: 5000,
-        validators: loginSchema,
+    const form = superForm(data, {
+        ...defaultFormOptions,
+        validators: valibotClient(LoginSchema),
         ...options,
     });
+    const { form: formData, enhance, message, delayed, timeout, submitting } = form;
 
     const handleOAuth = (e: Event, url: string) => {
         e.preventDefault();
@@ -35,24 +40,21 @@
         const opened = authWindow.open(url);
 
         if (!opened) {
-            toastStore.trigger({
-                message: oAuthFailedMessage,
-                classes: 'variant-filled-error',
-            });
+            toast.error(oAuthFailedMessage);
         }
     };
 </script>
 
 {#if $message}
     <div transition:slide role="alert" class="alert variant-ghost">
-        <div><IconCircleX /></div>
+        <div aria-hidden="true"><IconCircleX /></div>
         <div class="alert-message">
             <p>{$message}</p>
         </div>
         <div class="alert-actions">
             <button
                 type="button"
-                class="btn-icon variant-ghost"
+                class="variant-ghost btn-icon"
                 on:click={() => {
                     $message = null;
                 }}
@@ -65,40 +67,30 @@
 {/if}
 
 <form method="post" use:enhance class="grid gap-5" action="/login/?/login">
-    <div class="label">
-        <label for="usernameOrEmail">Username or email</label>
-        <input
-            type="text"
-            id="usernameOrEmail"
-            name="usernameOrEmail"
-            class="input variant-form-material"
-            bind:value={$form.usernameOrEmail}
-            data-invalid={$errors.usernameOrEmail}
-            {...$constraints.usernameOrEmail}
-        />
-        {#if $errors.usernameOrEmail}
-            <span class="text-error-500" transition:fade>{$errors.usernameOrEmail}</span>
-        {/if}
-    </div>
+    <Field {form} name="usernameOrEmail">
+        <div class="label">
+            <Control let:attrs>
+                <Label>Username or email</Label>
+                <input {...attrs} class="input variant-form-material" bind:value={$formData.usernameOrEmail} />
+            </Control>
+            <Description />
+            <FieldErrors />
+        </div>
+    </Field>
 
-    <div class="label">
-        <label for="password">Password</label>
-        <input
-            type="password"
-            id="password"
-            name="password"
-            class="input variant-form-material"
-            bind:value={$form.password}
-            data-invalid={$errors.password}
-            {...$constraints.password}
-        />
-        {#if $errors.password}
-            <span class="text-error-500" transition:fade>{$errors.password}</span>
-        {/if}
-    </div>
+    <Field {form} name="password">
+        <div class="label">
+            <Control let:attrs>
+                <Label>Password</Label>
+                <input {...attrs} class="input variant-form-material" bind:value={$formData.password} />
+            </Control>
+            <Description />
+            <FieldErrors />
+        </div>
+    </Field>
 
     <div class="flex flex-col items-center justify-center gap-2">
-        <button type="submit" class="btn variant-filled w-fit" disabled={$submitting}>
+        <button type="submit" class="variant-filled btn w-fit" disabled={$submitting}>
             <span>Login</span>
             {#if $delayed || $timeout}
                 <span transition:fade>
@@ -130,7 +122,9 @@
             <a
                 href={url}
                 class="logo-item variant-filled-primary py-4"
-                on:click={(e) => handleOAuth(e, url)}
+                on:click={(e) => {
+                    handleOAuth(e, url);
+                }}
                 class:disabled={$authWindow.opened}
                 aria-disabled={$authWindow.opened}
             >

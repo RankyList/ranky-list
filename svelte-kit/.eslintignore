@@ -7,14 +7,12 @@ node_modules
 .env.*
 !.env.example
 *.cjs
+tailwind.config.ts
 playwright.config.js
 svelte.config.js
 /coverage
 /fixtures
-vitest.config.ts
 histoire.config.ts
-
-# Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+histoire.setup.ts
+bun.lockb
+ranky-list.theme.ts

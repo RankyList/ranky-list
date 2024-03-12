@@ -1,8 +1,6 @@
 COMPOSE=docker compose
-COMPOSECI=$(COMPOSE) -f compose.ci.yml
 EXECSVELTEKIT=$(COMPOSE) exec svelte-kit
 EXECPOCKETBASE=$(COMPOSE) exec pocketbase
-EXECVITESTCI=$(COMPOSECI) exec vitest
 POCKETBASEURL ?= http://pocketbase:8090
 POCKETBASEEMAIL ?= "root@root.com"
 POCKETBASEPASSWORD ?= "root"
@@ -16,26 +14,26 @@ endif
 # Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
-	$(COMPOSE) up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans --force-recreate
+	$(COMPOSE) up -d --remove-orphans --force-recreate
 	make fixtures
 
 start-nocache:
 	$(COMPOSE) build --force-rm --no-cache
-	$(COMPOSE) up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans --force-recreate
+	$(COMPOSE) up -d --remove-orphans --force-recreate
 	make fixtures
 
 up:
 ifndef UP_ENV_FILE
-	$(COMPOSE) up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans
+	$(COMPOSE) up -d --remove-orphans
 else
-	$(COMPOSE) --env-file ${UP_ENV_FILE} up -d traefik svelte-kit histoire mailcatcher pocketbase --remove-orphans
+	$(COMPOSE) --env-file ${UP_ENV_FILE} up -d --remove-orphans
 endif
 
 build:
 	$(COMPOSE) build --force-rm --no-cache
 
 restart:
-	$(COMPOSE) restart traefik svelte-kit histoire mailcatcher pocketbase
+	$(COMPOSE) restart
 
 stop:
 	$(COMPOSE) stop
@@ -47,14 +45,8 @@ down:
 ssh:
 	$(EXECSVELTEKIT) sh
 
-bash:
-	$(EXECSVELTEKIT) bash
-
 ssh-pocketbase:
 	$(EXECPOCKETBASE) sh
-
-bash-pocketbase:
-	$(EXECPOCKETBASE) bash
 
 # Containers & healthcheck
 list-containers:
@@ -76,12 +68,9 @@ logs-svelte-kit:
 logs-pocketbase:
 	$(COMPOSE) logs pocketbase
 
-# Yarn
+# Bun
 upgrade:
-	$(EXECSVELTEKIT) yarn upgrade-interactive
-
-upgrade-latest:
-	$(EXECSVELTEKIT) yarn upgrade-interactive --latest
+	$(EXECSVELTEKIT) bunx npm-check-updates -i
 
 # Pocketbase
 migrate:
@@ -94,47 +83,25 @@ history-sync:
 	$(EXECPOCKETBASE) go run main.go migrate history-sync
 
 generate:
-	$(EXECSVELTEKIT) npx pocketbase-typegen -u $(POCKETBASEURL) -e $(POCKETBASEEMAIL) -p "$(POCKETBASEPASSWORD)" -o ./src/lib/types/pocketbase.ts
-	$(EXECSVELTEKIT) yarn eslint --fix ./src/lib/types/pocketbase.ts
+	$(EXECSVELTEKIT) bunx pocketbase-typegen -u $(POCKETBASEURL) -e $(POCKETBASEEMAIL) -p "$(POCKETBASEPASSWORD)" -o ./src/lib/types/pocketbase.ts
+	$(EXECSVELTEKIT) bun run eslint --fix ./src/lib/types/pocketbase.ts
 
 fixtures:
-	$(EXECSVELTEKIT) yarn fixtures -f
+	$(EXECSVELTEKIT) bun run fixtures -f
 
 # Linting
 lint:
-	$(EXECSVELTEKIT) yarn lint
+	$(EXECSVELTEKIT) bun run check
+	$(EXECSVELTEKIT) bun run lint
 
 format:
-	$(EXECSVELTEKIT) yarn format
+	$(EXECSVELTEKIT) bun run format
 
 # Testing
-test: playwright vitest
+test:
+	$(EXECSVELTEKIT) bun test
 
-playwright:
-	$(COMPOSE) up playwright --remove-orphans
-
-vitest:
-	$(EXECSVELTEKIT) yarn test:unit
-
-vitest-watch:
-	$(EXECSVELTEKIT) yarn test:unit:watch
-
-vitest-ui:
-	$(EXECSVELTEKIT) yarn test:unit:ui
-
-# For CI only
-ci-golang:
-	$(COMPOSECI) up golangci
-
-ci-playwright:
-	$(COMPOSECI) up playwright
-
-ci-vitest:
-	$(COMPOSECI) up -d vitest
-	$(EXECVITESTCI) yarn test:unit
-
-ci-eslint:
-	$(COMPOSECI) up eslint
-
-ci-pocketbase:
-	$(COMPOSECI) up pocketbase -d
+# Permissions
+perm:
+	sudo chown -R 1000:$$USER svelte-kit/.svelte-kit svelte-kit/build
+	sudo chmod -R 770 svelte-kit/.svelte-kit svelte-kit/build

@@ -12,8 +12,4 @@ playwright.config.js
 .vscode/
 /coverage
 /fixtures
-
-# Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+bun.lockb

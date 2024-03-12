@@ -1,19 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'bun:test';
 
 import { truncateString } from './truncate';
 
 describe('Truncate test', () => {
   const prompt = 'The lazy fox jumps over the brown dog.';
-
-  it('Called and returned', () => {
-    const truncateSpy = vi.fn(truncateString);
-
-    truncateSpy('');
-
-    expect(truncateSpy).toHaveBeenCalledOnce();
-    expect(truncateSpy).toHaveBeenCalledWith('');
-    expect(truncateSpy).toHaveReturned();
-  });
 
   it('Truncate with max length with default suffix', () => {
     expect(truncateString(prompt, 12)).toBe('The lazy fox...');
@@ -32,6 +22,6 @@ describe('Truncate test', () => {
   });
 
   it('Negative maxLength throws an exception', () => {
-    expect(() => truncateString('', -1)).toThrowError('positive');
+    expect(() => truncateString('', -1)).toThrow('positive');
   });
 });

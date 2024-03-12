@@ -90,44 +90,44 @@ For example, add `127.0.0.1 ranky-list.local` to be able to access the app on [h
 
 List of the available make commands.
 
-| Command                  | Description                                                                                                        |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `start`                  | Builds the containers and starts them, then runs the `fixtures` command.                                           |
-| `start-nocache`          | Builds the containers without using cache and starts them, then runs the `fixtures` command.                       |
-| `up [env_file]`          | Starts the containers in detached mode, using the specified environment file if provided.                          |
-| `build`                  | Builds all containers without using cache.                                                                         |
-| `restart`                | Restarts all stopped and running services.                                                                         |
-| `stop`                   | Stops the containers.                                                                                              |
-| `down`                   | Stops and removes the containers, networks, and volumes.                                                           |
-| `ssh`                    | Connects to the `svelte-kit` container via SSH.                                                                    |
-| `bash`                   | Opens a Bash shell in the `svelte-kit` container.                                                                  |
-| `ssh-pocketbase`         | Connects to the `pocketbase` container via SSH.                                                                    |
-| `bash-pocketbase`        | Opens a Bash shell in the `pocketbase` container.                                                                  |
-| `list-containers`        | Lists all containers, including those not running.                                                                 |
-| `healthcheck-svelte-kit` | Shows the health status of the `svelte-kit` container.                                                             |
-| `healthcheck-pocketbase` | Shows the health status of the `pocketbase` container.                                                             |
-| `logs`                   | Displays logs from all containers.                                                                                 |
-| `logs-svelte-kit`        | Displays logs from the `svelte-kit` container.                                                                     |
-| `logs-pocketbase`        | Displays logs from the `pocketbase` container.                                                                     |
-| `upgrade`                | Runs an interactive upgrade of dependencies (using `yarn`) in the `svelte-kit` container.                          |
-| `upgrade-latest`         | Runs an interactive upgrade of dependencies (using `yarn`) to their latest versions in the `svelte-kit` container. |
-| `migrate`                | Runs the Pocketbase migration create command in the `pocketbase` container.                                        |
-| `migrate-collections`    | Runs the Pocketbase migration collections command in the `pocketbase` container.                                   |
-| `history-sync`           | Runs the Pocketbase migration history-sync command in the `pocketbase` container.                                  |
-| `generate`               | Generates Pocketbase type definitions in ./src/lib/types/pocketbase.ts, based on the Pocketbase API.               |
-| `fixtures`               | Runs the fixtures script to generate mock data in the `svelte-kit` container.                                      |
-| `lint`                   | Runs linting in the `svelte-kit` container using Prettier and ESLint.                                              |
-| `format`                 | Runs linting and formats code in the `svelte-kit` container using Prettier and ESLint.                             |
-| `test`                   | Runs the `playwright` and `vitest` commands.                                                                       |
-| `playwright`             | Starts the `playwright` service once in the `svelte-kit` container, for end-to-end testing.                        |
-| `vitest`                 | Runs the unit tests in the `svelte-kit` container, using Vitest.                                                   |
-| `vitest-watch`           | Runs the unit tests in watch mode in the svelte-kit container, using Vite.                                         |
-| `vitest-ui`              | Starts the Vitest web server to access tests through an [UI](https://vitest.dev/guide/ui.html).                    |
-| `build-pocketbase`       | Builds the `pocketbase` container using the compose.ci.yml file. For build only.                                   |
-| `ci-golang`              | Starts the `golangci` service in the compose.ci.yml file. For CI only.                                             |
-| `ci-playwright`          | Starts the `playwright` service in the compose.ci.yml file. For CI only.                                           |
-| `ci-vitest`              | Starts the `vitest` service in the compose.ci.yml file. For CI only.                                               |
-| `ci-eslint`              | Starts the `eslint` service in the compose.ci.yml file. For CI only.                                               |
+| Command                  | Description                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `start`                  | Builds the containers and starts them, then runs the `fixtures` command.                             |
+| `start-nocache`          | Builds the containers without using cache and starts them, then runs the `fixtures` command.         |
+| `up [env_file]`          | Starts the containers in detached mode, using the specified environment file if provided.            |
+| `build`                  | Builds all containers without using cache.                                                           |
+| `restart`                | Restarts all stopped and running services.                                                           |
+| `stop`                   | Stops the containers.                                                                                |
+| `down`                   | Stops and removes the containers, networks, and volumes.                                             |
+| `ssh`                    | Connects to the `svelte-kit` container via SSH.                                                      |
+| `bash`                   | Opens a Bash shell in the `svelte-kit` container.                                                    |
+| `ssh-pocketbase`         | Connects to the `pocketbase` container via SSH.                                                      |
+| `bash-pocketbase`        | Opens a Bash shell in the `pocketbase` container.                                                    |
+| `list-containers`        | Lists all containers, including those not running.                                                   |
+| `healthcheck-svelte-kit` | Shows the health status of the `svelte-kit` container.                                               |
+| `healthcheck-pocketbase` | Shows the health status of the `pocketbase` container.                                               |
+| `logs`                   | Displays logs from all containers.                                                                   |
+| `logs-svelte-kit`        | Displays logs from the `svelte-kit` container.                                                       |
+| `logs-pocketbase`        | Displays logs from the `pocketbase` container.                                                       |
+| `upgrade`                | Runs an upgrade of dependencies (using `yarn`) in the `svelte-kit` container.                        |
+| `upgrade-interactive`    | Runs an interactive upgrade of dependencies (using `yarn`) in the `svelte-kit` container.            |
+| `migrate`                | Runs the Pocketbase migration create command in the `pocketbase` container.                          |
+| `migrate-collections`    | Runs the Pocketbase migration collections command in the `pocketbase` container.                     |
+| `history-sync`           | Runs the Pocketbase migration history-sync command in the `pocketbase` container.                    |
+| `generate`               | Generates Pocketbase type definitions in ./src/lib/types/pocketbase.ts, based on the Pocketbase API. |
+| `fixtures`               | Runs the fixtures script to generate mock data in the `svelte-kit` container.                        |
+| `lint`                   | Runs linting in the `svelte-kit` container using Prettier and ESLint.                                |
+| `format`                 | Runs linting and formats code in the `svelte-kit` container using Prettier and ESLint.               |
+| `test`                   | Runs the `playwright` and `vitest` commands.                                                         |
+| `playwright`             | Starts the `playwright` service once in the `svelte-kit` container, for end-to-end testing.          |
+| `vitest`                 | Runs the unit tests in the `svelte-kit` container, using Vitest.                                     |
+| `vitest-watch`           | Runs the unit tests in watch mode in the svelte-kit container, using Vite.                           |
+| `vitest-ui`              | Starts the Vitest web server to access tests through an [UI](https://vitest.dev/guide/ui.html).      |
+| `build-pocketbase`       | Builds the `pocketbase` container using the compose.ci.yml file. For build only.                     |
+| `ci-golang`              | Starts the `golangci` service in the compose.ci.yml file. For CI only.                               |
+| `ci-playwright`          | Starts the `playwright` service in the compose.ci.yml file. For CI only.                             |
+| `ci-vitest`              | Starts the `vitest` service in the compose.ci.yml file. For CI only.                                 |
+| `ci-eslint`              | Starts the `eslint` service in the compose.ci.yml file. For CI only.                                 |
 
 ### Environment files
 

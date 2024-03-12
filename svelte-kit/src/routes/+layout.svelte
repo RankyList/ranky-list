@@ -1,6 +1,5 @@
 <script lang="ts">
-    import '../theme.postcss';
-    import '@skeletonlabs/skeleton/styles/skeleton.css';
+    import '../theme.scss';
     import '../global.scss';
 
     import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -9,29 +8,37 @@
         AppBar,
         LightSwitch,
         Modal,
-        Toast,
         storePopup,
         type PopupSettings,
         popup,
-        modalStore,
+        getModalStore,
         focusTrap,
         ProgressRadial,
-        toastStore,
         Avatar,
+        initializeStores,
+        modeCurrent,
     } from '@skeletonlabs/skeleton';
-    import { IconAlertTriangleFilled, IconArrowRightCircle, IconUser } from '@tabler/icons-svelte';
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { Toaster, toast } from 'svelte-sonner';
 
     import Logo from '$components/icon/ranky-list-logo.svg?component';
     import { authWindow } from '$stores/auth-window';
+    import { getPocketBaseImageUrl } from '$utils/url';
 
     import type { ModalComponentRegistry } from '$types/modal';
 
     import { browser } from '$app/environment';
     import { enhance } from '$app/forms';
+    import { onNavigate } from '$app/navigation';
     import { page } from '$app/stores';
+    import IconAlertTriangleFilled from '~icons/tabler/alert-triangle-filled';
+    import IconArrowRightCircle from '~icons/tabler/arrow-right-circle';
+    import IconUser from '~icons/tabler/user';
 
+    initializeStores();
+
+    const modalStore = getModalStore();
     const modalComponentRegistry: ModalComponentRegistry = {};
     const userPopup: PopupSettings = {
         event: 'focus-click',
@@ -60,10 +67,7 @@
         const closed = authWindow.close(true);
 
         if (!closed) {
-            toastStore.trigger({
-                message: 'Sorry, something went wrong while trying to close the authentication window.',
-                classes: 'variant-filled-error',
-            });
+            toast.error('Sorry, something went wrong while trying to close the authentication window.');
         }
     };
 
@@ -85,6 +89,21 @@
 
     $: handleAuthWindowChange($authWindow.opened);
 
+    onNavigate((navigation) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (!document.startViewTransition) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve) => {
+            document.startViewTransition(async () => {
+                resolve();
+
+                await navigation.complete;
+            });
+        });
+    });
+
     onDestroy(() => {
         if (!browser) {
             return;
@@ -94,26 +113,34 @@
     });
 </script>
 
-<svelte:body aria-busy={$authWindow.opened} />
-
 {#if $authWindow.opened}
     <div
         transition:fade
         class="absolute left-0 top-0 z-[9999] flex h-full w-full flex-col items-center justify-center gap-5 bg-gray-700/90"
         use:focusTrap={true}
     >
-        <ProgressRadial stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" />
-        <p>Authentication in progress...</p>
+        <ProgressRadial stroke={60} meter="stroke-primary-500" track="stroke-primary-500/30" />
+        <p role="status">Authentication in progress...</p>
         {#if $authWindow.window}
             <div role="group" class="flex flex-row gap-3">
-                <button type="button" class="btn variant-ghost" on:click={() => $authWindow.window?.focus()}>Open</button>
-                <button type="button" class="btn variant-ghost" on:click={handleAuthWindowClose}>Cancel</button>
+                <button
+                    type="button"
+                    class="variant-ghost btn"
+                    on:click={() => {
+                        $authWindow.window?.focus();
+                    }}>Open</button
+                >
+                <button type="button" class="variant-ghost btn" on:click={handleAuthWindowClose}>Cancel</button>
             </div>
         {/if}
     </div>
 {/if}
 
-<AppShell>
+<Modal components={modalComponentRegistry} />
+<!-- TODO change the theme to reflect Skeleton ? -->
+<Toaster visibleToasts={9} duration={8000} theme={$modeCurrent ? 'light' : 'dark'} />
+
+<AppShell aria-busy={$authWindow.opened}>
     <AppBar shadow="shadow" slot="header">
         <svelte:fragment slot="lead">
             <a class="flex items-center gap-3" href="/">
@@ -156,12 +183,15 @@
                         {/if}
                     </nav>
                 </noscript>
-                <button class="btn-icon variant-soft-primary" use:popup={userPopup}>
+                <button class="variant-soft-primary btn-icon" type="button" use:popup={userPopup}>
                     {#if $page.data.user}
-                        <!-- TODO Change this to proper URL, this is temporary -->
                         <Avatar
                             src={$page.data.user.avatar
-                                ? `http://localhost:8090/api/files/_pb_users_auth_/d1ijmt74g6vuvdq/${$page.data.user.avatar}`
+                                ? getPocketBaseImageUrl({
+                                      fileName: $page.data.user.avatar,
+                                      collectionIdOrName: $page.data.user.collectionId,
+                                      recordId: $page.data.user.id,
+                                  })
                                 : undefined}
                             initials={$page.data.user.username.at(0)}
                         />
@@ -222,6 +252,3 @@
         {/if}
     </svelte:fragment>
 </AppShell>
-
-<Modal components={modalComponentRegistry} />
-<Toast position="br" zIndex="z-[1000]" />

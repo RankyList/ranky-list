@@ -1,34 +1,36 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { valibot } from 'sveltekit-superforms/adapters';
 import { message, superValidate } from 'sveltekit-superforms/server';
 
-import { loginSchema } from '$schemas/login';
+import { LoginSchema } from '$schemas/login';
 import dayjs from '$utils/dayjs';
 
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({ locals, url }) => {
   if (locals.user) {
-    throw redirect(303, '/');
+    redirect(303, '/');
   }
 
-  const loginForm = await superValidate(loginSchema);
-  const authMethods = await locals.pb.collection('users').listAuthMethods();
+  const [loginForm, authMethods] = await Promise.all([superValidate(valibot(LoginSchema)), locals.pb.collection('users').listAuthMethods()]);
 
   return {
     loginForm,
-    authProviders: authMethods.authProviders.map((provider) => {
-      const authUrl = new URL(provider.authUrl);
+    authProviders: authMethods.authProviders
+      .map((provider) => {
+        const authUrl = new URL(provider.authUrl);
 
-      authUrl.searchParams.append('redirect_uri', `${url.origin}/login/${provider.name}`);
+        authUrl.searchParams.append('redirect_uri', `${url.origin}/login/${provider.name}`);
 
-      return { name: provider.name, authUrl: authUrl.toString() };
-    }),
+        return { name: provider.name, authUrl: authUrl.toString() };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name)),
   };
 }) satisfies PageServerLoad;
 
 export const actions = {
   login: async ({ request, locals }) => {
-    const loginForm = await superValidate<typeof loginSchema, string>(request, loginSchema);
+    const loginForm = await superValidate(request, valibot(LoginSchema));
 
     if (!loginForm.valid) {
       return fail(400, { loginForm });

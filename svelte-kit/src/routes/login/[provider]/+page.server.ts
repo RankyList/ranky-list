@@ -5,16 +5,18 @@ import type { UsersResponse } from '$types/pocketbase';
 import type { PageServerLoad } from './$types';
 import type { RecordAuthResponse } from 'pocketbase';
 
+import { dev } from '$app/environment';
+
 export const load = (async ({ url, locals, params, cookies }) => {
   if (locals.user) {
-    throw redirect(303, '/');
+    redirect(303, '/');
   }
 
   const authMethods = await locals.pb.collection('users').listAuthMethods();
   const provider = authMethods.authProviders.find((providerInfo) => providerInfo.name === params.provider);
 
   if (!provider) {
-    throw error(404, { message: 'Provider not found.' });
+    error(404, { message: 'Provider not found.' });
   }
 
   const hasError = url.searchParams.get('error');
@@ -27,11 +29,11 @@ export const load = (async ({ url, locals, params, cookies }) => {
   cookies.delete('state', { path: '/' });
 
   if (hasError) {
-    throw error(401, { message: hasError === 'access_denied' ? 'Login denied.' : 'Login cancelled.' });
+    error(401, { message: hasError === 'access_denied' ? 'Login denied.' : 'Login cancelled.' });
   }
 
   if (!code || !codeVerifier || state !== requiredState) {
-    throw error(400, { message: 'Login failed.' });
+    error(400, { message: 'Login failed.' });
   }
 
   let user: RecordAuthResponse<UsersResponse> | null = null;
@@ -42,12 +44,18 @@ export const load = (async ({ url, locals, params, cookies }) => {
       .authWithOAuth2Code<UsersResponse>(provider.name, code, codeVerifier, `${url.origin}/login/${provider.name}`);
 
     try {
-      locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate() });
-    } catch (_) {
-      throw error(401, { message: 'Login failed.' });
+      locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate(), path: '/', secure: !dev });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error exporting auth to cookie:', e);
+
+      error(401, { message: 'Login failed.' });
     }
-  } catch (_) {
-    throw error(401, { message: 'Login failed.' });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Error authenticating with OAuth2 code:', e);
+
+    error(401, { message: 'Login failed.' });
   }
 
   return { user: structuredClone(user.record) };

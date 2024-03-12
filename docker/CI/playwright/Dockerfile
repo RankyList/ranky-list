@@ -4,6 +4,6 @@ WORKDIR /testing
 
 COPY ./svelte-kit ./
 
-RUN yarn install
+RUN corepack enable && yarn install
 
 ENTRYPOINT [ "/bin/sh", "./scripts/ci.sh" ]

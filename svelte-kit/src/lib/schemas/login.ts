@@ -1,6 +1,8 @@
-import { z } from 'zod';
+import { minLength, object, string, type Input } from 'valibot';
 
-export const loginSchema = z.object({
-  usernameOrEmail: z.string().nonempty({ message: 'Please enter your username or email.' }),
-  password: z.string().nonempty({ message: 'Please enter your password.' }),
+export const LoginSchema = object({
+  usernameOrEmail: string('Please enter your username or email.', [minLength(1, 'Please enter your username or email.')]),
+  password: string('Please enter your password.', [minLength(1, 'Please enter your password.')]),
 });
+
+export type LoginInput = Input<typeof LoginSchema>;

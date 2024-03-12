@@ -4,6 +4,8 @@ import dayjs from '$utils/dayjs';
 import type { UsersResponse } from './lib/types/pocketbase';
 import type { Handle } from '@sveltejs/kit';
 
+import { dev } from '$app/environment';
+
 export const handle = (async ({ event, resolve }) => {
   event.locals.pb = pb;
   event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
@@ -18,7 +20,10 @@ export const handle = (async ({ event, resolve }) => {
 
   const response = await resolve(event);
 
-  response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate() }));
+  response.headers.append(
+    'set-cookie',
+    event.locals.pb.authStore.exportToCookie({ expires: dayjs().add(1, 'year').toDate(), path: '/', secure: !dev }),
+  );
 
   return response;
 }) satisfies Handle;

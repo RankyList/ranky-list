@@ -2,3 +2,8 @@ html,
 body {
   @apply h-full overflow-hidden;
 }
+
+// See https://www.formsnap.dev/docs/styling
+[data-fs-field-errors] {
+  @apply text-red-600;
+}

@@ -6,8 +6,8 @@ trap "exit" SIGTERM
 
 echo "Installing dependencies"
 
-yarn install
+bun install
 
 echo "Starting dev server"
 
-yarn dev
+bun run dev --host
