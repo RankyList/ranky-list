@@ -99,7 +99,22 @@ format:
 
 # Testing
 test:
-	$(EXECSVELTEKIT) bun test
+	$(EXECSVELTEKIT) bun run test
+
+test-watch:
+	$(EXECSVELTEKIT) bun run test:watch
+
+# E2E
+e2e:
+	$(EXECSVELTEKIT) bun run fixtures
+	cd playwright && bunx playwright test
+
+e2e-ui:
+	$(EXECSVELTEKIT) bun run fixtures
+	cd playwright && bunx playwright test --ui
+
+e2e-report:
+	cd playwright && bunx playwright show-report
 
 # Permissions
 perm:

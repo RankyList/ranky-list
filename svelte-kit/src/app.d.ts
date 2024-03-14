@@ -3,6 +3,7 @@
 
 import type { UsersResponse } from '$types/pocketbase';
 import type PocketBase, { RecordAuthResponse } from 'pocketbase';
+import type { MetaTagsProps } from 'svelte-meta-tags';
 
 import '@poppanator/sveltekit-svg/dist/svg';
 import 'unplugin-icons/types/svelte';
@@ -16,11 +17,17 @@ declare global {
 
     interface PageData {
       user: UsersResponse | null;
+      seo?: MetaTagsProps;
     }
 
-    // interface Error {}
+    interface Error {
+      message: string;
+      seo?: MetaTagsProps;
+    }
 
     // interface Platform {}
+
+    // interface PageState {}
   }
 
   interface ViewTransition {

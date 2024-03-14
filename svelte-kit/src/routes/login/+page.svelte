@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { MetaTags } from 'svelte-meta-tags';
-
     import LoginForm from '$components/form/LoginForm.svelte';
     import { allowedAuthProviders } from '$utils/auth/providers';
 
     import type { AuthProvider } from '$types/auth/providers';
+    import type { PageData } from './$types';
 
-    export let data;
+    export let data: PageData;
 
     const filteredProviders: AuthProvider[] = [];
 
@@ -18,8 +17,6 @@
         }
     });
 </script>
-
-<MetaTags title="Login" description="Login to access your RankyList account. You can create and share your tier lists easily." />
 
 <div class="container mx-auto flex h-full flex-col gap-4 py-5">
     <h1 class="text-center">Login</h1>

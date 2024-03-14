@@ -8,21 +8,56 @@ import { createInterface } from 'readline/promises';
 
 import type { BaseSystemFields, CollectionRecords, CollectionResponses } from '../src/lib/types/pocketbase';
 
+/**
+ * A reference to a record in the fixture.
+ *
+ * @template T The fields of the record.
+ */
 export type Reference<T = BaseSystemFields> = {
   [key: string | number]: T;
 };
 
+/**
+ * A holder for references from the loaded fixture.
+ *
+ * @template T The fields contained by a record.
+ */
 export type ReferenceHolder<T = BaseSystemFields> = {
+  /**
+   * A map of references from the loaded fixture.
+   */
   records: Reference<T>;
 };
 
+/**
+ * A map of references from other fixtures that have already been loaded.
+ */
 export type ReferenceMap = {
   [key in keyof CollectionResponses]?: Reference<CollectionResponses[key]>;
 };
 
+/**
+ * Represents a fixture that can be loaded into a collection.
+ *
+ * @template T The fields of the records to be loaded into the collection, and that should be returned by the `load` function.
+ */
 export type Fixture<T = BaseSystemFields> = {
+  /**
+   * The name of your fixture. This is the name of the collection you want to load the fixture into.
+   */
   name: keyof CollectionRecords;
+  /**
+   * The order in which the fixture should be loaded. This is useful when you have fixtures that depend on other fixtures.
+   */
   order?: number;
+  /**
+   * The function that will load the fixture into the collection.
+   *
+   * @param pb The PocketBase instance.
+   * @param references A map of references from other fixtures that have already been loaded.
+   * @param faker The faker instance. Try to use it as little as possible and only for irrelevant data, as fully random data can make your tests flaky.
+   * @returns A promise that resolves to a reference holder containing the records that were loaded into the collection.
+   */
   load(pb: PocketBase, references: ReferenceMap, faker: Faker): Promise<ReferenceHolder<T>>;
 };
 
@@ -32,7 +67,7 @@ const shouldExecute = process.argv.includes('-f');
 if (!shouldExecute) {
   console.log(chalk.yellow('Are you sure you want to execute these fixtures? This will clear all registered collections.'));
 
-  const keepGoing = await prompt.question(chalk.yellow('Enter \'yes\' to continue: '));
+  const keepGoing = await prompt.question(chalk.yellow("Enter 'yes' to continue: "));
 
   if (!['y', 'ye', 'yes'].includes(keepGoing.toString().trim())) {
     console.log(chalk.red('Aborted by user.'));
@@ -121,7 +156,7 @@ try {
   // Load the fixtures
   for (const fixtureFile of fixtureFiles) {
     const fixturePath = path.join(fixturesDir, fixtureFile);
-    const { default: fixture } = await import(fixturePath) as { default: Fixture<CollectionResponses[keyof CollectionResponses]> };
+    const { default: fixture } = (await import(fixturePath)) as { default: Fixture<CollectionResponses[keyof CollectionResponses]> };
 
     if (!fixtures.some((f) => f.name === fixture.name)) {
       fixtures.push(fixture);
@@ -181,4 +216,3 @@ try {
 
   process.exit(1);
 }
-

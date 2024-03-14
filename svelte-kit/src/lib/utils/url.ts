@@ -26,7 +26,7 @@ export const getPocketBaseImageUrl = (options: PocketBaseImageUrlOptions) => {
   let url = `${PUBLIC_POCKETBASE_URL}/api/files/${options.collectionIdOrName}/${options.recordId}/${options.fileName}`;
 
   if (options.download) {
-    url += '?download=true';
+    url += '?download=1';
   }
 
   return url;

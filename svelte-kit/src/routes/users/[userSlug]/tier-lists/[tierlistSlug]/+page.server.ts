@@ -18,5 +18,11 @@ export const load = (async ({ params, locals }) => {
     error(500, { message: 'Something went wrong while trying to retrieve the tier list.' });
   }
 
-  return { tierList: structuredClone(tierList) };
+  return {
+    tierList: structuredClone(tierList),
+    seo: {
+      title: tierList.name,
+      description: tierList.description ?? `The ${tierList.name} tier list. Created by TODO.`,
+    },
+  };
 }) satisfies PageServerLoad;

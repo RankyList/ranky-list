@@ -2,8 +2,17 @@ import followRedirects from 'follow-redirects';
 
 const { https } = followRedirects;
 
+/**
+ * Downloads an image from the given URL and returns it as a base64 encoded string.
+ */
 function downloadImage(imageUrl: string, as: 'base64'): Promise<string>;
+/**
+ * Downloads an image from the given URL and returns it as a buffer.
+ */
 function downloadImage(imageUrl: string, as: 'buffer'): Promise<Buffer>;
+/**
+ * Downloads an image from the given URL and returns it as a blob.
+ */
 function downloadImage(imageUrl: string, as: 'blob'): Promise<Blob>;
 function downloadImage(imageUrl: string, as: 'base64' | 'blob' | 'buffer' = 'buffer') {
   return new Promise((resolve, reject) => {

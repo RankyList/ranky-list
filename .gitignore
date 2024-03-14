@@ -114,7 +114,7 @@ compose.override.yml
 
 # Data (pocketbase persist)
 data/
-pocketbase/pb_data
+pocketbase/pb_data*
 !svelte-kit/fixtures/data
 
 # Playwright

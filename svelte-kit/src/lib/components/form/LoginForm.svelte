@@ -7,7 +7,7 @@
     import { superForm } from 'sveltekit-superforms/client';
 
     import { LoginSchema } from '$schemas/login';
-    import { authWindow } from '$stores/auth-window';
+    import { getAuthWindowStore } from '$stores/auth-window';
     import { defaultFormOptions } from '$utils/form/defaults';
 
     import type { LoginInput } from '$schemas/login';
@@ -23,6 +23,7 @@
     export let timeoutMessage = 'Sorry... This is taking longer than expected.';
     export let oAuthFailedMessage = 'Sorry, something went wrong while starting the authentication process.';
 
+    const authWindowStore = getAuthWindowStore();
     const form = superForm(data, {
         ...defaultFormOptions,
         validators: valibotClient(LoginSchema),
@@ -33,11 +34,11 @@
     const handleOAuth = (e: Event, url: string) => {
         e.preventDefault();
 
-        if ($authWindow.opened) {
+        if ($authWindowStore.opened) {
             return;
         }
 
-        const opened = authWindow.open(url);
+        const opened = authWindowStore.open(url);
 
         if (!opened) {
             toast.error(oAuthFailedMessage);
@@ -125,8 +126,8 @@
                 on:click={(e) => {
                     handleOAuth(e, url);
                 }}
-                class:disabled={$authWindow.opened}
-                aria-disabled={$authWindow.opened}
+                class:disabled={$authWindowStore.opened}
+                aria-disabled={$authWindowStore.opened}
             >
                 <span><svelte:component this={authProvider.icon} /></span>
                 <span>Login with {authProvider.displayName}</span>

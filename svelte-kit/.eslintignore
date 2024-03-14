@@ -3,12 +3,8 @@ node_modules
 /build
 /.svelte-kit
 /package
-.env
-.env.*
-!.env.example
 *.cjs
 tailwind.config.ts
-playwright.config.js
 svelte.config.js
 /coverage
 /fixtures

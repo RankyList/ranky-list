@@ -18,15 +18,18 @@
         initializeStores,
         modeCurrent,
     } from '@skeletonlabs/skeleton';
+    import extend from 'just-extend';
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { MetaTags, type MetaTagsProps } from 'svelte-meta-tags';
     import { Toaster, toast } from 'svelte-sonner';
 
     import Logo from '$components/icon/ranky-list-logo.svg?component';
-    import { authWindow } from '$stores/auth-window';
+    import { initializeAuthWindowStore, getAuthWindowStore } from '$stores/auth-window';
     import { getPocketBaseImageUrl } from '$utils/url';
 
     import type { ModalComponentRegistry } from '$types/modal';
+    import type { LayoutData } from './$types';
 
     import { browser } from '$app/environment';
     import { enhance } from '$app/forms';
@@ -36,9 +39,18 @@
     import IconArrowRightCircle from '~icons/tabler/arrow-right-circle';
     import IconUser from '~icons/tabler/user';
 
-    initializeStores();
+    export let data: LayoutData;
 
+    // Initialize stores
+    initializeStores();
+    initializeAuthWindowStore();
+
+    // Configure the popup store
+    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+    // Constants
     const modalStore = getModalStore();
+    const authWindowStore = getAuthWindowStore();
     const modalComponentRegistry: ModalComponentRegistry = {};
     const userPopup: PopupSettings = {
         event: 'focus-click',
@@ -46,31 +58,38 @@
         placement: 'bottom',
     };
 
-    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-
+    /**
+     * When a message is received from the auth window.
+     */
     const onmessage = (e: MessageEvent) => {
         if (!browser || e.origin !== window.origin) {
             return;
         }
 
         if (typeof e.data === 'object' && e.data.context === 'oauth' && typeof e.data?.success === 'boolean') {
-            authWindow.detach(true);
+            authWindowStore.detach(true);
             window.removeEventListener('message', onmessage);
         }
     };
 
+    /**
+     * When the authentication window is closed.
+     */
     const handleAuthWindowClose = () => {
         if (!browser) {
             return;
         }
 
-        const closed = authWindow.close(true);
+        const closed = authWindowStore.close(true);
 
         if (!closed) {
             toast.error('Sorry, something went wrong while trying to close the authentication window.');
         }
     };
 
+    /**
+     * Handle when the auth window is opened/closed.
+     */
     const handleAuthWindowChange = (opened: boolean) => {
         if (!browser) {
             return;
@@ -83,12 +102,26 @@
         }
     };
 
+    // Automatically close the modal when the user is logged in
     $: if ($page.data.user) {
         modalStore.close();
     }
 
-    $: handleAuthWindowChange($authWindow.opened);
+    // Handle when the auth window is opened/closed
+    $: handleAuthWindowChange($authWindowStore.opened);
 
+    // Merge default meta tags with page specific meta tags
+    $: metaTags = extend(
+        true,
+        {
+            robots: $page.error ? 'noindex, nofollow' : undefined,
+        },
+        data.baseSeo,
+        $page.data.seo,
+        $page.error?.seo,
+    ) as MetaTagsProps;
+
+    // Add view transitions
     onNavigate((navigation) => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!document.startViewTransition) {
@@ -113,7 +146,14 @@
     });
 </script>
 
-{#if $authWindow.opened}
+{#key metaTags}
+    <MetaTags {...metaTags} titleTemplate={metaTags.title && metaTags.titleTemplate?.endsWith(metaTags.title) ? undefined : metaTags.titleTemplate} />
+{/key}
+<Modal components={modalComponentRegistry} />
+<!-- TODO change the theme to reflect Skeleton ? -->
+<Toaster visibleToasts={9} duration={8000} theme={$modeCurrent ? 'light' : 'dark'} />
+
+{#if $authWindowStore.opened}
     <div
         transition:fade
         class="absolute left-0 top-0 z-[9999] flex h-full w-full flex-col items-center justify-center gap-5 bg-gray-700/90"
@@ -121,13 +161,13 @@
     >
         <ProgressRadial stroke={60} meter="stroke-primary-500" track="stroke-primary-500/30" />
         <p role="status">Authentication in progress...</p>
-        {#if $authWindow.window}
+        {#if $authWindowStore.window}
             <div role="group" class="flex flex-row gap-3">
                 <button
                     type="button"
                     class="variant-ghost btn"
                     on:click={() => {
-                        $authWindow.window?.focus();
+                        $authWindowStore.window?.focus();
                     }}>Open</button
                 >
                 <button type="button" class="variant-ghost btn" on:click={handleAuthWindowClose}>Cancel</button>
@@ -136,11 +176,7 @@
     </div>
 {/if}
 
-<Modal components={modalComponentRegistry} />
-<!-- TODO change the theme to reflect Skeleton ? -->
-<Toaster visibleToasts={9} duration={8000} theme={$modeCurrent ? 'light' : 'dark'} />
-
-<AppShell aria-busy={$authWindow.opened}>
+<AppShell aria-busy={$authWindowStore.opened}>
     <AppBar shadow="shadow" slot="header">
         <svelte:fragment slot="lead">
             <a class="flex items-center gap-3" href="/">

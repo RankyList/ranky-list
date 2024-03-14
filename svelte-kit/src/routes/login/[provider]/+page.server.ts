@@ -58,5 +58,12 @@ export const load = (async ({ url, locals, params, cookies }) => {
     error(401, { message: 'Login failed.' });
   }
 
-  return { user: structuredClone(user.record) };
+  return {
+    user: structuredClone(user.record),
+    seo: {
+      title: 'Login successful',
+      description: 'You are now logged in.',
+      robots: 'noindex, nofollow',
+    },
+  };
 }) satisfies PageServerLoad;

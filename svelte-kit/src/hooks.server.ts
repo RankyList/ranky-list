@@ -2,9 +2,13 @@ import { pb } from '$server/pocketbase';
 import dayjs from '$utils/dayjs';
 
 import type { UsersResponse } from './lib/types/pocketbase';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
 
 import { dev } from '$app/environment';
+
+const ERROR_MAPPING = {
+  404: "The page you are looking for doesn't exist. Please check the URL and try again.",
+} as Record<string, string>;
 
 export const handle = (async ({ event, resolve }) => {
   event.locals.pb = pb;
@@ -27,3 +31,14 @@ export const handle = (async ({ event, resolve }) => {
 
   return response;
 }) satisfies Handle;
+
+export const handleError: HandleServerError = async ({ status, message }) => {
+  return {
+    message,
+    seo: {
+      title: `${status} - ${message}`,
+      description: ERROR_MAPPING[status] ?? `Something went wrong : ${message}`,
+      robots: 'noindex',
+    },
+  };
+};

@@ -25,6 +25,10 @@ export const load = (async ({ locals, url }) => {
         return { name: provider.name, authUrl: authUrl.toString() };
       })
       .sort((a, b) => a.name.localeCompare(b.name)),
+    seo: {
+      title: 'Login',
+      description: 'Login to access your RankyList account. You can create and share your tier lists easily.',
+    },
   };
 }) satisfies PageServerLoad;
 
