@@ -51,7 +51,7 @@ jobs:
 
       - name: Preview SvelteKit app
         working-directory: ./svelte-kit
-        run: bun run preview &
+        run: bun run preview --host &
 
       - uses: actions/setup-go@v5
         with:
