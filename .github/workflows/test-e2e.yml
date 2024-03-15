@@ -76,6 +76,7 @@ jobs:
         run: bunx playwright install --with-deps
 
       - name: Run Playwright tests
+        working-directory: ./playwright
         run: bunx playwright test
 
       - name: Upload Playwright report

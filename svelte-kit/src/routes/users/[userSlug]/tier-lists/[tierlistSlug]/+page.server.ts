@@ -22,7 +22,7 @@ export const load = (async ({ params, locals }) => {
     tierList: structuredClone(tierList),
     seo: {
       title: tierList.name,
-      description: tierList.description ?? `The ${tierList.name} tier list. Created by TODO.`,
+      description: tierList.description || `The ${tierList.name} tier list. Created by TODO.`,
     },
   };
 }) satisfies PageServerLoad;
