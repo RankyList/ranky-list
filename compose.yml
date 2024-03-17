@@ -33,7 +33,6 @@ services:
       pocketbase:
         condition: service_healthy
     environment:
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
       - ORIGIN=http://local.ranky-list.com
     volumes:
       - svelte-kit-volume:/home/bun/svelte-kit

@@ -3,9 +3,9 @@ import fs from 'graceful-fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
-import { type Faker } from '@faker-js/faker';
 import { createInterface } from 'readline/promises';
 
+import type { Faker } from '@faker-js/faker';
 import type { BaseSystemFields, CollectionRecords, CollectionResponses } from '../src/lib/types/pocketbase';
 
 /**

@@ -36,10 +36,10 @@ Some of these variables are already set by default in the `.env` file, however, 
 
 ### Commands
 
-To load fixtures, run `yarn fixtures` in the `svelte-kit` container, or `make fixtures` outside the container.
+To load fixtures, run `bun run fixtures` in the `svelte-kit` container, or `make fixtures` outside the container.
 
 > **Note**  
-> By default, the `yarn fixtures` command will ask you if you want to run fixtures and delete all current records.
+> By default, the `bun run fixtures` command will ask you if you want to run fixtures and delete all current records.
 > You can omit this prompt by adding `-f` to the command. The `make fixtures` command already does that.
 
 ## How to create a fixture
@@ -64,51 +64,86 @@ You can look at other existing fixtures too in the `svelte-kit/fixtures/data` fo
 
 #### Simple fixture
 
-Here is an example of what a fixture can look like (taken from the `tierlists.ts` fixture) :
+Here is an example of what a fixture can look like (taken from the `ranks.ts` fixture) :
 
 ```ts
-// svelte-kit/fixtures/data/tierlists.ts
+// svelte-kit/fixtures/data/ranks.ts
 
 // Import the necessary types with "import type..."
 import type { Fixture, Reference } from '../index';
 import type { RanksRecord, RanksResponse } from '../../src/lib/types/pocketbase';
+import type { TierlistsDataKeys } from './tierlists';
 
-// Export useful constants concerning this fixture, such as how many ranks we add per tierlist
-export const RANKS_FIXTURE_RANKS_PER_TIERLIST = 5;
+// Export the data that is going to be inserted in a constant to be able to access it from other fixtures
+export const DATA = {
+  cars: {
+    veryFast: {
+      name: 'Very Fast',
+      color: '#FF0000',
+      description: 'The fastest cars',
+      position: 0,
+    },
+    fast: {
+      name: 'Fast',
+      color: '#FFA500',
+      description: 'Fast cars',
+      position: 1,
+    },
+    average: {
+      name: 'Average',
+      color: '#FFFF00',
+      description: 'Average cars',
+      position: 2,
+    },
+    slow: {
+      name: 'Slow',
+      color: '#008000',
+      description: 'Slow cars',
+      position: 3,
+    },
+  },
+  // ... other data
+// Use the right type to get full type-safety on your export, also makes it easier to add new data
+// We omit the "tierlist" field because it is already represented by the key of the object
+} as const satisfies Record<TierlistsDataKeys, Reference<Omit<RanksRecord, 'tierlist'>>>;
+
+// Export the keys of the data to be able to use them as types
+export type RanksDataKeys = keyof typeof DATA;
 
 // The required default export
-export default ({
+export default {
   // The name of our fixture, usually the name of the file and collection
   name: 'ranks',
-  // The order (ascendant) in which to load this fixture
+  // The order (ascendant) in which to load this fixture, useful to load this fixture after its dependencies (tierlists)
   order: 2,
   // Our load function with PocketBase, records of other fixtures and Faker
-  load: async (pb, references, faker) => {
+  load: async (pb, references) => {
     // Prepare the records we will return
     const records: Reference<RanksResponse> = {};
     // Because we are loading after the "tierlists" fixture, all the tierlists inserted are available inside "references.tierlists"
-    const tierlistsReferences = Object.entries(references.tierlists || {});
+    const tierlistsReferences = references.tierlists || {};
 
     // We loop over each tierlist
-    for (const [i, tierlist] of tierlistsReferences) {
+    for (const [tierlist, ranks] of Object.entries(DATA)) {
       // We use the constant defined earlier to know how many ranks to add
-      for (const t of Array(RANKS_FIXTURE_RANKS_PER_TIERLIST).keys()) {
+      for (const [i, rank] of Object.entries(ranks)) {
         // We create a new record with fake data and add it to our "records" object
         records[i] = await pb.collection('ranks').create<RanksResponse>({
-          name: String.fromCharCode(65 + t), // Use the same names for every 5 ranks
-          color: faker.internet.color(),
-          description: faker.lorem.sentences(),
-          position: t,
-          tierlist: tierlist.id,
-        } as RanksRecord); // Use "as" for type-safety
+          name: rank.name,
+          color: rank.color,
+          description: rank.description,
+          position: rank.position,
+          // We use the "references" object to reference the tierlist we want to link to
+          tierlist: tierlistsReferences[tierlist].id,
+        } as RanksRecord);
       }
     }
 
     // We return our records, which will be available to other fixtures as "references.ranks"
     return { records };
   },
-// Use the Fixture<T> type to get full type-safety on your export
-}) satisfies Fixture<RanksResponse>;
+// Use the Fixture<T> type to get full type-safety on this export
+} satisfies Fixture<RanksResponse>;
 
 ```
 
@@ -119,7 +154,7 @@ With that, your fixture will be automatically loaded.
 You can (and should) use a `FormData` instance containing all your fields instead of an object if you want to send files.
 
 > **Warning**
-> All module imports (not types) must end with the ".js" extension.
+> Avoid using the `faker` instance to generate random data for key fields. This will make it difficult to reference these records during tests. Instead, create a `DATA` constant to hold the data you want to use for your fixtures. Keep `faker` for generating other unuseful data (like a random image url).
 
 #### Inserting files
 

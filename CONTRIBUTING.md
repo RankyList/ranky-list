@@ -11,6 +11,7 @@ There are 2 ways of contributing: reporting a bug or proposing a feature, and ma
     - [Launch the project locally](#launch-the-project-locally)
     - [What do I need to check before making a PR?](#what-do-i-need-to-check-before-making-a-pr)
     - [Docker services](#docker-services)
+      - [Hosts file](#hosts-file)
     - [Make commands](#make-commands)
     - [Environment files](#environment-files)
     - [The database](#the-database)
@@ -48,10 +49,11 @@ Everything you need to know to use this project and contribute to it is written 
 
 - Fork the project (if you are not part of the RankyList team).
 - Clone the project with `git@github.com:RankyList/ranky-list.git` *OR* `git@github.com:your-username/ranky-list.git` if you forked the project.
-- Add the necessary Traefik URLs to your `hosts` file (see [Docker services](#docker-services)). If you do not want to use Traefik, you can add a `compose.override.yml` and open the necessary ports to connect to the services the classic way.
+- Add the necessary Traefik URLs to your `hosts` file (see [Docker services](#docker-services)).
+- (Optional) Add a `compose.override.yml` file to override the default `docker-compose.yml` file for your needs.
 - Create your own branch from `develop` or any branch other than `master` (eg: `feature/my-feature`).
 - Launch the project using `make start` if you have Make installed, or `docker compose build && docker compose up -d` otherwise (you may need additional steps to have the project working, check what's inside the Makefile).
-- Go to [http://ranky-list.local](http://ranky-list.local) (or [http://localhost:5173](http://localhost:5173) if you don't want to use Traefik) to access the app.
+- Go to [http://local.ranky-list.com](http://local.ranky-list.com) to access the app and [http://local.pocketbase.ranky-list.com](http://local.pocketbase.ranky-list.com/_/#) to access the PocketBase admin panel.
 - From there, you can add your own code and tests in the appropriate folders.
 
 > **Warning**
@@ -72,19 +74,30 @@ Make sure of the following :
 
 List of all the Docker services.
 
-To add the necessary hosts for Traefik, open your `hosts` file (usually `/etc/hosts` on Linux) and add a newline for each service.
-For example, add `127.0.0.1 ranky-list.local` to be able to access the app on [http://ranky-list.local](http://ranky-list.local).
+To add the necessary hosts for Caddy, open your `hosts` file (usually `/etc/hosts` on Linux) and add a newline for each service.
+For example, add `127.0.0.1 local.ranky-list.com` to be able to access the app on [http://local.ranky-list.com](http://local.ranky-list.com).
 
-| Service       | Description                                                                                                | Port(s)                                | Traefik URL                                                                                                             |
-| ------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `svelte-kit`  | The main service running the SvelteKit app.                                                                | `5173` and `5174` for Vitest UI        | [http://ranky-list.local](http://ranky-list.local) and [http://vitest.ranky-list.local](http://vitest.ranky-list.local) |
-| `playwright`  | A non-restarting service which runs all Playwright tests.                                                  |                                        |                                                                                                                         |
-| `Histoire`    | Service responsible for running Histoire and its UI. Shares the same volume as the `svelte-kit` container. | `6006`                                 | [http://histoire.ranky-list.local](http://histoire.ranky-list.local)                                                    |
-| `mailcatcher` | SMTP service used to catch emails during development.                                                      | `1080` for UI, `1025` for internal API | [http://mailcatcher.ranky-list.local](http://mailcatcher.ranky-list.local)                                              |
-| `pocketbase`  | Service running PocketBase, including the SQLite DB and API. Also serves as a Go backend.                  | `8090`                                 | [http://pocketbase.ranky-list.local](http://pocketbase.ranky-list.local/_/#)                                            |
+| Service       | Description                                                                                                | Port(s)        | URL                                                                                  |
+| ------------- | ---------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------ |
+| `caddy`       | The web server proxying all other services.                                                                | `80` and `443` |                                                                                      |
+| `svelte-kit`  | The main service running the SvelteKit app.                                                                |                | [http://local.ranky-list.com](http://local.ranky-list.com)                           |
+| `histoire`    | Service responsible for running Histoire and its UI. Shares the same volume as the `svelte-kit` container. |                | [http://local.histoire.ranky-list.com](http://local.histoire.ranky-list.com)         |
+| `mailcatcher` | SMTP service used to catch emails during development.                                                      |                | [http://local.mailcatcher.ranky-list.com](http://local.mailcatcher.ranky-list.com)   |
+| `pocketbase`  | Service running PocketBase, including the SQLite DB and API. Also serves as a Go backend.                  |                | [http://local.pocketbase.ranky-list.com](http://local.pocketbase.ranky-list.com/_/#) |
 
 > **Note**
-> Vitest runs alongside the `svelte-kit` container since it is integrated with Vite. Run `make vitest-ui` and go to [http://vitest.ranky-list.local/\_\_vitest\_\_/](http://vitest.ranky-list.local/\_\_vitest\_\_/) to access its web UI.
+> The URLs are both prefixed with `local.` and suffixed with `.ranky-list.com` to avoid conflicts with real domains, while still being considered valid domains for OAuth providers.
+
+#### Hosts file
+
+Add the following lines to your `hosts` file to be able to access the services.
+
+```plaintext
+127.0.0.1 local.ranky-list.com
+127.0.0.1 local.histoire.ranky-list.com
+127.0.0.1 local.mailcatcher.ranky-list.com
+127.0.0.1 local.pocketbase.ranky-list.com
+```
 
 ### Make commands
 
@@ -100,17 +113,14 @@ List of the available make commands.
 | `stop`                   | Stops the containers.                                                                                |
 | `down`                   | Stops and removes the containers, networks, and volumes.                                             |
 | `ssh`                    | Connects to the `svelte-kit` container via SSH.                                                      |
-| `bash`                   | Opens a Bash shell in the `svelte-kit` container.                                                    |
 | `ssh-pocketbase`         | Connects to the `pocketbase` container via SSH.                                                      |
-| `bash-pocketbase`        | Opens a Bash shell in the `pocketbase` container.                                                    |
 | `list-containers`        | Lists all containers, including those not running.                                                   |
 | `healthcheck-svelte-kit` | Shows the health status of the `svelte-kit` container.                                               |
 | `healthcheck-pocketbase` | Shows the health status of the `pocketbase` container.                                               |
 | `logs`                   | Displays logs from all containers.                                                                   |
 | `logs-svelte-kit`        | Displays logs from the `svelte-kit` container.                                                       |
 | `logs-pocketbase`        | Displays logs from the `pocketbase` container.                                                       |
-| `upgrade`                | Runs an upgrade of dependencies (using `yarn`) in the `svelte-kit` container.                        |
-| `upgrade-interactive`    | Runs an interactive upgrade of dependencies (using `yarn`) in the `svelte-kit` container.            |
+| `upgrade`                | Runs an interactive upgrade of dependencies in the `svelte-kit` container.                           |
 | `migrate`                | Runs the Pocketbase migration create command in the `pocketbase` container.                          |
 | `migrate-collections`    | Runs the Pocketbase migration collections command in the `pocketbase` container.                     |
 | `history-sync`           | Runs the Pocketbase migration history-sync command in the `pocketbase` container.                    |
@@ -118,16 +128,12 @@ List of the available make commands.
 | `fixtures`               | Runs the fixtures script to generate mock data in the `svelte-kit` container.                        |
 | `lint`                   | Runs linting in the `svelte-kit` container using Prettier and ESLint.                                |
 | `format`                 | Runs linting and formats code in the `svelte-kit` container using Prettier and ESLint.               |
-| `test`                   | Runs the `playwright` and `vitest` commands.                                                         |
-| `playwright`             | Starts the `playwright` service once in the `svelte-kit` container, for end-to-end testing.          |
-| `vitest`                 | Runs the unit tests in the `svelte-kit` container, using Vitest.                                     |
-| `vitest-watch`           | Runs the unit tests in watch mode in the svelte-kit container, using Vite.                           |
-| `vitest-ui`              | Starts the Vitest web server to access tests through an [UI](https://vitest.dev/guide/ui.html).      |
-| `build-pocketbase`       | Builds the `pocketbase` container using the compose.ci.yml file. For build only.                     |
-| `ci-golang`              | Starts the `golangci` service in the compose.ci.yml file. For CI only.                               |
-| `ci-playwright`          | Starts the `playwright` service in the compose.ci.yml file. For CI only.                             |
-| `ci-vitest`              | Starts the `vitest` service in the compose.ci.yml file. For CI only.                                 |
-| `ci-eslint`              | Starts the `eslint` service in the compose.ci.yml file. For CI only.                                 |
+| `test`                   | Runs the Vitest tests in the `svelte-kit` container.                                                 |
+| `test-watch`             | Runs the `test` command in watch mode.                                                               |
+| `e2e`                    | Loads fixtures and runs tests in the `playwright` folder.                                            |
+| `e2e-ui`                 | Like the `e2e` command but with the Playwright UI.                                                   |
+| `e2e-report`             | Shows the report of the latest Playwright run.                                                       |
+| `perm`                   | Fix bad permissions that could happen (check the command for more details).                          |
 
 ### Environment files
 
@@ -138,7 +144,7 @@ To override a value from a `.env` file, create a `.env.local` file (which will n
 ### The database
 
 RankyList currently uses PocketBase as its DB, which itself uses SQLite under the hood.
-You can easily access it with a friendly GUI by going to [http://localhost:8090/](http://localhost:8090/).
+You can easily access it with a friendly GUI by going to [http://local.pocketbase.ranky-list.com](http://local.pocketbase.ranky-list.com/_/#).
 
 Assuming you did not change the credentials in the root `.env` file :
 
@@ -175,6 +181,7 @@ All the documentation you need to safely develop on RankyList. Feel free to add 
 - [Migrations](docs/MIGRATIONS.MD)
 - [Fixtures](docs/FIXTURES.MD)
 - [Emails](docs/EMAILS.MD)
+- [E2E Testing](docs/E2E.MD)
 - [What technologies is RankyList currently using?](https://github.com/RankyList/ranky-list/issues/22)
 
 ### Good to know
