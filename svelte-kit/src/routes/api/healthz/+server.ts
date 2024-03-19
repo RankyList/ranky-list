@@ -14,6 +14,6 @@ export const GET = (() => {
   } catch (_) {
     health.message = 'Service is unhealthy.';
 
-    throw error(500, health);
+    error(500, health);
   }
 }) satisfies RequestHandler;

@@ -72,7 +72,7 @@
     "import/no-unresolved": [
       "error",
       {
-        "ignore": ["\\$app.*$", "\\$service-worker.*$", "\\$env.*$"]
+        "ignore": ["\\$app.*$", "\\$service-worker.*$", "\\$env.*$", "\\~icons/.*$", "bun:.*$"]
       }
     ],
     "import/no-useless-path-segments": [
@@ -117,7 +117,8 @@
     "one-var": ["error", "never"],
     "prefer-arrow-callback": ["off"],
     "prettier/prettier": ["warn"],
-    "no-restricted-syntax": ["off"]
+    "no-restricted-syntax": ["off"],
+    "consistent-return": ["off"]
   },
   "settings": {
     "import/parsers": {

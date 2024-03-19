@@ -1,0 +1,9 @@
+version: '3.9'
+
+# Copy and rename this file to compose.override.yml to use it
+services:
+  svelte-kit:
+    entrypoint: ["./scripts/preview.sh"]
+
+  pocketbase:
+    command: wgo run -xdir pb_data main.go serve --dir="./pb_data_test" --http 0.0.0.0:8090

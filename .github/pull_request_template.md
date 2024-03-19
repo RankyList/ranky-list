@@ -18,7 +18,7 @@ Please add any relevant information to the type of change you've made.
 
 Please describe the tests that you ran to verify your changes. It is way more likely for a PR to be merged and approved with successful tests.
 
-- [ ] Yes, I ran tests (describe below)
+- [x] Yes, I ran tests (describe below)
 - [ ] No, I did not include any test
 - [ ] No test is needed for this change
 

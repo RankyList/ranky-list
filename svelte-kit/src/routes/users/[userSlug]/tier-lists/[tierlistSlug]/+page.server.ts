@@ -12,11 +12,17 @@ export const load = (async ({ params, locals }) => {
     tierList = await locals.pb.collection('tierlists').getFirstListItem(`slug = "${tierlistSlug}"`);
   } catch (e) {
     if (e instanceof ClientResponseError && e.status === 404) {
-      throw error(404, `Tier list "${tierlistSlug}" not found`);
+      error(404, `Tier list "${tierlistSlug}" not found`);
     }
 
-    throw error(500, { message: 'Something went wrong while trying to retrieve the tier list.' });
+    error(500, { message: 'Something went wrong while trying to retrieve the tier list.' });
   }
 
-  return { tierList: structuredClone(tierList) };
+  return {
+    tierList: structuredClone(tierList),
+    seo: {
+      title: tierList.name,
+      description: tierList.description || `The ${tierList.name} tier list. Created by TODO.`,
+    },
+  };
 }) satisfies PageServerLoad;

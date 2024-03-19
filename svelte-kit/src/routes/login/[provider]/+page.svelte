@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { IconHome } from '@tabler/icons-svelte';
     import { onDestroy } from 'svelte';
 
     import { browser } from '$app/environment';
+    import IconHome from '~icons/tabler/home';
 
     let untilClose = 5;
     let timeout: number | null = null;

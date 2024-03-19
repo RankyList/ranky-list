@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { MetaTags } from 'svelte-meta-tags';
+    import type { PageData } from './$types';
 
-    export let data;
+    export let data: PageData;
 </script>
-
-<MetaTags title="RankyList" description="Welcome to RankyList. The easiest way to create a tier list." />
 
 <div class="container mx-auto grid gap-5 p-8">
     <h1 class="h1">

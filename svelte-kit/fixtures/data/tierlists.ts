@@ -1,37 +1,66 @@
 import type { Fixture, Reference } from '../index';
 import type { TierlistsRecord, TierlistsResponse } from '../../src/lib/types/pocketbase';
+import type { DATA as USER_DATA } from './users';
 
-export const TIERLISTS_FIXTURE_MIN_TIERLISTS_PER_USER = 1;
-export const TIERLISTS_FIXTURE_MAX_TIERLISTS_PER_USER = 10;
+export const DATA = {
+  cars: {
+    name: 'Cars',
+    slug: 'cars',
+    description: 'Ranking of the best cars',
+    public: true,
+    canBeTemplate: false,
+    createdBy: 'bob',
+  },
+  frameworks: {
+    name: 'Best frameworks',
+    slug: 'best-frameworks',
+    description: 'Ranking of the best frameworks (any language)',
+    public: true,
+    canBeTemplate: false,
+    createdBy: 'karl',
+  },
+  private: {
+    name: 'Private',
+    slug: 'private',
+    description: 'Private tierlist (WIP)',
+    public: false,
+    canBeTemplate: false,
+    createdBy: 'karl',
+  },
+  template: {
+    name: 'Template',
+    slug: 'template',
+    description: 'Tierlist template',
+    public: true,
+    canBeTemplate: true,
+    createdBy: 'quantumQuasar97',
+  },
+} as const satisfies Reference<
+  TierlistsRecord & {
+    createdBy: keyof typeof USER_DATA;
+  }
+>;
 
-export default ({
+export type TierlistsDataKeys = keyof typeof DATA;
+
+export default {
   name: 'tierlists',
   order: 1,
-  load: async (pb, references, faker) => {
+  load: async (pb, references) => {
     const records: Reference<TierlistsResponse> = {};
-    const tierlistNames = ['Tierlist', 'Rankings', ''];
-    const usersReferences = Object.entries(references.users || {});
+    const usersReferences = references.users || {};
 
-    for (const [i, user] of usersReferences) {
-      const numTierlists = faker.number.int({
-        min: TIERLISTS_FIXTURE_MIN_TIERLISTS_PER_USER,
-        max: TIERLISTS_FIXTURE_MAX_TIERLISTS_PER_USER,
-      });
-
-      for (const t of Array(numTierlists).keys()) {
-        const name = `${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()} ${faker.helpers.arrayElement(tierlistNames)}`.trim();
-
-        records[i] = await pb.collection('tierlists').create<TierlistsResponse>({
-          name,
-          slug: faker.helpers.slugify(name).toLocaleLowerCase(),
-          description: faker.lorem.sentences(),
-          public: faker.datatype.boolean(),
-          canBeTemplate: faker.datatype.boolean(),
-          createdBy: user.id,
-        } as TierlistsRecord);
-      }
+    for (const [i, tierlist] of Object.entries(DATA)) {
+      records[i] = await pb.collection('tierlists').create<TierlistsResponse>({
+        name: tierlist.name,
+        slug: tierlist.slug,
+        description: tierlist.description,
+        public: tierlist.public,
+        canBeTemplate: tierlist.canBeTemplate,
+        createdBy: usersReferences[tierlist.createdBy].id,
+      } as TierlistsRecord);
     }
 
     return { records };
   },
-}) satisfies Fixture<TierlistsResponse>;
+} satisfies Fixture<TierlistsResponse>;

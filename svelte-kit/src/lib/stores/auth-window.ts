@@ -1,9 +1,12 @@
+import { getContext, setContext } from 'svelte';
 import { writable } from 'svelte/store';
 
 import type { AuthWindow } from '$types/auth/window';
 
 import { browser } from '$app/environment';
 import { invalidateAll } from '$app/navigation';
+
+export const AUTH_WINDOW_CONTEXT_KEY = 'auth-window';
 
 const createAuthWindow = () => {
   let timeout: number | null = null;
@@ -61,6 +64,12 @@ const createAuthWindow = () => {
 
   return {
     subscribe,
+    /**
+     * Opens a new auth window with the given URL.
+     *
+     * @param url - The URL to open in the auth window.
+     * @returns Whether the auth window has been successfully opened.
+     */
     open: (url: string) => {
       try {
         if (!browser || window.opener) {
@@ -117,6 +126,12 @@ const createAuthWindow = () => {
         return false;
       }
     },
+    /**
+     * Close the auth window.
+     *
+     * @param withInvalidate - Whether to invalidate all `load` functions after closing the auth window.
+     * @returns Whether the auth window has been successfully closed.
+     */
     close: (withInvalidate = false) => {
       try {
         if (!browser || window.opener) {
@@ -156,6 +171,12 @@ const createAuthWindow = () => {
         return false;
       }
     },
+    /**
+     * Detaches the auth window from the store. This is useful when the auth window is opened in a new tab or window.
+     *
+     * @param withInvalidate - Whether to invalidate all `load` functions after detaching the auth window.
+     * @returns Whether the auth window has been successfully detached.
+     */
     detach: (withInvalidate = false) => {
       try {
         if (!browser) {
@@ -196,4 +217,26 @@ const createAuthWindow = () => {
   };
 };
 
-export const authWindow = createAuthWindow();
+export type AuthWindowStore = ReturnType<typeof createAuthWindow>;
+
+/**
+ * Initializes the auth window store. This is mandatory when using SSR (see https://github.com/sveltejs/kit/discussions/4339).
+ */
+export const initializeAuthWindowStore = () => {
+  const authWindowStore = createAuthWindow();
+
+  setContext<AuthWindowStore>(AUTH_WINDOW_CONTEXT_KEY, authWindowStore);
+};
+
+/**
+ * Returns the auth window store. Make sure to call "initializeAuthWindowStore" before using it.
+ */
+export const getAuthWindowStore = () => {
+  const authWindowStore = getContext<AuthWindowStore | undefined>(AUTH_WINDOW_CONTEXT_KEY);
+
+  if (!authWindowStore) {
+    throw new Error(`Store "${AUTH_WINDOW_CONTEXT_KEY}" is not initialized. Make sure to call "initializeAuthWindowStore" before using it.`);
+  }
+
+  return authWindowStore;
+};

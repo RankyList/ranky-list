@@ -8,7 +8,13 @@ export const load = (async ({ locals }) => {
     sort: '-created',
   });
 
-  return { recentTierLists: structuredClone(recentTierLists) };
+  return {
+    recentTierLists: structuredClone(recentTierLists),
+    seo: {
+      title: 'RankyList',
+      description: 'RankyList is a platform for creating and sharing tier lists. Create a tier list for anything, without the hassle.',
+    },
+  };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -18,6 +24,6 @@ export const actions = {
       locals.user = null;
     }
 
-    throw redirect(302, '/');
+    redirect(302, '/');
   },
 } satisfies Actions;

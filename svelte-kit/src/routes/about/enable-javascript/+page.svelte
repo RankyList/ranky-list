@@ -1,12 +1,3 @@
-<script lang="ts">
-    import { MetaTags } from 'svelte-meta-tags';
-</script>
-
-<MetaTags
-    title="Enabling JavaScript"
-    description="Why and how to enable JavaScript. You will learn how JavaScript helps improve your user experience."
-/>
-
 <div class="container mx-auto flex flex-col gap-8 text-2xl">
     <h1 class="my-10 text-center text-6xl">Enabling JavaScript</h1>
     <noscript>
@@ -17,13 +8,11 @@
     </noscript>
     <p class="unstyled">
         Javascript is a programming language that is used to enhance the functionality and user experience of websites. To fully utilize the features
-        of RankyList, including Single Page Application (SPA) functionality, drag and drop, dark mode, and more, it is necessary to have Javascript
-        enabled.
+        of RankyList, including drag and drop, dark mode, and more, it is necessary to have Javascript enabled.
     </p>
     <p class="unstyled">
-        Single Page Applications (SPAs) are a type of web application that load a single HTML page and dynamically update the page as the user
-        interacts with the app, rather than reloading the page from the server. This provides a more seamless and responsive user experience, as the
-        app can load and update content without requiring a full page reload. It also helps saving data during navigation.
+        RankyList uses Javascript to enhance the user interface and your browsing experience. Using Javascript provides a more seamless and responsive
+        user experience, as the app can load and update content without requiring a full page reload. It also helps saving data during navigation.
     </p>
     <p class="unstyled">
         Please be assured that we do not use Javascript to include any ads or steal data. We rely on it to provide a smooth and enjoyable experience

@@ -3,18 +3,12 @@ node_modules
 /build
 /.svelte-kit
 /package
-.env
-.env.*
-!.env.example
 *.cjs
-playwright.config.js
+tailwind.config.ts
 svelte.config.js
 /coverage
 /fixtures
-vitest.config.ts
 histoire.config.ts
-
-# Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+histoire.setup.ts
+bun.lockb
+ranky-list.theme.ts

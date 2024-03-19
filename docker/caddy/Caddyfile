@@ -1,0 +1,23 @@
+{
+    auto_https off
+}
+
+http://local.pocketbase.ranky-list.com {
+    reverse_proxy * pocketbase:8090
+}
+
+http://local.mailcatcher.ranky-list.com {
+    reverse_proxy * mailcatcher:1080
+}
+
+http://local.histoire.ranky-list.com {
+    reverse_proxy * histoire:6006
+}
+
+http://local.ranky-list.com {
+    reverse_proxy * svelte-kit:5173
+}
+
+http:// {
+    respond "Not found" 404
+}

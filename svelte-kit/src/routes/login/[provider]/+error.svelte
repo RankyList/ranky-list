@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { IconHome } from '@tabler/icons-svelte';
-
     import { browser } from '$app/environment';
     import { page } from '$app/stores';
+    import IconHome from '~icons/tabler/home';
 
     const message = $page.error?.message ?? 'Oops... Something went wrong.';
 

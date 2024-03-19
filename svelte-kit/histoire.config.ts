@@ -3,7 +3,7 @@ import { HstSvelte } from '@histoire/plugin-svelte';
 
 export default defineConfig({
   plugins: [HstSvelte()],
-  setupFile: '/src/histoire.setup.ts',
+  setupFile: '/histoire.setup.ts',
   theme: {
     title: 'RankyList',
     darkClass: 'dark',

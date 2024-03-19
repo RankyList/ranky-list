@@ -1,6 +1,5 @@
 <script lang="ts">
-    import '../theme.postcss';
-    import '@skeletonlabs/skeleton/styles/skeleton.css';
+    import '../theme.scss';
     import '../global.scss';
 
     import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
@@ -9,29 +8,49 @@
         AppBar,
         LightSwitch,
         Modal,
-        Toast,
         storePopup,
         type PopupSettings,
         popup,
-        modalStore,
+        getModalStore,
         focusTrap,
         ProgressRadial,
-        toastStore,
         Avatar,
+        initializeStores,
+        modeCurrent,
     } from '@skeletonlabs/skeleton';
-    import { IconAlertTriangleFilled, IconArrowRightCircle, IconUser } from '@tabler/icons-svelte';
+    import extend from 'just-extend';
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { MetaTags, type MetaTagsProps } from 'svelte-meta-tags';
+    import { Toaster, toast } from 'svelte-sonner';
 
     import Logo from '$components/icon/ranky-list-logo.svg?component';
-    import { authWindow } from '$stores/auth-window';
+    import { initializeAuthWindowStore, getAuthWindowStore } from '$stores/auth-window';
+    import { getPocketBaseImageUrl } from '$utils/url';
 
     import type { ModalComponentRegistry } from '$types/modal';
+    import type { LayoutData } from './$types';
 
     import { browser } from '$app/environment';
     import { enhance } from '$app/forms';
+    import { onNavigate } from '$app/navigation';
     import { page } from '$app/stores';
+    import IconAlertTriangleFilled from '~icons/tabler/alert-triangle-filled';
+    import IconArrowRightCircle from '~icons/tabler/arrow-right-circle';
+    import IconUser from '~icons/tabler/user';
 
+    export let data: LayoutData;
+
+    // Initialize stores
+    initializeStores();
+    initializeAuthWindowStore();
+
+    // Configure the popup store
+    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+    // Constants
+    const modalStore = getModalStore();
+    const authWindowStore = getAuthWindowStore();
     const modalComponentRegistry: ModalComponentRegistry = {};
     const userPopup: PopupSettings = {
         event: 'focus-click',
@@ -39,34 +58,38 @@
         placement: 'bottom',
     };
 
-    storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-
+    /**
+     * When a message is received from the auth window.
+     */
     const onmessage = (e: MessageEvent) => {
         if (!browser || e.origin !== window.origin) {
             return;
         }
 
         if (typeof e.data === 'object' && e.data.context === 'oauth' && typeof e.data?.success === 'boolean') {
-            authWindow.detach(true);
+            authWindowStore.detach(true);
             window.removeEventListener('message', onmessage);
         }
     };
 
+    /**
+     * When the authentication window is closed.
+     */
     const handleAuthWindowClose = () => {
         if (!browser) {
             return;
         }
 
-        const closed = authWindow.close(true);
+        const closed = authWindowStore.close(true);
 
         if (!closed) {
-            toastStore.trigger({
-                message: 'Sorry, something went wrong while trying to close the authentication window.',
-                classes: 'variant-filled-error',
-            });
+            toast.error('Sorry, something went wrong while trying to close the authentication window.');
         }
     };
 
+    /**
+     * Handle when the auth window is opened/closed.
+     */
     const handleAuthWindowChange = (opened: boolean) => {
         if (!browser) {
             return;
@@ -79,11 +102,40 @@
         }
     };
 
+    // Automatically close the modal when the user is logged in
     $: if ($page.data.user) {
         modalStore.close();
     }
 
-    $: handleAuthWindowChange($authWindow.opened);
+    // Handle when the auth window is opened/closed
+    $: handleAuthWindowChange($authWindowStore.opened);
+
+    // Merge default meta tags with page specific meta tags
+    $: metaTags = extend(
+        true,
+        {
+            robots: $page.error ? 'noindex, nofollow' : undefined,
+        },
+        data.baseSeo,
+        $page.data.seo,
+        $page.error?.seo,
+    ) as MetaTagsProps;
+
+    // Add view transitions
+    onNavigate((navigation) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (!document.startViewTransition) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve) => {
+            document.startViewTransition(async () => {
+                resolve();
+
+                await navigation.complete;
+            });
+        });
+    });
 
     onDestroy(() => {
         if (!browser) {
@@ -94,26 +146,37 @@
     });
 </script>
 
-<svelte:body aria-busy={$authWindow.opened} />
+{#key metaTags}
+    <MetaTags {...metaTags} titleTemplate={metaTags.title && metaTags.titleTemplate?.endsWith(metaTags.title) ? undefined : metaTags.titleTemplate} />
+{/key}
+<Modal components={modalComponentRegistry} />
+<!-- TODO change the theme to reflect Skeleton ? -->
+<Toaster visibleToasts={9} duration={8000} theme={$modeCurrent ? 'light' : 'dark'} />
 
-{#if $authWindow.opened}
+{#if $authWindowStore.opened}
     <div
         transition:fade
         class="absolute left-0 top-0 z-[9999] flex h-full w-full flex-col items-center justify-center gap-5 bg-gray-700/90"
         use:focusTrap={true}
     >
-        <ProgressRadial stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" />
-        <p>Authentication in progress...</p>
-        {#if $authWindow.window}
+        <ProgressRadial stroke={60} meter="stroke-primary-500" track="stroke-primary-500/30" />
+        <p role="status">Authentication in progress...</p>
+        {#if $authWindowStore.window}
             <div role="group" class="flex flex-row gap-3">
-                <button type="button" class="btn variant-ghost" on:click={() => $authWindow.window?.focus()}>Open</button>
-                <button type="button" class="btn variant-ghost" on:click={handleAuthWindowClose}>Cancel</button>
+                <button
+                    type="button"
+                    class="variant-ghost btn"
+                    on:click={() => {
+                        $authWindowStore.window?.focus();
+                    }}>Open</button
+                >
+                <button type="button" class="variant-ghost btn" on:click={handleAuthWindowClose}>Cancel</button>
             </div>
         {/if}
     </div>
 {/if}
 
-<AppShell>
+<AppShell aria-busy={$authWindowStore.opened}>
     <AppBar shadow="shadow" slot="header">
         <svelte:fragment slot="lead">
             <a class="flex items-center gap-3" href="/">
@@ -156,12 +219,15 @@
                         {/if}
                     </nav>
                 </noscript>
-                <button class="btn-icon variant-soft-primary" use:popup={userPopup}>
+                <button class="variant-soft-primary btn-icon" type="button" use:popup={userPopup}>
                     {#if $page.data.user}
-                        <!-- TODO Change this to proper URL, this is temporary -->
                         <Avatar
                             src={$page.data.user.avatar
-                                ? `http://localhost:8090/api/files/_pb_users_auth_/d1ijmt74g6vuvdq/${$page.data.user.avatar}`
+                                ? getPocketBaseImageUrl({
+                                      fileName: $page.data.user.avatar,
+                                      collectionIdOrName: $page.data.user.collectionId,
+                                      recordId: $page.data.user.id,
+                                  })
                                 : undefined}
                             initials={$page.data.user.username.at(0)}
                         />
@@ -222,6 +288,3 @@
         {/if}
     </svelte:fragment>
 </AppShell>
-
-<Modal components={modalComponentRegistry} />
-<Toast position="br" zIndex="z-[1000]" />
