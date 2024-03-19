@@ -1,6 +1,6 @@
 FROM oven/bun:alpine
 
-RUN apk add --update && apk add bash
+RUN apk add --update bash
 
 COPY --from=node:20-alpine /usr/lib /usr/lib
 COPY --from=node:20-alpine /usr/local/share /usr/local/share
