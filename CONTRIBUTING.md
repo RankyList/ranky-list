@@ -3,7 +3,10 @@
 How to contribute to the project?
 There are 2 ways of contributing: reporting a bug or proposing a feature, and making changes to the code.
 
+## Content
+
 - [Contributing to the project](#contributing-to-the-project)
+  - [Content](#content)
   - [How to contribute by reporting a bug/proposing a feature?](#how-to-contribute-by-reporting-a-bugproposing-a-feature)
   - [How to contribute to the code?](#how-to-contribute-to-the-code)
     - [Branches](#branches)
@@ -56,7 +59,7 @@ Everything you need to know to use this project and contribute to it is written 
 - Go to [http://local.ranky-list.com](http://local.ranky-list.com) to access the app and [http://local.pocketbase.ranky-list.com](http://local.pocketbase.ranky-list.com/_/#) to access the PocketBase admin panel.
 - From there, you can add your own code and tests in the appropriate folders.
 
-> **Warning**
+> [!WARNING]
 > Docker is required. We do not recommend running this project without it.
 
 ### What do I need to check before making a PR?
@@ -85,7 +88,7 @@ For example, add `127.0.0.1 local.ranky-list.com` to be able to access the app o
 | `mailcatcher` | SMTP service used to catch emails during development.                                                      |                | [http://local.mailcatcher.ranky-list.com](http://local.mailcatcher.ranky-list.com)   |
 | `pocketbase`  | Service running PocketBase, including the SQLite DB and API. Also serves as a Go backend.                  |                | [http://local.pocketbase.ranky-list.com](http://local.pocketbase.ranky-list.com/_/#) |
 
-> **Note**
+> [!NOTE]
 > The URLs are both prefixed with `local.` and suffixed with `.ranky-list.com` to avoid conflicts with real domains, while still being considered valid domains for OAuth providers.
 
 #### Hosts file
@@ -151,7 +154,7 @@ Assuming you did not change the credentials in the root `.env` file :
 - User : `root@root.com`,
 - Password : `root`.
 
-> **Note**
+> [!NOTE]
 > Migrations are applied automatically and the database is kept on your host machine, so you will not lose data even after deleting the container.
 
 ### IDEs

@@ -2,7 +2,10 @@
 
 Sending emails with PocketBase is very easy. However, to test emails during development, you have to make PocketBase aware of our `mailcatcher` service.
 
+## Content
+
 - [Emails](#emails)
+  - [Content](#content)
   - [Testing emails in dev](#testing-emails-in-dev)
   - [Creating custom emails](#creating-custom-emails)
 

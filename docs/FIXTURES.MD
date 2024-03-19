@@ -2,7 +2,10 @@
 
 This section concerns fixtures for PocketBase. Fixtures are fake data generated to facilitate development.
 
+## Content
+
 - [Fixtures](#fixtures)
+  - [Content](#content)
   - [How to load fixtures](#how-to-load-fixtures)
     - [Env variables](#env-variables)
     - [Commands](#commands)
@@ -14,7 +17,7 @@ This section concerns fixtures for PocketBase. Fixtures are fake data generated 
 
 ## How to load fixtures
 
-> **Warning**
+> [!WARNING]
 > Be aware that fixtures will delete all current records in your DB, which is why they aren't allowed in production.
 
 First, make sure you have your env variables correctly set.
@@ -23,7 +26,7 @@ First, make sure you have your env variables correctly set.
 
 Some of these variables are already set by default in the `.env` file, however, you can override them in a `.env.local` file (to set your own PocketBase password for example).
 
-> **Note**  
+> [!NOTE]
 > The correct `.env` file to use is located in the `svelte-kit` folder. The root `.env` file is used for Docker only.
 
 | Variable                     | Description                                                                                                                   |
@@ -38,9 +41,8 @@ Some of these variables are already set by default in the `.env` file, however, 
 
 To load fixtures, run `bun run fixtures` in the `svelte-kit` container, or `make fixtures` outside the container.
 
-> **Note**  
-> By default, the `bun run fixtures` command will ask you if you want to run fixtures and delete all current records.
-> You can omit this prompt by adding `-f` to the command. The `make fixtures` command already does that.
+> [!NOTE]
+> By default, the `bun run fixtures` command will ask you if you want to run fixtures and delete all current records. You can omit this prompt by adding `-f` to the command. The `make fixtures` command already does that.
 
 ## How to create a fixture
 
@@ -153,7 +155,7 @@ export default {
 With that, your fixture will be automatically loaded.
 You can (and should) use a `FormData` instance containing all your fields instead of an object if you want to send files.
 
-> **Warning**
+> [!WARNING]
 > Avoid using the `faker` instance to generate random data for key fields. This will make it difficult to reference these records during tests. Instead, create a `DATA` constant to hold the data you want to use for your fixtures. Keep `faker` for generating other unuseful data (like a random image url).
 
 #### Inserting files
@@ -193,5 +195,5 @@ records[i] = await pb.collection('users').create<UsersResponse>(formData);
 
 ```
 
-> **Note**  
+> [!NOTE]
 > `FormData.append` only accepts `string` or `Blob` as value. For any other value, you can use `JSON.stringify`.
