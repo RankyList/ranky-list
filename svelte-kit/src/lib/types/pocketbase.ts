@@ -8,7 +8,7 @@ import type { RecordService } from 'pocketbase';
 export enum Collections {
   Items = 'items',
   Ranks = 'ranks',
-  Tierlists = 'tierlists',
+  TierLists = 'tierLists',
   Users = 'users',
 }
 
@@ -40,7 +40,8 @@ export type ItemsRecord = {
   description?: string;
   name: string;
   position?: number;
-  rank: RecordIdString;
+  rank?: RecordIdString;
+  tierList: RecordIdString;
 };
 
 export type RanksRecord = {
@@ -48,12 +49,12 @@ export type RanksRecord = {
   description?: string;
   name: string;
   position?: number;
-  tierlist: RecordIdString;
+  tierList: RecordIdString;
 };
 
-export type TierlistsRecord = {
+export type TierListsRecord = {
   canBeTemplate?: boolean;
-  createdBy?: RecordIdString;
+  createdBy: RecordIdString;
   description?: string;
   name: string;
   public?: boolean;
@@ -68,7 +69,7 @@ export type UsersRecord<Twebsites = unknown> = {
 // Response types include system fields and match responses from the PocketBase API
 export type ItemsResponse<Texpand = unknown> = Required<ItemsRecord> & BaseSystemFields<Texpand>;
 export type RanksResponse<Texpand = unknown> = Required<RanksRecord> & BaseSystemFields<Texpand>;
-export type TierlistsResponse<Texpand = unknown> = Required<TierlistsRecord> & BaseSystemFields<Texpand>;
+export type TierListsResponse<Texpand = unknown> = Required<TierListsRecord> & BaseSystemFields<Texpand>;
 export type UsersResponse<Twebsites = unknown, Texpand = unknown> = Required<UsersRecord<Twebsites>> & AuthSystemFields<Texpand>;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -76,14 +77,14 @@ export type UsersResponse<Twebsites = unknown, Texpand = unknown> = Required<Use
 export type CollectionRecords = {
   items: ItemsRecord;
   ranks: RanksRecord;
-  tierlists: TierlistsRecord;
+  tierLists: TierListsRecord;
   users: UsersRecord;
 };
 
 export type CollectionResponses = {
   items: ItemsResponse;
   ranks: RanksResponse;
-  tierlists: TierlistsResponse;
+  tierLists: TierListsResponse;
   users: UsersResponse;
 };
 
@@ -93,6 +94,6 @@ export type CollectionResponses = {
 export type TypedPocketBase = PocketBase & {
   collection(idOrName: 'items'): RecordService<ItemsResponse>;
   collection(idOrName: 'ranks'): RecordService<RanksResponse>;
-  collection(idOrName: 'tierlists'): RecordService<TierlistsResponse>;
+  collection(idOrName: 'tierLists'): RecordService<TierListsResponse>;
   collection(idOrName: 'users'): RecordService<UsersResponse>;
 };

@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import { createInterface } from 'readline/promises';
 
 import type { Faker } from '@faker-js/faker';
-import type { BaseSystemFields, CollectionRecords, CollectionResponses } from '../src/lib/types/pocketbase';
+import type { BaseSystemFields, CollectionRecords, CollectionResponses, TypedPocketBase } from '../src/lib/types/pocketbase';
 
 /**
  * A reference to a record in the fixture.
@@ -58,7 +58,7 @@ export type Fixture<T = BaseSystemFields> = {
    * @param faker The faker instance. Try to use it as little as possible and only for irrelevant data, as fully random data can make your tests flaky.
    * @returns A promise that resolves to a reference holder containing the records that were loaded into the collection.
    */
-  load(pb: PocketBase, references: ReferenceMap, faker: Faker): Promise<ReferenceHolder<T>>;
+  load(pb: TypedPocketBase, references: ReferenceMap, faker: Faker): Promise<ReferenceHolder<T>>;
 };
 
 const prompt = createInterface({ input: process.stdin, output: process.stdout });
@@ -114,7 +114,7 @@ try {
   process.exit(1);
 }
 
-let pb: PocketBase;
+let pb: TypedPocketBase;
 let faker: Faker;
 
 if (process.env.SECRET_FIXTURES_LOCALE) {

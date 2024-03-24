@@ -74,7 +74,7 @@ Here is an example of what a fixture can look like (taken from the `ranks.ts` fi
 // Import the necessary types with "import type..."
 import type { Fixture, Reference } from '../index';
 import type { RanksRecord, RanksResponse } from '../../src/lib/types/pocketbase';
-import type { TierlistsDataKeys } from './tierlists';
+import type { TierlistsDataKeys } from './tier-lists';
 
 // Export the data that is going to be inserted in a constant to be able to access it from other fixtures
 export const DATA = {
@@ -106,8 +106,8 @@ export const DATA = {
   },
   // ... other data
 // Use the right type to get full type-safety on your export, also makes it easier to add new data
-// We omit the "tierlist" field because it is already represented by the key of the object
-} as const satisfies Record<TierlistsDataKeys, Reference<Omit<RanksRecord, 'tierlist'>>>;
+// We omit the "tierList" field because it is already represented by the key of the object
+} as const satisfies Record<TierlistsDataKeys, Reference<Omit<RanksRecord, 'tierList'>>>;
 
 // Export the keys of the data to be able to use them as types
 export type RanksDataKeys = keyof typeof DATA;
@@ -116,17 +116,17 @@ export type RanksDataKeys = keyof typeof DATA;
 export default {
   // The name of our fixture, usually the name of the file and collection
   name: 'ranks',
-  // The order (ascendant) in which to load this fixture, useful to load this fixture after its dependencies (tierlists)
+  // The order (ascendant) in which to load this fixture, useful to load this fixture after its dependencies (tierLists)
   order: 2,
   // Our load function with PocketBase, records of other fixtures and Faker
   load: async (pb, references) => {
     // Prepare the records we will return
     const records: Reference<RanksResponse> = {};
-    // Because we are loading after the "tierlists" fixture, all the tierlists inserted are available inside "references.tierlists"
-    const tierlistsReferences = references.tierlists || {};
+    // Because we are loading after the "tierLists" fixture, all the tier lists inserted are available inside "references.tierLists"
+    const tierListsReferences = references.tierLists || {};
 
-    // We loop over each tierlist
-    for (const [tierlist, ranks] of Object.entries(DATA)) {
+    // We loop over each tier list
+    for (const [tierList, ranks] of Object.entries(DATA)) {
       // We use the constant defined earlier to know how many ranks to add
       for (const [i, rank] of Object.entries(ranks)) {
         // We create a new record with fake data and add it to our "records" object
@@ -135,8 +135,8 @@ export default {
           color: rank.color,
           description: rank.description,
           position: rank.position,
-          // We use the "references" object to reference the tierlist we want to link to
-          tierlist: tierlistsReferences[tierlist].id,
+          // We use the "references" object to reference the tier list we want to link to
+          tierList: tierListsReferences[tierList].id,
         } as RanksRecord);
       }
     }

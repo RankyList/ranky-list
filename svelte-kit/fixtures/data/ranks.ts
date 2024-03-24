@@ -1,6 +1,10 @@
 import type { Fixture, Reference } from '../index';
 import type { RanksRecord, RanksResponse } from '../../src/lib/types/pocketbase';
-import type { TierlistsDataKeys } from './tierlists';
+import type { TierListsDataKeys } from './tier-lists';
+
+export type RankReference = Reference<Omit<RanksRecord, 'tierList'>>;
+
+export type TierListRanksData = Record<TierListsDataKeys, RankReference>;
 
 export const DATA = {
   cars: {
@@ -82,7 +86,7 @@ export const DATA = {
       position: 3,
     },
   },
-} as const satisfies Record<TierlistsDataKeys, Reference<Omit<RanksRecord, 'tierlist'>>>;
+} as const satisfies TierListRanksData;
 
 export type RanksDataKeys = keyof typeof DATA;
 
@@ -91,16 +95,16 @@ export default {
   order: 2,
   load: async (pb, references) => {
     const records: Reference<RanksResponse> = {};
-    const tierlistsReferences = references.tierlists || {};
+    const tierListsReferences = references.tierLists || {};
 
-    for (const [tierlist, ranks] of Object.entries(DATA)) {
+    for (const [tierList, ranks] of Object.entries(DATA)) {
       for (const [i, rank] of Object.entries(ranks)) {
-        records[i] = await pb.collection('ranks').create<RanksResponse>({
+        records[i] = await pb.collection('ranks').create({
           name: rank.name,
           color: rank.color,
           description: rank.description,
           position: rank.position,
-          tierlist: tierlistsReferences[tierlist].id,
+          tierList: tierListsReferences[tierList].id,
         } as RanksRecord);
       }
     }

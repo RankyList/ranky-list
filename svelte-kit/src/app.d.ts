@@ -1,8 +1,8 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import type { UsersResponse } from '$types/pocketbase';
-import type PocketBase, { RecordAuthResponse } from 'pocketbase';
+import type { TypedPocketBase, UsersResponse } from '$types/pocketbase';
+import type { RecordAuthResponse } from 'pocketbase';
 import type { MetaTagsProps } from 'svelte-meta-tags';
 
 import '@poppanator/sveltekit-svg/dist/svg';
@@ -11,7 +11,7 @@ import 'unplugin-icons/types/svelte';
 declare global {
   declare namespace App {
     interface Locals {
-      pb: PocketBase;
+      pb: TypedPocketBase;
       user: RecordAuthResponse<UsersResponse> | null;
     }
 

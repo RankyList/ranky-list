@@ -189,8 +189,8 @@
             </a>
         </svelte:fragment>
         <div class="container mx-auto">
-            <span class="hidden sm:inline">Find a tierlist</span>
-            <span class="hidden sm:inline">Create a tierlist</span>
+            <span class="hidden sm:inline">Find a tier list</span>
+            <span class="hidden sm:inline">Create a tier list</span>
         </div>
         <svelte:fragment slot="trail">
             <div class="flex items-center gap-5">

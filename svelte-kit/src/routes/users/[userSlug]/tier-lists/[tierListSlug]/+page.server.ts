@@ -1,18 +1,18 @@
 import { error } from '@sveltejs/kit';
 import { ClientResponseError } from 'pocketbase';
 
-import type { TierlistsResponse } from '$types/pocketbase';
+import type { TierListsResponse } from '$types/pocketbase';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ params, locals }) => {
-  const { tierlistSlug } = params;
-  let tierList: TierlistsResponse;
+  const { tierListSlug } = params;
+  let tierList: TierListsResponse;
 
   try {
-    tierList = await locals.pb.collection('tierlists').getFirstListItem(`slug = "${tierlistSlug}"`);
+    tierList = await locals.pb.collection('tierLists').getFirstListItem(`slug = "${tierListSlug}"`);
   } catch (e) {
     if (e instanceof ClientResponseError && e.status === 404) {
-      error(404, `Tier list "${tierlistSlug}" not found`);
+      error(404, `Tier list "${tierListSlug}" not found`);
     }
 
     error(500, { message: 'Something went wrong while trying to retrieve the tier list.' });
