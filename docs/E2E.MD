@@ -2,10 +2,13 @@
 
 This section concerns E2E testing in the app. E2E testing is done using [Playwright](https://playwright.dev/).
 
-> **Note**
+> [!NOTE]
 > Playwright is not run using Docker, unlike the rest of the app. You will need to have at least Bun and the Playwright browsers installed on your machine. A Make command will maybe be added in the future to run the tests from a temporary container.
 
+## Content
+
 - [E2E Testing](#e2e-testing)
+  - [Content](#content)
   - [How to run E2E tests](#how-to-run-e2e-tests)
 
 ## How to run E2E tests

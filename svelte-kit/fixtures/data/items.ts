@@ -1,14 +1,19 @@
 import type { Fixture, Reference } from '..';
 import type { ItemsRecord, ItemsResponse } from '../../src/lib/types/pocketbase';
 import type { DATA as RANKS_DATA, RanksDataKeys } from './ranks';
+import type { TierListsDataKeys } from './tier-lists';
 
-export type RanksData<T extends RanksDataKeys = RanksDataKeys> = {
-  [tierlistKey in T]: {
-    [key in keyof (typeof RANKS_DATA)[tierlistKey]]: Reference<Omit<ItemsRecord, 'rank'>>;
+export type ItemReference = Reference<Omit<ItemsRecord, 'rank' | 'tierList'>>;
+
+export type RankedItemsData<T extends RanksDataKeys = RanksDataKeys> = {
+  [tierListKey in T]: {
+    [key in keyof (typeof RANKS_DATA)[tierListKey]]: ItemReference;
   };
 };
 
-export const DATA = {
+export type UnrankedItemsData = Record<TierListsDataKeys, ItemReference>;
+
+export const RANKED_DATA = {
   cars: {
     veryFast: {
       teslaModelS: {
@@ -124,7 +129,8 @@ export const DATA = {
       },
       knockout: {
         name: 'Knockout',
-        description: 'Knockout is a JavaScript library that helps you to create rich, responsive display and editor user interfaces with a clean underlying data model.',
+        description:
+          'Knockout is a JavaScript library that helps you to create rich, responsive display and editor user interfaces with a clean underlying data model.',
         position: 1,
       },
       marionette: {
@@ -137,7 +143,7 @@ export const DATA = {
         description: 'Polymer is a JavaScript library for building web applications using web components.',
         position: 3,
       },
-    }
+    },
   },
   private: {},
   template: {
@@ -146,7 +152,42 @@ export const DATA = {
     b: {},
     c: {},
   },
-} as const satisfies RanksData;
+} as const satisfies RankedItemsData;
+
+export const UNRANKED_DATA = {
+  cars: {
+    teslaModel3: {
+      name: 'Tesla Model 3',
+      description: 'The Tesla Model 3 is a compact electric car with a range of 263 miles.',
+      position: 0,
+    },
+    porscheTaycan: {
+      name: 'Porsche Taycan',
+      description: 'The Porsche Taycan is an electric sports car with a range of 200 miles.',
+      position: 1,
+    },
+  },
+  frameworks: {
+    sapper: {
+      name: 'Sapper',
+      description: 'Sapper is a framework for building web applications of all sizes.',
+      position: 0,
+    },
+    meteor: {
+      name: 'Meteor',
+      description: 'Meteor is a full-stack JavaScript platform for developing modern web and mobile applications.',
+      position: 1,
+    },
+  },
+  private: {},
+  template: {},
+} as const satisfies UnrankedItemsData;
+
+export type RankedItemsDataKeys = keyof typeof RANKED_DATA;
+
+export type UnrankedItemsDataKeys = keyof typeof UNRANKED_DATA;
+
+export type ItemsDataKeys = RankedItemsDataKeys | UnrankedItemsDataKeys;
 
 export default {
   name: 'items',
@@ -154,17 +195,32 @@ export default {
   load: async (pb, references) => {
     const records: Reference<ItemsResponse> = {};
     const ranksReferences = references.ranks || {};
+    const tierListsReferences = references.tierLists || {};
 
-    for (const ranks of Object.values(DATA)) {
+    // Ranked items
+    for (const ranks of Object.values(RANKED_DATA)) {
       for (const [rank, items] of Object.entries(ranks)) {
-        for (const [i, item] of Object.entries<Omit<ItemsRecord, 'rank'>>(items)) {
-          records[i] = await pb.collection('items').create<ItemsResponse>({
+        for (const [i, item] of Object.entries<Omit<ItemsRecord, 'rank' | 'tierList'>>(items)) {
+          records[i] = await pb.collection('items').create({
             name: item.name,
             description: item.description,
             position: item.position,
             rank: ranksReferences[rank].id,
+            tierList: ranksReferences[rank].tierList,
           } as ItemsRecord);
         }
+      }
+    }
+
+    // Unranked items
+    for (const [tierList, items] of Object.entries(UNRANKED_DATA)) {
+      for (const [i, item] of Object.entries<Omit<ItemsRecord, 'rank' | 'tierList'>>(items)) {
+        records[i] = await pb.collection('items').create({
+          name: item.name,
+          description: item.description,
+          position: item.position,
+          tierList: tierListsReferences[tierList].id,
+        } as ItemsRecord);
       }
     }
 

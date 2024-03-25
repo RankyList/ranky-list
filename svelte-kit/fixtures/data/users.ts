@@ -39,9 +39,9 @@ export const DATA = {
       },
     },
   },
-  tierlistCreator56: {
-    username: 'tierlistCreator56',
-    email: 'tierlistCreator56@ranky-list.com',
+  tierListCreator56: {
+    username: 'tierListCreator56',
+    email: 'tierListCreator56@ranky-list.com',
     emailVisibility: true,
     verified: true,
     websites: {},
