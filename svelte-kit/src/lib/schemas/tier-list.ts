@@ -19,7 +19,7 @@ export const TierListSchema = object({
     minLength(1, 'Your tier list must contain at least 1 rank.'),
     maxLength(100, 'Your tier list cannot contain more than 100 ranks.'),
   ]),
-  unrakedItems: array(ItemSchema),
+  unrankedItems: array(ItemSchema),
 });
 
 export type TierListInput = Input<typeof TierListSchema>;
