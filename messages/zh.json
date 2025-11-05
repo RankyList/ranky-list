@@ -1,0 +1,17 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"locale": "中文",
+	"layout_toggle_theme": "切换主题",
+	"layout_open_main_menu": "打开主菜单",
+	"tierlist_drag_handle_for": "拖动句柄为 {label}",
+	"tierlist_new_item": "新项目",
+	"tierlist_edit_item": "编辑项目",
+	"tierlist_label": "标签",
+	"tierlist_color": "颜色",
+	"tierlist_custom_color": "自定义颜色",
+	"tierlist_image_url": "图像 URL",
+	"tierlist_submit": "提交",
+	"tierlist_choose_a_color": "选择颜色",
+	"layout_change_language": "更改语言",
+	"tierlist_title": "未命名等级列表"
+}

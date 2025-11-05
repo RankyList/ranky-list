@@ -1,0 +1,17 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"locale": "Français",
+	"layout_toggle_theme": "Changer le thème",
+	"layout_open_main_menu": "Ouvrir le menu principal",
+	"tierlist_drag_handle_for": "Poignée pour {label}",
+	"tierlist_new_item": "Nouvel élément",
+	"tierlist_edit_item": "Modifier l'élément",
+	"tierlist_label": "Nom",
+	"tierlist_color": "Couleur",
+	"tierlist_custom_color": "Couleur personnalisée",
+	"tierlist_image_url": "URL de l'image",
+	"tierlist_submit": "Valider",
+	"tierlist_choose_a_color": "Choisir une couleur",
+	"layout_change_language": "Changer la langue",
+	"tierlist_title": "Tier list sans titre"
+}

@@ -1,0 +1,17 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"locale": "English",
+	"layout_toggle_theme": "Toggle theme",
+	"layout_open_main_menu": "Open main menu",
+	"tierlist_drag_handle_for": "Drag handle for {label}",
+	"tierlist_new_item": "New item",
+	"tierlist_edit_item": "Edit item",
+	"tierlist_label": "Label",
+	"tierlist_color": "Color",
+	"tierlist_custom_color": "Custom color",
+	"tierlist_image_url": "Image URL",
+	"tierlist_submit": "Submit",
+	"tierlist_choose_a_color": "Choose a color",
+	"layout_change_language": "Change language",
+	"tierlist_title": "Untitled tier list"
+}

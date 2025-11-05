@@ -1,0 +1,216 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@plugin "@tailwindcss/typography";
+
+:root {
+	/* Colors */
+	--rosewater: hsl(10, 57%, 88%);
+	--flamingo: hsl(0, 59%, 84%);
+	--pink: hsl(316, 73%, 84%);
+	--mauve: hsl(277, 59%, 76%);
+	--red: hsl(359, 68%, 71%);
+	--maroon: hsl(358, 66%, 76%);
+	--peach: hsl(20, 79%, 70%);
+	--yellow: hsl(40, 62%, 73%);
+	--green: hsl(96, 44%, 68%);
+	--teal: hsl(172, 39%, 65%);
+	--sky: hsl(189, 48%, 73%);
+	--sapphire: hsl(199, 55%, 69%);
+	--blue: hsl(222, 74%, 74%);
+	--lavender: hsl(239, 66%, 84%);
+	--text: hsl(234, 16%, 35%);
+	--subtext1: hsl(233, 13%, 41%);
+	--subtext0: hsl(233, 10%, 47%);
+	--overlay2: hsl(232, 10%, 53%);
+	--overlay1: hsl(231, 10%, 59%);
+	--overlay0: hsl(228, 11%, 65%);
+	--surface2: hsl(227, 12%, 71%);
+	--surface1: hsl(225, 14%, 77%);
+	--surface0: hsl(223, 16%, 83%);
+	--base: hsl(220, 23%, 95%);
+	--mantle: hsl(220, 22%, 92%);
+	--crust: hsl(220, 21%, 89%);
+
+	/* Shadcn */
+	--radius: 0.625rem;
+	--background: var(--base);
+	--foreground: var(--text);
+	--card: var(--base);
+	--card-foreground: var(--text);
+	--popover: var(--base);
+	--popover-foreground: var(--text);
+	--primary: var(--lavender);
+	--primary-foreground: var(--base);
+	--secondary: var(--surface0);
+	--secondary-foreground: var(--text);
+	--muted: var(--surface0);
+	--muted-foreground: var(--subtext1);
+	--accent: var(--surface0);
+	--accent-foreground: var(--text);
+	--destructive: var(--red);
+	--border: var(--surface1);
+	--input: var(--surface1);
+	--ring: var(--text);
+	--chart-1: var(--red);
+	--chart-2: var(--teal);
+	--chart-3: var(--blue);
+	--chart-4: var(--yellow);
+	--chart-5: var(--green);
+	--sidebar: var(--mantle);
+	--sidebar-foreground: var(--text);
+	--sidebar-primary: var(--peach);
+	--sidebar-primary-foreground: var(--base);
+	--sidebar-accent: var(--surface0);
+	--sidebar-accent-foreground: var(--text);
+	--sidebar-border: var(--surface1);
+	--sidebar-ring: var(--surface1);
+
+	/* Color Picker */
+	--cp-bg-color: var(--background);
+	--cp-border-color: var(--foreground);
+	--cp-text-color: var(--foreground);
+	--cp-input-color: var(--crust);
+	--cp-button-hover-color: var(--surface1);
+}
+
+.dark {
+	/* Colors */
+	--rosewater: hsl(10, 56%, 91%);
+	--flamingo: hsl(0, 59%, 88%);
+	--pink: hsl(316, 72%, 86%);
+	--mauve: hsl(267, 84%, 81%);
+	--red: hsl(343, 81%, 75%);
+	--maroon: hsl(350, 65%, 77%);
+	--peach: hsl(23, 92%, 75%);
+	--yellow: hsl(41, 86%, 83%);
+	--green: hsl(115, 54%, 76%);
+	--teal: hsl(170, 57%, 73%);
+	--sky: hsl(189, 71%, 73%);
+	--sapphire: hsl(199, 76%, 69%);
+	--blue: hsl(217, 92%, 76%);
+	--lavender: hsl(232, 97%, 85%);
+	--text: hsl(226, 64%, 88%);
+	--subtext1: hsl(227, 35%, 80%);
+	--subtext0: hsl(228, 24%, 72%);
+	--overlay2: hsl(228, 17%, 64%);
+	--overlay1: hsl(230, 13%, 55%);
+	--overlay0: hsl(231, 11%, 47%);
+	--surface2: hsl(233, 12%, 39%);
+	--surface1: hsl(234, 13%, 31%);
+	--surface0: hsl(237, 16%, 23%);
+	--base: hsl(240, 21%, 15%);
+	--mantle: hsl(240, 21%, 12%);
+	--crust: hsl(240, 23%, 9%);
+}
+
+@theme {
+	--color-red: var(--red);
+	--color-peach: var(--peach);
+	--color-yellow: var(--yellow);
+	--color-green: var(--green);
+	--color-sky: var(--sky);
+	--color-blue: var(--blue);
+	--color-mauve: var(--mauve);
+	--color-pink: var(--pink);
+	--color-mantle: var(--mantle);
+	--color-crust: var(--crust);
+}
+
+/* Shadcn Theme */
+@theme inline {
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50 focus-visible:z-10;
+	}
+
+	[lang='ar'] {
+		direction: rtl;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
+}
+
+@layer components {
+	.tierlist {
+		@apply font-bold;
+
+		ul,
+		[contenteditable] {
+			@apply border-[3px] border-crust;
+		}
+
+		ul {
+			@apply border-s-0;
+		}
+
+		li {
+			[contenteditable],
+			ul {
+				@apply border-t-0;
+			}
+
+			&:first-child {
+				[contenteditable] {
+					@apply rounded-tl;
+				}
+
+				ul {
+					@apply rounded-tr;
+				}
+			}
+
+			&:last-child {
+				[contenteditable] {
+					@apply rounded-bl;
+				}
+
+				ul {
+					@apply rounded-br;
+				}
+			}
+		}
+	}
+}

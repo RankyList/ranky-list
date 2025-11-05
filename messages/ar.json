@@ -1,0 +1,17 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"locale": "العربية",
+	"layout_toggle_theme": "تغيير النمط",
+	"layout_open_main_menu": "افتح القائمة الرئيسية",
+	"tierlist_drag_handle_for": "قائمة التسلسل للتحريك لـ {label}",
+	"tierlist_new_item": "عنصر جديد",
+	"tierlist_edit_item": "تحرير العنصر",
+	"tierlist_label": "اسم",
+	"tierlist_color": "لون",
+	"tierlist_custom_color": "لون مخصص",
+	"tierlist_image_url": "عنوان URL للصورة",
+	"tierlist_submit": "إرسال",
+	"tierlist_choose_a_color": "اختر لون",
+	"layout_change_language": "تغيير اللغة",
+	"tierlist_title": "قائمة التسلسل بدون عنوان"
+}

@@ -1,0 +1,17 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"locale": "हिंदी",
+	"layout_toggle_theme": "थीम बदलें",
+	"layout_open_main_menu": "मुख्य मेनू खोलें",
+	"tierlist_drag_handle_for": "{label} के लिए ड्रैग हेंडल",
+	"tierlist_new_item": "नया आइटम",
+	"tierlist_edit_item": "आइटम संपादित करें",
+	"tierlist_label": "लेबल",
+	"tierlist_color": "रंग",
+	"tierlist_custom_color": "कस्टम रंग",
+	"tierlist_image_url": "छवि URL",
+	"tierlist_submit": "जमा करें",
+	"tierlist_choose_a_color": "रंग चुनें",
+	"layout_change_language": "भाषा बदलें",
+	"tierlist_title": "शीर्ष टीरलिस्ट"
+}
