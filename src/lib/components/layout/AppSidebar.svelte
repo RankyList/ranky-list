@@ -49,9 +49,9 @@
 								size="lg"
 								{...props}
 							>
-								<div class="flex aspect-square size-8 items-center justify-center rounded-lg">
+								<span class="flex aspect-square size-8 items-center justify-center rounded-lg">
 									{flags[getLocale()]}
-								</div>
+								</span>
 							</Sidebar.MenuButton>
 						{/snippet}
 					</DropdownMenu.Trigger>
