@@ -298,7 +298,13 @@
 <ul class="flex flex-wrap justify-end gap-2">
 	<!-- Copy URL -->
 	<li>
-		<Button class="cursor-pointer" onclick={handleCopy} variant="secondary" size="icon">
+		<Button
+			aria-label={m.tierlist_share()}
+			class="cursor-pointer"
+			onclick={handleCopy}
+			variant="secondary"
+			size="icon"
+		>
 			{#if actions.URL.success}
 				<span class="absolute" in:fade={{ duration: 150 }} out:fade={{ duration: 600 }}>
 					<ClipboardCheck class="dark:text-green" />
@@ -315,7 +321,13 @@
 
 	<!-- Download Screenshot -->
 	<li>
-		<Button class="cursor-pointer" onclick={handleScreenshot} variant="secondary" size="icon">
+		<Button
+			aria-label={m.tierlist_screenshot()}
+			class="cursor-pointer"
+			onclick={handleScreenshot}
+			variant="secondary"
+			size="icon"
+		>
 			{#if actions.screenshot.success}
 				<span class="absolute" in:fade={{ duration: 150 }} out:fade={{ duration: 600 }}>
 					<Download class="dark:text-green" />

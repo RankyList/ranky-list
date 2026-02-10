@@ -14,6 +14,8 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>RankyList - Tierlist maker</title>
+	<meta name="description" content="RankyList is THE tierlist maker, clean and simple" />
 </svelte:head>
 
 <Sidebar.Provider open={false}>
