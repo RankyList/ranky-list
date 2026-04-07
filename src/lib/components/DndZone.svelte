@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { m } from '@/paraglide/messages';
-	import type { DndItem } from '@/types/Dnd';
+	import { m } from '$lib/paraglide/messages.js';
+	import type { TierlistItemType, TierlistRowType } from '@/types/Dnd';
 	import { Grip } from '@lucide/svelte';
 	import type { Snippet } from 'svelte';
 	import {
+		type DndEvent,
+		type Options,
+		SHADOW_ITEM_MARKER_PROPERTY_NAME,
 		dndzone,
 		dragHandle,
-		dragHandleZone,
-		SHADOW_ITEM_MARKER_PROPERTY_NAME,
-		type DndEvent,
-		type Options
+		dragHandleZone
 	} from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
 
@@ -27,10 +27,10 @@
 		trailingItem,
 		type
 	}: {
-		children?: Snippet<[DndItem<any>]>;
+		children?: Snippet<[TierlistItemType | TierlistRowType]>;
 		class?: string;
 		isHandleZone?: boolean;
-		items: DndItem<any>[];
+		items: (TierlistItemType | TierlistRowType)[];
 		itemClass?: string;
 		trailingItem?: Snippet;
 		type: string;
@@ -38,11 +38,14 @@
 
 	// Methods
 
-	const handleSort = (e: CustomEvent<DndEvent<DndItem<any>>>) => {
-		items = e.detail.items as DndItem<any>[];
+	const handleSort = (e: CustomEvent<DndEvent<TierlistItemType | TierlistRowType>>) => {
+		items = e.detail.items;
 	};
 
-	const dragZone = (element: HTMLUListElement, options: Options<DndItem<any>>) => {
+	const dragZone = (
+		element: HTMLUListElement,
+		options: Options<TierlistItemType | TierlistRowType>
+	) => {
 		return isHandleZone ? dragHandleZone(element, options) : dndzone(element, options);
 	};
 </script>
@@ -56,7 +59,7 @@
 		items,
 		flipDurationMs: DURATION,
 		type
-	} as any}
+	}}
 >
 	{#each items as item (`${item.id}${item[SHADOW_ITEM_MARKER_PROPERTY_NAME] ? '_' + item[SHADOW_ITEM_MARKER_PROPERTY_NAME] : ''}`)}
 		<li
@@ -83,7 +86,7 @@
 				{#if isHandleZone}
 					<span class="visible absolute inset-0 bg-foreground/5"></span>
 				{:else}
-					<span class="visible absolute inset-y-0 w-[5.1875rem] bg-foreground/5"></span>
+					<span class="visible absolute inset-y-0 w-20.75 bg-foreground/5"></span>
 				{/if}
 			{/if}
 		</li>

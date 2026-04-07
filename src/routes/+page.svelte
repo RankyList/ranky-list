@@ -2,4 +2,6 @@
 	import Tierlist from '@/components/tierlist/Tierlist.svelte';
 </script>
 
-<Tierlist />
+<div class="container mx-auto">
+	<Tierlist />
+</div>

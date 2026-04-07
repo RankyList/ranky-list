@@ -1,17 +1,17 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Input from '$lib/components/ui/input/input.svelte';
-	import { defaultRanksColors, defaultRanksColorsHex } from '@/stores/colors';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import ColorPicker, { ChromeVariant } from 'svelte-awesome-color-picker';
-	import { createForm } from 'felte';
-	import type { Snippet } from 'svelte';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import { m } from '$lib/paraglide/messages.js';
+	import { DEFAULT_RANKS_COLORS, DEFAULT_RANKS_COLORS_HEX } from '@/constants';
 	import type { TierlistItemType } from '@/types/Dnd';
-	import { Trash } from '@lucide/svelte';
 	import type { Uuid } from '@/types/Uuid';
-	import { m } from '@/paraglide/messages';
+	import { Trash } from '@lucide/svelte';
+	import { createForm } from 'felte';
 	import { mode } from 'mode-watcher';
+	import type { Snippet } from 'svelte';
+	import ColorPicker, { ChromeVariant } from 'svelte-awesome-color-picker';
 
 	// Props
 
@@ -77,7 +77,10 @@
 </script>
 
 <Dialog.Root bind:open={isOpen}>
-	<Dialog.Trigger class="cursor-pointer">
+	<Dialog.Trigger
+		aria-label={!item ? m.tierlist_new_item() : `${m.tierlist_edit_item()} ${item.label}`}
+		class="cursor-pointer"
+	>
 		{@render children?.()}
 	</Dialog.Trigger>
 	<Dialog.Content>
@@ -88,7 +91,7 @@
 				<!-- Delete Button -->
 				{#if item}
 					<Button
-						class="mr-6 cursor-pointer"
+						class="me-6 cursor-pointer"
 						onclick={() => {
 							isOpen = false;
 							handleDelete(item?.id);
@@ -114,27 +117,27 @@
 				<li class="space-y-2">
 					<Label for="color">{m.tierlist_color()}</Label>
 					<ul class="flex flex-wrap justify-between gap-1">
-						{#each $defaultRanksColors as defaultColor, i (defaultColor)}
+						{#each DEFAULT_RANKS_COLORS as defaultColor, i (defaultColor)}
 							<li class="flex">
 								<label class="sr-only" for="item-color-{defaultColor}"
 									>{m.tierlist_color()} {i}</label
 								>
 								<input
 									checked={color ===
-										$defaultRanksColorsHex[mode.current as 'light' | 'dark'][
-											$defaultRanksColors.indexOf(defaultColor)
+										DEFAULT_RANKS_COLORS_HEX[mode.current as 'light' | 'dark'][
+											DEFAULT_RANKS_COLORS.indexOf(defaultColor)
 										]}
 									class="cursor-pointer appearance-none after:block after:size-9 after:rounded after:bg-current after:content-[''] checked:[outline:-webkit-focus-ring-color_auto_1px] checked:outline-offset-2"
 									id="item-color-{defaultColor}"
 									name="color"
 									oninput={() => {
 										color =
-											$defaultRanksColorsHex[mode.current as 'light' | 'dark'][
-												$defaultRanksColors.indexOf(defaultColor)
+											DEFAULT_RANKS_COLORS_HEX[mode.current as 'light' | 'dark'][
+												DEFAULT_RANKS_COLORS.indexOf(defaultColor)
 											];
 									}}
-									style="color: {$defaultRanksColorsHex[mode.current as 'light' | 'dark'][
-										$defaultRanksColors.indexOf(defaultColor)
+									style="color: {DEFAULT_RANKS_COLORS_HEX[mode.current as 'light' | 'dark'][
+										DEFAULT_RANKS_COLORS.indexOf(defaultColor)
 									]};"
 									type="radio"
 									value={color}

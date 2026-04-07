@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { Trash } from '@lucide/svelte';
-	import EditRowModal from '$lib/components/tierlist/row/EditRowModal.svelte';
-	import Button from '@/components/ui/button/button.svelte';
-	import DndZone from '@/components/DndZone.svelte';
-	import TierlistItem from '$lib/components/tierlist/item/TierlistItem.svelte';
 	import ItemFormModal from '$lib/components/tierlist/item/ItemFormModal.svelte';
-	import type { Uuid } from '@/types/Uuid';
+	import TierlistItem from '$lib/components/tierlist/item/TierlistItem.svelte';
+	import EditRowModal from '$lib/components/tierlist/row/EditRowModal.svelte';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
+	import { m } from '$lib/paraglide/messages.js';
+	import DndZone from '@/components/DndZone.svelte';
+	import Button from '@/components/ui/button/button.svelte';
 	import type { TierlistItemType, TierlistRowType } from '@/types/Dnd';
+	import type { Uuid } from '@/types/Uuid';
+	import { Trash } from '@lucide/svelte';
+	import type { Snippet } from 'svelte';
 
 	// Props
 
@@ -22,12 +25,26 @@
 
 	// States
 
+	let deletingItemId = $state<Uuid>();
+
 	let rowState = $state(row);
+
+	let showDeleteItemAlert = $state(false);
 
 	// Methods
 
-	const handleItemDelete = (id: Uuid) => {
-		rowState.data.items = rowState.data.items.filter((item: TierlistItemType) => item.id !== id);
+	const deleteItem = () => {
+		rowState.data.items = rowState.data.items.filter(
+			(item: TierlistItemType) => item.id !== deletingItemId
+		);
+
+		showDeleteItemAlert = false;
+	};
+
+	const handleDeleteItem = (id: Uuid) => {
+		deletingItemId = id;
+
+		showDeleteItemAlert = true;
 	};
 
 	const handleItemSubmit = (item: TierlistItemType) => {
@@ -49,7 +66,7 @@
 </script>
 
 {#snippet itemSnippet(item: TierlistItemType)}
-	<ItemFormModal handleDelete={handleItemDelete} handleSubmit={handleItemSubmit} {item}>
+	<ItemFormModal handleDelete={handleDeleteItem} handleSubmit={handleItemSubmit} {item}>
 		<TierlistItem {...item} />
 	</ItemFormModal>
 {/snippet}
@@ -63,7 +80,7 @@
 		<!-- Header -->
 		<div
 			class="{rowState.data
-				.className} grid min-h-[5.1875rem] w-[4em] shrink-0 cursor-text place-items-center p-[1em] break-all text-black sm:w-[8em]"
+				.className} grid min-h-20.75 w-[4em] shrink-0 cursor-text place-items-center p-[1em] break-all text-black sm:w-[8em]"
 			contenteditable
 			bind:innerText={rowState.label}
 			style="background-color: {rowState.data.color};"
@@ -73,7 +90,7 @@
 
 		<!-- Items -->
 		<DndZone
-			children={itemSnippet}
+			children={itemSnippet as Snippet<[TierlistItemType | TierlistRowType]>}
 			class="flex grow flex-wrap border-crust"
 			bind:items={rowState.data.items}
 			type="tierlist-item"
@@ -81,8 +98,8 @@
 	</div>
 
 	<!-- Remove Button -->
-	<!-- TODO : Fix hydration_mismatch -->
 	<Button
+		aria-label={`${m.tierlist_remove_row()} ${rowState.label}`}
 		class="cursor-pointer"
 		onclick={() => handleDelete(rowState.id)}
 		variant="destructive"
@@ -91,3 +108,18 @@
 		<Trash />
 	</Button>
 </div>
+
+<!-- Delete item alert dialog -->
+<AlertDialog.Root bind:open={showDeleteItemAlert}>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title>{m.tierlist_alert_title()}</AlertDialog.Title>
+		</AlertDialog.Header>
+		<AlertDialog.Footer>
+			<AlertDialog.Cancel class="cursor-pointer">{m.alert_cancel()}</AlertDialog.Cancel>
+			<AlertDialog.Action class="cursor-pointer" onclick={deleteItem} variant="destructive"
+				>{m.alert_continue()}</AlertDialog.Action
+			>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>
