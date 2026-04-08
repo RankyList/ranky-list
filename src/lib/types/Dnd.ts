@@ -7,6 +7,12 @@ export type DndItem<T = undefined> = {
 	label?: string;
 };
 
+export type TierlistType = {
+	items: TierlistItemType[];
+	rows: TierlistRowType[];
+	title: string;
+};
+
 export type TierlistItemType = DndItem<{
 	color: string | null;
 	imageUrl?: string;

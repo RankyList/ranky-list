@@ -1,11 +1,12 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import { Pen } from '@lucide/svelte';
-	import { defaultRanksColorsHex } from '@/stores/colors';
-	import ColorPicker, { ChromeVariant } from 'svelte-awesome-color-picker';
+	import { m } from '$lib/paraglide/messages.js';
 	import Button from '@/components/ui/button/button.svelte';
+	import { DEFAULT_RANKS_COLORS_HEX } from '@/constants';
 	import type { TierlistRowType } from '@/types/Dnd';
+	import { Pen } from '@lucide/svelte';
 	import { mode } from 'mode-watcher';
+	import ColorPicker, { ChromeVariant } from 'svelte-awesome-color-picker';
 
 	// Props
 
@@ -21,14 +22,14 @@
 </script>
 
 <Dialog.Root bind:open={isOpen}>
-	<Dialog.Trigger class="cursor-pointer">
+	<Dialog.Trigger aria-label={`${m.tierlist_edit_row()} ${row.label}`} class="cursor-pointer">
 		<Pen />
 	</Dialog.Trigger>
 	<Dialog.Content>
 		<Dialog.Header>
 			<Dialog.Title
 				><span
-					class="mr-6 block py-[0.25em] break-all"
+					class="me-6 block py-[0.25em] break-all"
 					contenteditable
 					oninput={(e) => (row.label = e.currentTarget.innerText)}>{row.label}</span
 				></Dialog.Title
@@ -38,7 +39,7 @@
 		<div class="space-y-4">
 			<!-- Default Colors -->
 			<ul class="flex flex-wrap justify-between gap-1">
-				{#each $defaultRanksColorsHex[mode.current] as color (color)}
+				{#each DEFAULT_RANKS_COLORS_HEX[mode.current ?? 'dark'] as color (color)}
 					<li class="flex">
 						<Button
 							class="size-9 cursor-pointer rounded"

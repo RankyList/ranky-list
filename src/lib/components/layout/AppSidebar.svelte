@@ -1,11 +1,13 @@
 <script lang="ts">
-	import HouseIcon from '@lucide/svelte/icons/house';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import ThemeSwitcher from '$lib/components/layout/ThemeSwitcher.svelte';
-	import { getLocale, setLocale, locales, type Locale } from '@/paraglide/runtime';
-	import { m } from '@/paraglide/messages';
-	import getUnicodeFlagIcon from 'country-flag-icons/unicode';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { m } from '$lib/paraglide/messages.js';
+	import { getLocale, locales, localizeHref } from '@/paraglide/runtime';
+	import HouseIcon from '@lucide/svelte/icons/house';
+	import getUnicodeFlagIcon from 'country-flag-icons/unicode';
 
 	const flags = {
 		en: getUnicodeFlagIcon('gb'),
@@ -17,14 +19,14 @@
 	};
 </script>
 
-<Sidebar.Root class="!block" collapsible="icon">
+<Sidebar.Root class="block!" collapsible="icon">
 	<!-- Header -->
 	<Sidebar.Header>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton>
 					{#snippet child({ props })}
-						<a href="/" {...props}>
+						<a href={resolve('/')} {...props}>
 							<HouseIcon />
 							<span>Home</span>
 						</a>
@@ -57,12 +59,14 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content class="w-(--bits-dropdown-menu-anchor-width)" align="start">
 						{#each locales.filter((locale) => locale !== getLocale()) as locale (locale)}
-							<DropdownMenu.Item
-								class="flex justify-between"
-								onSelect={() => setLocale(locale as Locale)}
-							>
-								<span>{m.locale({}, { locale })}</span>
-								<span>{flags[locale]}</span>
+							<DropdownMenu.Item class="flex justify-between">
+								<a
+									class="w-full"
+									data-sveltekit-reload
+									href={resolve(localizeHref(page.url.pathname, { locale }))} // TODO : Fix error
+								>
+									{m.locale({}, { locale })}
+								</a>
 							</DropdownMenu.Item>
 						{/each}
 					</DropdownMenu.Content>

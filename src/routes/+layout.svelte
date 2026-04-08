@@ -1,13 +1,10 @@
 <script lang="ts">
-	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { localizeHref, locales } from '@/paraglide/runtime';
-
-	import { page } from '$app/state';
-	import { ModeWatcher } from 'mode-watcher';
-
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import AppSidebar from '@/components/layout/AppSidebar.svelte';
+	import { ModeWatcher } from 'mode-watcher';
+
+	import './layout.css';
 
 	let { children } = $props();
 </script>
@@ -24,13 +21,6 @@
 		{@render children?.()}
 	</main>
 </Sidebar.Provider>
-
-<!-- Paraglide SSG -->
-<!-- <div style="display:none">
-	{#each locales as locale (locale)}
-		<a href={localizeHref(page.url.pathname, { locale })}>{locale}</a>
-	{/each}
-</div> -->
 
 <!-- Dark Mode -->
 <ModeWatcher />
