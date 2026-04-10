@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages.js';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistItemType, TierlistRowType } from '@/types/Dnd';
 	import { Grip } from '@lucide/svelte';
 	import type { Snippet } from 'svelte';

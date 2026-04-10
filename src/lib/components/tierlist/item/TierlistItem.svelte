@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-	import { m } from '$lib/paraglide/messages.js';
+	import * as Tooltip from '@/components/ui/tooltip/index.js';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistItemType } from '@/types/Dnd';
 
 	// Props

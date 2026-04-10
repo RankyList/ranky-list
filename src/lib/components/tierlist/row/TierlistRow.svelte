@@ -1,11 +1,11 @@
 <script lang="ts">
-	import ItemFormModal from '$lib/components/tierlist/item/ItemFormModal.svelte';
-	import TierlistItem from '$lib/components/tierlist/item/TierlistItem.svelte';
-	import EditRowModal from '$lib/components/tierlist/row/EditRowModal.svelte';
-	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import { m } from '$lib/paraglide/messages.js';
 	import DndZone from '@/components/DndZone.svelte';
+	import ItemFormModal from '@/components/tierlist/item/ItemFormModal.svelte';
+	import TierlistItem from '@/components/tierlist/item/TierlistItem.svelte';
+	import EditRowModal from '@/components/tierlist/row/EditRowModal.svelte';
+	import * as AlertDialog from '@/components/ui/alert-dialog/index.js';
 	import Button from '@/components/ui/button/button.svelte';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistItemType, TierlistRowType } from '@/types/Dnd';
 	import type { Uuid } from '@/types/Uuid';
 	import { Trash } from '@lucide/svelte';

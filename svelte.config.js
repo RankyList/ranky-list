@@ -1,5 +1,5 @@
-import { relative, sep } from 'node:path';
 import adapter from '@sveltejs/adapter-node';
+import { relative, sep } from 'node:path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -20,6 +20,9 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'@/*': './src/lib/*'
+		},
+		paths: {
+			relative: false
 		}
 	}
 };

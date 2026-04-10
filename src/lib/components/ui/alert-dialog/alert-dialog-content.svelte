@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type WithoutChild, type WithoutChildrenOrChild, cn } from '$lib/utils.js';
+	import { type WithoutChild, type WithoutChildrenOrChild, cn } from '@/utils.js';
 	import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
 	import type { ComponentProps } from 'svelte';
 
