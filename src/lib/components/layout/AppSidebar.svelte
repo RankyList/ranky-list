@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import ThemeSwitcher from '$lib/components/layout/ThemeSwitcher.svelte';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { m } from '$lib/paraglide/messages.js';
-	import { getLocale, locales, localizeHref } from '@/paraglide/runtime';
+	import ThemeSwitcher from '@/components/layout/ThemeSwitcher.svelte';
+	import * as DropdownMenu from '@/components/ui/dropdown-menu/index.js';
+	import * as Sidebar from '@/components/ui/sidebar/index.js';
+	import { m } from '@/paraglide/messages.js';
+	import { getLocale, locales, localizeHref } from '@/paraglide/runtime.js';
 	import HouseIcon from '@lucide/svelte/icons/house';
 	import getUnicodeFlagIcon from 'country-flag-icons/unicode';
 
@@ -63,7 +63,7 @@
 								<a
 									class="w-full"
 									data-sveltekit-reload
-									href={resolve(localizeHref(page.url.pathname, { locale }))} // TODO : Fix error
+									href={resolve(localizeHref(page.url.pathname, { locale }) as '/')}
 								>
 									{m.locale({}, { locale })}
 								</a>

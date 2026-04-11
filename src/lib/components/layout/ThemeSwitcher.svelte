@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { m } from '$lib/paraglide/messages.js';
+	import { Button } from '@/components/ui/button/index.js';
+	import { m } from '@/paraglide/messages.js';
 	import { Moon, Sun } from '@lucide/svelte';
 	import { toggleMode } from 'mode-watcher';
 </script>

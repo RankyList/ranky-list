@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import DndZone from '$lib/components/DndZone.svelte';
-	import ItemFormModal from '$lib/components/tierlist/item/ItemFormModal.svelte';
-	import TierlistItem from '$lib/components/tierlist/item/TierlistItem.svelte';
-	import TierlistRow from '$lib/components/tierlist/row/TierlistRow.svelte';
-	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import Button, { buttonVariants } from '$lib/components/ui/button/button.svelte';
-	import * as Kbd from '$lib/components/ui/kbd/index.js';
-	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-	import { m } from '$lib/paraglide/messages.js';
+	import DndZone from '@/components/DndZone.svelte';
+	import ItemFormModal from '@/components/tierlist/item/ItemFormModal.svelte';
+	import TierlistItem from '@/components/tierlist/item/TierlistItem.svelte';
+	import TierlistRow from '@/components/tierlist/row/TierlistRow.svelte';
+	import * as AlertDialog from '@/components/ui/alert-dialog/index.js';
+	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
+	import * as Kbd from '@/components/ui/kbd/index.js';
+	import * as Tooltip from '@/components/ui/tooltip/index.js';
 	import {
 		ACTION_RESET_DURATION,
 		DEFAULT_RANKS_COLORS,
 		LOCALSTORAGE_SAVED_TIERLISTS_KEY
 	} from '@/constants';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistItemType, TierlistRowType, TierlistType } from '@/types/Dnd';
 	import type { JSONTierlistItem, JSONTierlistRow } from '@/types/JSON';
 	import type { LocalizedString } from '@inlang/paraglide-js';

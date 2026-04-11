@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils.js';
+	import { cn } from '@/utils.js';
 	import { Drawer as DrawerPrimitive } from 'vaul-svelte';
 
 	let {
@@ -12,6 +12,6 @@
 <DrawerPrimitive.Title
 	bind:ref
 	data-slot="drawer-title"
-	class={cn('text-base font-medium text-foreground', className)}
+	class={cn('text-foreground text-base font-medium', className)}
 	{...restProps}
 />

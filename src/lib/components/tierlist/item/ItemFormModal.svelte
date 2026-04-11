@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import { m } from '$lib/paraglide/messages.js';
+	import Button from '@/components/ui/button/button.svelte';
+	import * as Dialog from '@/components/ui/dialog/index.js';
+	import Input from '@/components/ui/input/input.svelte';
+	import Label from '@/components/ui/label/label.svelte';
 	import { DEFAULT_RANKS_COLORS, DEFAULT_RANKS_COLORS_HEX } from '@/constants';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistItemType } from '@/types/Dnd';
 	import type { Uuid } from '@/types/Uuid';
 	import { Trash } from '@lucide/svelte';

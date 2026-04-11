@@ -1,10 +1,10 @@
 <script lang="ts">
-	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import * as Drawer from '$lib/components/ui/drawer/index.js';
-	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-	import { m } from '$lib/paraglide/messages.js';
+	import * as AlertDialog from '@/components/ui/alert-dialog/index.js';
+	import * as Card from '@/components/ui/card/index.js';
+	import * as Drawer from '@/components/ui/drawer/index.js';
+	import * as Tooltip from '@/components/ui/tooltip/index.js';
 	import { LOCALSTORAGE_SAVED_TIERLISTS_KEY } from '@/constants';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistType } from '@/types/Dnd';
 	import { Trash } from '@lucide/svelte';
 

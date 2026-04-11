@@ -1,8 +1,8 @@
 <script lang="ts">
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import { m } from '$lib/paraglide/messages.js';
 	import Button from '@/components/ui/button/button.svelte';
+	import * as Dialog from '@/components/ui/dialog/index.js';
 	import { DEFAULT_RANKS_COLORS_HEX } from '@/constants';
+	import { m } from '@/paraglide/messages.js';
 	import type { TierlistRowType } from '@/types/Dnd';
 	import { Pen } from '@lucide/svelte';
 	import { mode } from 'mode-watcher';

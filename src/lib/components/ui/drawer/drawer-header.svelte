@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type WithElementRef, cn } from '$lib/utils.js';
+	import { type WithElementRef, cn } from '@/utils.js';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	let {
@@ -14,7 +14,7 @@
 	bind:this={ref}
 	data-slot="drawer-header"
 	class={cn(
-		'flex flex-col gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-0.5 md:text-start',
+		'gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-0.5 md:text-start flex flex-col',
 		className
 	)}
 	{...restProps}
