@@ -350,7 +350,7 @@
 		const newItems: JSONTierlistItem[] = [];
 
 		for (const item of items) {
-			const newItem: JSONTierlistItem = { ...item };
+			const newItem: JSONTierlistItem = JSON.parse(JSON.stringify(item));
 
 			delete newItem.id;
 
@@ -426,7 +426,7 @@
 		// Remove unused properties
 
 		for (const row of rows) {
-			const newRow: JSONTierlistRow = { ...row };
+			const newRow: JSONTierlistRow = JSON.parse(JSON.stringify(row));
 
 			delete newRow.id;
 
