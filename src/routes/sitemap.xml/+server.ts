@@ -12,7 +12,7 @@ export async function GET() {
 		>
 			<url>
                 <loc>https://alpha.rankylist.com/</loc>
-                <lastmod>2022-04-22</lastmod>
+                <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
             </url>
 		</urlset>`.trim(),
 		{
